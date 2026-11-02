@@ -1,5 +1,11 @@
 # Claude Log
 
+## 2026-11-03 — Collect showcase assets from four source repos
+- Copied (never moved) curated assets into `projects/` on `main`: `myownenigma/`, `traffic-management/`, `magnet-inserter/`, `tile-inspection/` — 19 MB total. Provenance, source paths, commit hashes and skipped items are in `projects/SOURCES.md`.
+- Decision (owner): copy only what goes on a webpage, not whole repos. The Enigma page embeds its images as base64, so only its two HTML files were copied; the Ender page's 10 referenced files were copied and checked present; Traffic and Tile have no site, so a small hero set was picked.
+- Skipped on purpose: Tile raw dataset (~3.4 GB) and large videos, the Ender 13.9 MB GIF (unused by its page), Traffic `test.mp4`.
+- Open: owner to confirm the Tile/Traffic picks; the Tile "demo" is a 4.9 MB GIF, not a video. Nothing committed yet.
+
 ## 2026-09-28 — Record the never-merge branch policy
 - Owner clarified that `main` and `machine-vision` are separate personal copies and are never to be merged. Added a "Branch Policy" section (marked repo-specific, not to be copied into new projects) at the top of `.CLAUDE/CLAUDE.md` on `main`, and matching notices on `machine-vision`.
 - Cancelled the TODO item to merge `main` into `machine-vision`; recorded the reason there. The earlier merge of `origin/main` into `main` is unaffected — that was the same branch on the remote.

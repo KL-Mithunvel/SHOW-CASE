@@ -1,9 +1,12 @@
 # TODO
 
 ## In Progress
+- [ ] Build the combined showcase site from `projects/` (layout, landing page, one page per project).
+- [ ] Confirm the Tile and Traffic hero picks with the owner; build the missing Traffic and Tile pages.
 
 
 ## Done
+- [x] Collect showcase assets from MyOwnEnigma, Traffic-management, Creality-Ender-3-V3-SE- and Tile_Sorting into `projects/` (19 MB, only what the pages use or will use) — provenance in `projects/SOURCES.md`. Not yet committed.
 - [x] Create the `machine-vision` branch holding the claude_MV baseline (four gates, docs, tools, Roboflow skills) — pushed to origin (924a9c1 on `machine-vision`).
 - [x] Add generic rules from the machine-vision work to `CLAUDE-COMMON.md` — Documentation Discipline, Secrets & Credentials, Preflight Gates (with three example gates), "no hardcoded parameters" for all projects, Standard Project Layout, and a Preflight Gates slot in the skeleton and in `CLAUDE.md`.
 - [x] Add baseline `.gitignore` and `tools/compute_survey.py` (generalised docstring; verified on Windows 11).
