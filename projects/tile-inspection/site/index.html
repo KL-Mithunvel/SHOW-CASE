@@ -1,0 +1,669 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tile Inspection Line</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Automated tile inspection, grading and sorting system — machine vision, impact-acoustic testing, fail-closed fusion and a Cartesian pick-and-place gantry. B.Tech. Mechatronics and Automation capstone, VIT Chennai, 2026.">
+<meta property="og:title" content="Automated Tile Inspection, Grading and Sorting System">
+<meta property="og:description" content="Camera + impact-acoustic inspection, fail-closed grade fusion and a pick-and-place gantry for a clay tile works. VIT Chennai capstone, 2026.">
+<meta property="og:image" content="media/screens/master_plant_3d.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Tile Inspection Line</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#line">The line</a>
+      <a href="#plant">3D plant</a>
+      <a href="#stations">Stations</a>
+      <a href="#software">Software</a>
+      <a href="#results">Results</a>
+      <a href="#models">Models</a>
+      <a href="#build">Build log</a>
+      <a href="#certificate">Certificate</a>
+      <a href="#team">Team</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================== HERO ============================== -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="label rise">B.Tech. Mechatronics and Automation · Capstone · VIT Chennai · 2026</div>
+        <h1 class="rise d1" style="margin-top:14px">A machine that looks at, <em>listens to</em> and sorts every clay tile.</h1>
+        <p class="lede rise d2">A camera measures cracks and broken corners, a sprung striker taps each tile and listens for hidden cracks, a decision tree on a Raspberry Pi combines both into one grade, and a Cartesian gantry places the tile in its bin. When the evidence is missing or unclear, the tile goes to a person instead of getting a guessed grade.</p>
+        <div class="byline rise d2">
+          <div><b>Mithunvel KL</b> · <b>K. Teja Pavan Sai A. Gupta</b> · <b>Madhumitha Vemula</b></div>
+          <div>Guide: Dr. Jegadeeshwaran R · Problem and tiles from Sree Murugan Tile Works (SMTW)</div>
+        </div>
+        <div class="cta rise d3">
+          <a class="btn primary" href="#plant">Explore the 3D plant</a>
+          <a class="btn" href="https://github.com/KL-Mithunvel/Tile_Sorting" target="_blank" rel="noopener">Source on GitHub ↗</a>
+          <a class="btn" href="#certificate">Industry certificate</a>
+          <a class="btn opt" data-probe="media/docs/Tile_Inspection_Report.pdf" href="media/docs/Tile_Inspection_Report.pdf" target="_blank" rel="noopener" hidden>Project report (PDF) ↗</a>
+        </div>
+      </div>
+      <figure class="line-anim rise d1" aria-label="Animated sketch of the line: tiles ride the belt past the camera and the striker, get a grade, and the gantry places each in its bin.">
+        <canvas id="lineCanvas" width="960" height="600"></canvas>
+        <div class="legend">
+          <span class="chip"><i class="gA"></i>Grade A</span>
+          <span class="chip"><i class="gB"></i>Grade B</span>
+          <span class="chip"><i class="gC"></i>Grade C</span>
+          <span class="chip"><i class="gR"></i>Reject</span>
+          <span class="chip"><i class="gH"></i>Hold (needs a person)</span>
+        </div>
+      </figure>
+    </div>
+
+    <div class="stats">
+      <div><b class="num">53,040</b><span>tiles in the plant records we analysed (two production days)</span></div>
+      <div><b class="num">92</b><span>tile passes on real belt footage, 88 checked against a human eye</span></div>
+      <div><b class="num">1,062</b><span>automated tests passing, every fail-closed rule covered</span></div>
+      <div><b class="num">₹60.4k</b><span>prototype bill of materials, commodity parts (supplier list prices)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== PROBLEM ============================== -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">01 · The problem</div>
+      <h2>Nine people sort 20,160 tiles a day by hand.</h2>
+      <p>SMTW grades fired clay roofing tiles by eye and by tapping them. It works, but it is tiring, nobody records why a tile was downgraded, and the defect never gets traced back to a kiln batch.</p>
+    </div>
+    <div class="two">
+      <div class="prose">
+        <div class="facts">
+          <div><b class="num">₹0.575</b><span>manual sorting cost per tile (₹11,583 a day)</span></div>
+          <div><b class="num">2.17 %</b><span>of 53,040 tiles were broken</span></div>
+          <div><b class="num">18.6 %</b><span>fell into the two lowest grades (Grade 4 + 5)</span></div>
+          <div><b class="num">0</b><span>defect causes recorded on the daily sorting sheets</span></div>
+        </div>
+        <p style="margin-top:6px">Breakage climbs with tile size, so thresholds must be set per size, and the case for automation is strongest exactly where the manual line loses most: the large tiles.</p>
+      </div>
+      <div class="media-stack">
+        <div class="chart-box">
+          <h3>Breakage and down-grading by tile size</h3>
+          <div class="key"><span class="chip"><i style="background:var(--g-r)"></i>Broken</span><span class="chip"><i style="background:var(--clay)"></i>Grade 4 + 5</span></div>
+          <svg class="chart" viewBox="0 0 540 196" role="img" aria-label="Broken: 9×9 1.49%, 10×10 2.91%, 12×12 7.51%. Grade 4+5: 9×9 14.6%, 10×10 18.4%, 12×12 56.4%.">
+            <line class="grid" x1="80" y1="6" x2="80" y2="170"/><line class="grid" x1="213.3" y1="6" x2="213.3" y2="170"/>
+            <line class="grid" x1="346.7" y1="6" x2="346.7" y2="170"/><line class="grid" x1="480" y1="6" x2="480" y2="170"/>
+            <text x="80" y="188" text-anchor="middle">0</text><text x="213.3" y="188" text-anchor="middle">20 %</text>
+            <text x="346.7" y="188" text-anchor="middle">40 %</text><text x="480" y="188" text-anchor="middle">60 %</text>
+            <text x="0" y="36">9 × 9 in</text>
+            <rect x="80" y="14" width="9.9" height="16" style="fill:var(--g-r)"/><text class="val" x="96" y="27">1.49 %</text>
+            <rect x="80" y="34" width="97.3" height="16" style="fill:var(--clay)"/><text class="val" x="184" y="47">14.6 %</text>
+            <text x="0" y="90">10 × 10</text>
+            <rect x="80" y="68" width="19.4" height="16" style="fill:var(--g-r)"/><text class="val" x="106" y="81">2.91 %</text>
+            <rect x="80" y="88" width="122.7" height="16" style="fill:var(--clay)"/><text class="val" x="209" y="101">18.4 %</text>
+            <text x="0" y="144">12 × 12</text>
+            <rect x="80" y="122" width="50.1" height="16" style="fill:var(--g-r)"/><text class="val" x="137" y="135">7.51 %</text>
+            <rect x="80" y="142" width="376" height="16" style="fill:var(--clay)"/><text class="val" x="462" y="155">56.4 %</text>
+          </svg>
+          <figcaption>SMTW sorting sheets, two production days, 53,040 tiles.</figcaption>
+        </div>
+        <figure class="slot">
+          <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/smtw_manual_sorting.jpg" alt="Workers inspecting and tap-testing tiles by hand at Sree Murugan Tile Works" loading="lazy"></button></div>
+          <div class="ph" style="--ar:16/9"><span class="k">Photo slot</span><b>Manual sorting at SMTW</b><code>media/photos/smtw_manual_sorting.jpg</code></div>
+          <figcaption>Manual inspection at the tile works today.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== THE LINE ============================== -->
+<section id="line">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">02 · The line</div>
+      <h2>Four stations, one tile at a time, every decision logged.</h2>
+      <p>Each station is its own computer. It processes its own raw data and publishes only a compact result over MQTT on an isolated network, so the line keeps working with no master PC attached.</p>
+    </div>
+
+    <nav class="strip" aria-label="Stations in the order a tile meets them">
+      <a href="#stn-camera"><span class="label">Station 1 · Camera</span><b>Sees</b><span>Finds the tile on the belt, measures cracks, broken corners and squareness.</span></a>
+      <a href="#stn-acoustic"><span class="label">Station 2 · Acoustic</span><b>Listens</b><span>A sprung striker taps the tile; the ring is checked for hidden cracks.</span></a>
+      <a href="#stn-decision"><span class="label">Station 3 · Decision</span><b>Decides</b><span>A decision tree on the Raspberry Pi 5 turns camera and sound readings into one grade, or Hold when in doubt.</span></a>
+      <a href="#stn-gantry"><span class="label">Station 4 · Pick &amp; place</span><b>Sorts</b><span>A Cartesian gantry with a vacuum cup places the tile in its grade bin.</span></a>
+    </nav>
+
+    <div class="line-media">
+      <figure class="clip">
+        <div class="shot"><video src="media/anim/conveyor_crossing.mp4" muted loop autoplay playsinline aria-label="Real belt footage: a tile crosses the trigger line and is counted"></video></div>
+        <figcaption>Real belt footage from the camera station. The green line is the trigger: each tile is counted exactly once as it crosses.</figcaption>
+      </figure>
+      <figure>
+        <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_architecture.webp" alt="System architecture: camera, acoustic and decision nodes on a Raspberry Pi 5, Arduino Nano for striker and belt, Arduino UNO Q for the gantry, linked by an isolated D-Link router" loading="lazy"></button>
+        <figcaption>System architecture: nodes, control network and physical line.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PLANT 3D ============================== -->
+<section id="plant">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">03 · Master node</div>
+      <h2>Walk around the line in 3D.</h2>
+      <p>This is the master PC's Plant 3D view from the project, built in Three.js. Here it runs a synthetic demo line inside your browser: tiles ride the belt coloured by grade, the striker drops, the gantry picks each tile into its bin, and a camera fault is staged about every 50 seconds. The line-control buttons work.</p>
+    </div>
+    <div class="plant-frame" id="plantFrame">
+      <button class="start" id="plantStart" type="button" style="background-image:url('media/screens/master_plant_3d.webp')">
+        <b>Start the interactive plant</b>
+        <span>Drag to orbit · scroll to zoom · click a station</span>
+        <span class="go">Load 3D view</span>
+      </button>
+    </div>
+    <div class="plant-notes">
+      <span><kbd>drag</kbd> orbit</span><span><kbd>right-drag</kbd> pan</span><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / <kbd>Q</kbd><kbd>E</kbd> move</span>
+      <span>Camera presets at the bottom; <b>Line control</b> opens start/stop, hold-all, feed pause and striker inhibit.</span>
+      <a href="plant3d.html" target="_blank" rel="noopener">Open full screen ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== STATIONS ============================== -->
+<section id="stations">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">04 · Stations</div>
+      <h2>Following one tile down the belt.</h2>
+    </div>
+
+    <!-- Camera -->
+    <article class="station" id="stn-camera">
+      <div class="prose">
+        <div class="station-head"><span class="stn">STN 1</span><h3>Camera station: measure, don't just label</h3></div>
+        <p>The belt is found by its own colour every frame and everything outside it is blanked. The tile is segmented, tracked with its own id, and graded once, on the sharpest frame within ±6 % of a trigger line that the software learns from the belt's own axis.</p>
+        <p>Cracks and chips are measured in inches from the tile's known 9 in side, so no calibration target is needed and a threshold can be moved with evidence.</p>
+        <div class="spec">
+          <span class="label">Corner check — any one flags the tile</span>
+          <div class="eq">ρ = A<sub>contour</sub> / A<sub>rect</sub> &lt; 0.86 &nbsp;·&nbsp; e = d<sub>max</sub> / s &gt; 0.22 &nbsp;·&nbsp; a = max(w,h)/min(w,h) &gt; 1.15</div>
+          <span>Whole pipeline: 24 ms per 1080p frame (≈ 41 fps); grading one tile: 1.7 ms. Development laptop.</span>
+        </div>
+        <span class="status ok"><i></i>Tested on real belt footage · 5 videos · 92 tiles</span>
+      </div>
+      <div class="media-stack">
+        <figure>
+          <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_real_frame.webp" alt="A raw 1080p webcam frame of a broken tile on the green belt, and the pipeline view with belt region, tile contour, box and trigger line" loading="lazy"></button>
+          <figcaption>Raw frame and the pipeline's view: belt region (cyan), tile contour (green), box (orange), trigger line (red).</figcaption>
+        </figure>
+        <div class="media-pair">
+          <figure>
+            <button class="zoom" type="button"><img class="shot" src="media/screens/camera_dashboard.webp" alt="Camera dashboard replaying a belt recording, with the last captured tile, crack and corner readings and a recent tiles table" loading="lazy" style="aspect-ratio:16/11;object-fit:cover;object-position:top"></button>
+            <figcaption>Camera dashboard on recorded belt footage.</figcaption>
+          </figure>
+          <figure class="slot">
+            <div class="media shot"><video src="media/videos/camera_station.mp4" controls muted playsinline preload="metadata"></video></div>
+            <div class="ph" style="--ar:16/11"><span class="k">Video slot</span><b>Camera station running</b><code>media/videos/camera_station.mp4</code></div>
+            <figcaption>The camera arch over the belt, live.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+
+    <!-- Acoustic -->
+    <article class="station" id="stn-acoustic">
+      <div class="prose">
+        <div class="station-head"><span class="stn">STN 2</span><h3>Acoustic station: the same tap, every time</h3></div>
+        <p>A time-of-flight sensor sees the tile arrive. One sprung push-pull solenoid with a mallet head, on a 20 × 40 aluminium extrusion, is held up while energised and released onto the tile by gravity and its spring, so every tile is struck from the same height at the same point.</p>
+        <p>The clip is captured with a pre-trigger buffer, Hann-windowed and transformed. An intact tile should ring higher and longer; a cracked one lower and shorter.</p>
+        <div class="spec">
+          <span class="label">Features per tap</span>
+          <div class="eq">f<sub>p</sub> = argmax<sub>f ≥ 20 Hz</sub> |X(f)| &nbsp;·&nbsp; spectral centroid · SNR · T<sub>20</sub> from E(t) = ∫<sub>t</sub><sup>∞</sup> p²(τ) dτ</div>
+          <span>Separate desktop suite, <a href="https://github.com/KL-Mithunvel/Acoustic-Analysis" target="_blank" rel="noopener">Acoustic-Analysis</a>: guided collection, noise removal, video slicing, labelled export. 237 tests.</span>
+        </div>
+        <span class="status"><i></i>Rig run on tiles · 28 real strikes recorded · good vs cracked not yet separable (see Models)</span>
+      </div>
+      <div class="media-stack">
+        <div class="media-pair">
+          <figure class="slot">
+            <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/acoustic_station.jpg" alt="The striker rig: sprung solenoid with mallet head above the belt" loading="lazy"></button></div>
+            <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Striker rig</b><code>media/photos/acoustic_station.jpg</code></div>
+            <figcaption>The developed acoustic station.</figcaption>
+          </figure>
+          <figure class="slot">
+            <div class="media shot"><video src="media/videos/striker_tap.mp4" controls playsinline preload="metadata"></video></div>
+            <div class="ph" style="--ar:4/3"><span class="k">Video slot · with sound</span><b>Striker tapping a tile</b><code>media/videos/striker_tap.mp4</code></div>
+            <figcaption>One tap, with sound.</figcaption>
+          </figure>
+        </div>
+        <figure>
+          <button class="zoom" type="button"><img class="shot" src="media/screens/acoustic_analysis_05-analyze.webp" alt="Acoustic-Analysis desktop app, Analyze screen with waveform and spectrum" loading="lazy"></button>
+          <figcaption>Acoustic-Analysis desktop app, Analyze screen (generated signals).</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- Decision -->
+    <article class="station" id="stn-decision">
+      <div class="prose">
+        <div class="station-head"><span class="stn">STN 3</span><h3>Decision tree: camera + sound → one grade</h3></div>
+        <p>The camera's readings (crack, corner damage, size) and the sound's readings (peak frequency and how loud or quiet the ring is) each become a grade. Both grades are fed into a rule-based decision tree on the Raspberry Pi 5, which picks the tile's final grade and bin. The full tree is drawn below.</p>
+        <p>The tree is fail-closed: a vote can lower a grade and can never rescue one, and any missing or doubtful input sends the tile to Hold for a person.</p>
+        <div class="spec">
+          <span class="label">At the last branch</span>
+          <div class="eq">G<sub>final</sub> = worse(G<sub>camera</sub>, G<sub>sound</sub>)</div>
+          <span>Tiles are bound to taps by order, not time, because belt speed is open-loop. Every branch is an explicit rule with its own test.</span>
+        </div>
+        <div class="tscroll">
+          <table>
+            <thead><tr><th>Situation</th><th>Result</th></tr></thead>
+            <tbody>
+              <tr><td>No tap within the wait window</td><td>Hold, alarm (a camera Reject stays Reject)</td></tr>
+              <tr><td>Tap with no tile waiting</td><td>Orphan, alarmed, attached to nothing</td></tr>
+              <tr><td>Camera message unreadable</td><td>Keeps its place, no grade → Hold</td></tr>
+              <tr><td>Same message twice (QoS 1)</td><td>Ignored, one slot only</td></tr>
+              <tr><td>Gantry does not acknowledge</td><td>Resend; link marked down, finals queue in order</td></tr>
+              <tr><td>Broker down, camera silent, mic dead</td><td>Station FAULT, no guessing</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <span class="status ok"><i></i>Every rule unit-tested · run on a laptop demonstration line</span>
+      </div>
+      <div class="media-stack">
+        <figure>
+          <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_decision_flow.webp" alt="Per-tile decision flow with fail-closed branches" loading="lazy"></button>
+          <figcaption>Per-tile decision flow with its fail-closed branches.</figcaption>
+        </figure>
+        <figure>
+          <button class="zoom" type="button"><img class="shot" src="media/screens/station_run.webp" alt="Pi station run view: health chips, last tile's final grade and bin, tally and recent tiles" loading="lazy"></button>
+          <figcaption>Station run view beside the line: health chips, last tile's grade and bin, every tile's votes (demonstration line).</figcaption>
+        </figure>
+      </div>
+
+      <div class="dtree" id="decision-tree" aria-label="Decision tree from camera and sound readings to the final grade and bin">
+        <div class="dt-inputs">
+          <div class="dt-in">
+            <span class="label">Camera readings</span>
+            <ul>
+              <li><b>Crack</b> length and severity (minor / major)</li>
+              <li><b>Corner</b> damage: area ratio ρ, gap depth e, aspect a</li>
+              <li><b>Size</b>: length, width, squareness</li>
+            </ul>
+            <div class="dt-out">→ camera grade <span class="gchips"><i class="gA">A</i><i class="gB">B</i><i class="gC">C</i><i class="gR">R</i></span></div>
+          </div>
+          <div class="dt-in">
+            <span class="label">Sound readings</span>
+            <ul>
+              <li><b>Frequency</b>: peak f<sub>p</sub> and spectral centroid</li>
+              <li><b>Loudness</b>: band levels in dB, how loud or low the ring is</li>
+              <li><b>Decay</b>: how fast the ring fades (T<sub>20</sub>)</li>
+            </ul>
+            <div class="dt-out">→ sound grade + confidence</div>
+          </div>
+        </div>
+        <div class="dt-merge" aria-hidden="true"><span></span></div>
+        <ol class="dt-steps">
+          <li><div class="dt-q">Operator's “hold all” switched on?</div><div class="dt-no"><em>yes</em><span class="leaf gH">Hold</span></div></li>
+          <li><div class="dt-q">Camera grade present and readable?</div><div class="dt-no"><em>no</em><span class="leaf gH">Hold</span></div></li>
+          <li><div class="dt-q">Tap heard within the wait window?</div><div class="dt-no"><em>no</em><span class="leaf gH">Hold</span><small>a camera Reject stays Reject</small></div></li>
+          <li><div class="dt-q">Was it a valid strike, with a sound grade?</div><div class="dt-no"><em>no</em><span class="leaf cam">Camera grade alone</span><small>sound recorded, not counted</small></div></li>
+          <li><div class="dt-q">Sound vote switched on, and confidence ≥ 0.6?</div><div class="dt-no"><em>no</em><span class="leaf cam">Camera grade alone</span><small>today's default, until sound is validated</small></div></li>
+          <li class="dt-final"><div class="dt-q">Final grade = the worse of camera and sound</div><div class="dt-no"><em>then</em><span class="gchips"><i class="gA">A</i><i class="gB">B</i><i class="gC">C</i><i class="gR">R</i><i class="gH">H</i></span><small>→ gantry places it in that bin</small></div></li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- Gantry -->
+    <article class="station" id="stn-gantry">
+      <div class="prose">
+        <div class="station-head"><span class="stn">STN 4</span><h3>Pick &amp; place: a gantry and its digital twin</h3></div>
+        <p>A three-axis Cartesian gantry (the Y beam is two motors, cloned in hardware) with a vacuum cup. The Arduino UNO Q's Linux side owns the coordinate model, sequencer and operator screen; its microcontroller runs minimal firmware. A line-based ASCII protocol with checksums joins the two.</p>
+        <p>A Three.js digital twin and a simulated microcontroller let the sequencer and job runner be tested before the axes could move. The queue is first-in-first-out, de-duplicating, and applies back-pressure by not acknowledging when full.</p>
+        <div class="spec">
+          <span class="label">Hardware</span>
+          <span>4 × NEMA 17 on TMC2208 drivers, CNC Shield V3.10 · AS5600 encoders on a TCA9548A mux · VL53L1X ToF · Mean Well LRS-150-12 · ≈ 22 W from the 12 V rail.</span>
+        </div>
+        <span class="status"><i></i>Firmware flashed and answering · axes moved under supervised homing · first pick next</span>
+      </div>
+      <div class="media-stack">
+        <figure>
+          <button class="zoom" type="button"><img class="shot" src="media/screens/pickplace_twin_running_jobs.webp" alt="Pick-and-place digital twin running sorting jobs, showing the job step, command sent and machine reply" loading="lazy"></button>
+          <figcaption>Digital twin running real sequencer jobs against the simulated MCU.</figcaption>
+        </figure>
+        <div class="media-pair">
+          <figure class="slot">
+            <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/gantry.jpg" alt="The pick-and-place gantry prototype" loading="lazy"></button></div>
+            <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Gantry prototype</b><code>media/photos/gantry.jpg</code></div>
+            <figcaption>The gantry and its controller.</figcaption>
+          </figure>
+          <figure class="slot">
+            <div class="media shot"><video src="media/videos/gantry_homing.mp4" controls muted playsinline preload="metadata"></video></div>
+            <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>Supervised homing run</b><code>media/videos/gantry_homing.mp4</code></div>
+            <figcaption>Axes homing under supervision.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================== SOFTWARE ============================== -->
+<section id="software">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">05 · Operator and engineering software</div>
+      <h2>Every node has a screen, and the master explains its own alarms.</h2>
+      <p>The master PC is optional: it watches the line, keeps its own copy of every tile, and can send soft controls. Rule-based detectors find anomalies; a small local language model (llama3.2:3b, so no data leaves the control network) explains them in plain words. On synthetic data with seven planted faults, all seven were found with no false alarms.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Software screens" id="swTabs"></div>
+    <div class="tabpanel" id="swPanel" role="tabpanel"></div>
+  </div>
+</section>
+
+<!-- ============================== RESULTS ============================== -->
+<section id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">06 · What we measured</div>
+      <h2>88 belt tiles, checked against a human eye.</h2>
+      <p>Each square is one real tile from the belt, grouped by what a person said and coloured by what the pipeline decided. Large damage is caught; hairline cracks are not, and the blur panel shows why.</p>
+    </div>
+    <div class="two">
+      <div class="tilegrid" id="tileGrid" aria-label="Damaged tiles (30): 10 graded A, 6 graded B, 14 rejected. Fine tiles (58): 48 graded A, 6 graded B, 4 rejected.">
+        <div class="tg-row"><div class="who"><b>Damaged</b><span>30 tiles, by eye</span></div><div class="cells" data-cells="A10 B6 R14"></div></div>
+        <div class="tg-row"><div class="who"><b>Fine</b><span>58 tiles, by eye</span></div><div class="cells" data-cells="A48 B6 R4"></div></div>
+        <div class="key"><span class="chip"><i class="gA"></i>Pipeline said A</span><span class="chip"><i class="gB"></i>B</span><span class="chip"><i class="gR"></i>Reject</span></div>
+        <div class="readout">
+          <div><b class="num">46.7 %</b><span>of damaged tiles rejected (95 % CI 30–64); 66.7 % flagged B or worse</span></div>
+          <div><b class="num">6.9 %</b><span>of good tiles wrongly rejected (95 % CI 2.7–16)</span></div>
+        </div>
+        <p style="font-size:var(--step--1);color:var(--muted)">After aspect-ratio and notch-depth checks were added, 11 of 13 shape-damaged tiles were caught, up from 6. Small, single-rig sample; Wilson intervals on every proportion.</p>
+      </div>
+      <div class="media-stack">
+        <div class="chart-box">
+          <h3>Why hairline cracks disappear</h3>
+          <p style="font-size:var(--step--1);color:var(--muted)">The belt moves 435 px/s and the webcam's automatic exposure is 1/64 s, so each tile smears by about 7 px. A hairline crack is 1–3 px wide.</p>
+          <div class="eq">b = v · t<sub>exp</sub> = 435 × 1/64 ≈ 6.8 px</div>
+          <div class="blur-demo" aria-hidden="true">
+            <div class="blur-row"><span>Hairline crack</span><div class="px" id="pxCrack"></div></div>
+            <div class="blur-row"><span>Motion smear</span><div class="px" id="pxBlur"></div></div>
+          </div>
+          <p style="font-size:var(--step--1);color:var(--muted)">A faster shutter needs about 8× more light, and the webcam driver rejects gain changes. The fix is lighting or a slower belt, not software. Picking the sharpest frame near the line already made the graded frame 1.30× sharper.</p>
+        </div>
+        <div class="tscroll">
+          <table>
+            <caption class="label" style="text-align:left;padding:12px 10px 4px">Tile-grade models · 76-image validation split</caption>
+            <thead><tr><th>Model</th><th class="num">Size</th><th class="num">Accuracy</th><th class="num">Time / tile</th></tr></thead>
+            <tbody>
+              <tr><td>yolo26n-cls</td><td class="num">6.2 MB</td><td class="num">82.9 %</td><td class="num">1.59 ms</td></tr>
+              <tr><td>yolo26s-cls</td><td class="num">21.8 MB</td><td class="num">85.5 %</td><td class="num">4.16 ms</td></tr>
+              <tr><td>ViT-base</td><td class="num">343.5 MB</td><td class="num">92.1 %</td><td class="num">110.2 ms</td></tr>
+              <tr><td>ViT-base INT8</td><td class="num">87.1 MB</td><td class="num">92.1 %</td><td class="num">48.7 ms</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:var(--step--1);color:var(--muted)">INT8 halved ViT time at no accuracy cost but made the small YOLO models 12× slower and far less accurate, so it was rejected for them on evidence. On the station's own camera the model reports about 30 % confidence, so it abstains and the measured rules decide.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:clamp(36px,5vw,56px)" class="two">
+      <div class="prose">
+        <h3>Where each part stands</h3>
+        <div class="ready">
+          <div><span>Camera pipeline <em>— real belt footage</em></span><span class="pill done">Tested</span></div>
+          <div><span>Fusion, ledger and fail-closed rules</span><span class="pill done">Tested</span></div>
+          <div><span>Master GUI and fault explainer <em>— 7 / 7 planted faults</em></span><span class="pill done">Run on laptop</span></div>
+          <div><span>Gantry firmware on the UNO Q</span><span class="pill part">Flashed, homing</span></div>
+          <div><span>Striker rig and tap recordings</span><span class="pill part">Run on tiles</span></div>
+          <div><span>Hardware wiring and power</span><span class="pill part">Wired, powered</span></div>
+          <div><span>Raspberry Pi 5 deployment on the line</span><span class="pill next">Next</span></div>
+          <div><span>First tile picked and placed</span><span class="pill next">Next</span></div>
+        </div>
+      </div>
+      <figure>
+        <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_tile_gallery.webp" alt="Real tiles from the belt with the human verdict and the pipeline grade" loading="lazy"></button>
+        <figcaption>Real tiles from the belt, with the human verdict and the pipeline's grade.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MODELS ============================== -->
+<section id="models">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">07 · Camera and sound models</div>
+      <h2>What the learned models can and cannot do yet.</h2>
+      <p>Alongside the measured rules, we trained image classifiers for SMTW's own grades and analysed real tap recordings from the striker rig. Both are kept out of the final grade until they earn their place on the line's own data.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Model results" id="modelTabs">
+      <button type="button" role="tab" data-panel="mCam" aria-selected="true">Camera models</button>
+      <button type="button" role="tab" data-panel="mSound" aria-selected="false">Sound analysis</button>
+    </div>
+
+    <div id="mCam" class="mpanel">
+      <div class="two">
+        <div class="prose">
+          <h3>Six models, one validation split</h3>
+          <p>YOLO26 classifiers and a fine-tuned ViT-base were trained to predict SMTW grades 3A, 3B, 4 and 5 from tile photos, then exported to ONNX and measured with the exact runtime that would deploy on the Raspberry Pi 5.</p>
+          <ul>
+            <li><b>ViT-base</b> is the most accurate at 92.1 %, but 343.5 MB and 110 ms a tile; INT8 cut that to 48.7 ms with no accuracy loss.</li>
+            <li><b>YOLO26n</b> is 6.2 MB and 1.59 ms a tile at 82.9 %, the realistic choice for the Pi.</li>
+            <li><b>INT8 broke the small YOLO models</b>: 12× slower and far less accurate. YOLO26s INT8 stopped predicting grade 3B at all.</li>
+            <li>Grade 4 is the hardest class for every model; most errors are 3A tiles called 4.</li>
+          </ul>
+          <p style="font-size:var(--step--1);color:var(--muted)">On the station's own webcam the model's confidence is about 30 %, below the 0.6 voting threshold, so it abstains until it is retrained on station-camera tiles.</p>
+        </div>
+        <div class="media-stack">
+          <figure>
+            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/camera_confusion_matrices.webp" alt="Confusion matrices for six tile-grade models on the 76-image validation split" loading="lazy"></button>
+            <figcaption>Confusion matrices on the common 76-image validation split (counts; green = full precision, orange = INT8 that failed). Drawn from <code>camera_models/cam_edge/results/accuracy.json</code>.</figcaption>
+          </figure>
+          <figure>
+            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/camera_recall_by_grade.webp" alt="Recall per grade for four models" loading="lazy"></button>
+            <figcaption>Recall per grade. Grade 4 is where models disagree most.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div id="mSound" class="mpanel" hidden>
+      <div class="two">
+        <div class="prose">
+          <h3>28 real strikes, 22 labelled</h3>
+          <p>Station sessions of 19 October 2026: room noise, the striker alone (25 strikes), and tiles through the full workflow with a USB microphone at 48 kHz. 22 strikes were labelled by hand: 17 good, 5 cracked.</p>
+          <ul>
+            <li><b>The ring is real.</b> A tile strike sits 10–15 dB above the striker alone from about 1 to 3 kHz, and up to about 20 dB above it between 4 and 8 kHz.</li>
+            <li><b>It fades fast.</b> Energy falls about 30 dB in the first 100 ms; after about 200 ms tile and striker are within a few dB.</li>
+            <li><b>Good and cracked could not yet be told apart.</b> Cracked tiles were 1–2.5 dB quieter in the low and mid bands with a slightly higher centroid, but no difference is statistically reliable (smallest permutation p = 0.11) with only 5 cracked tiles.</li>
+          </ul>
+          <p style="font-size:var(--step--1);color:var(--muted)">So the sound vote stays off. Next: more labelled cracked tiles, a calibrated microphone and a repeatable striker height.</p>
+        </div>
+        <div class="media-stack">
+          <figure>
+            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_05_good_vs_cracked_before_after.webp" alt="Spectrograms of a good and a cracked tile, as recorded and with the striker removed, with their spectra" loading="lazy"></button>
+            <figcaption>Good tile S0020 against cracked tile S0024, as recorded and with the average striker sound subtracted. The cracked one shows a faint steady line near 4.4 kHz; one tile of each kind, so not proof.</figcaption>
+          </figure>
+          <div class="media-pair">
+            <figure>
+              <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_02_average_spectra.webp" alt="Average spectra of tile strikes against the striker alone" loading="lazy"></button>
+              <figcaption>Average spectrum 5–250 ms after the strike: tiles against the striker alone.</figcaption>
+            </figure>
+            <figure>
+              <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_04_decay.webp" alt="Energy decay curves for tiles and the striker alone" loading="lazy"></button>
+              <figcaption>How fast the sound fades (mean ± 1 sd).</figcaption>
+            </figure>
+          </div>
+          <figure>
+            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_03_feature_spread.webp" alt="Feature spread for good and cracked tiles" loading="lazy"></button>
+            <figcaption>Band levels and spectral centroid for every labelled strike: the groups overlap.</figcaption>
+          </figure>
+          <figure>
+            <button class="zoom" type="button"><img class="shot" src="media/screens/acoustic_app_21-label-tool-labelled.webp" alt="Acoustic-Analysis labelling tool with real station strikes, tile picture, camera verdict and sound plots" loading="lazy"></button>
+            <figcaption>Labelling tool on the real strikes: tile picture, camera verdict and the three sound plots against striker-alone and typical-tile curves.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FAULTS ============================== -->
+<section id="faults">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">08 · Faults found and fixed</div>
+      <h2>What broke, and how we found out.</h2>
+      <p>The report keeps every failed attempt in the text. A few of the thirteen:</p>
+    </div>
+    <div class="faults">
+      <div class="fault"><span class="label">Tracking</span><h3>12 crossings for 7 tiles</h3><p>Two tiles in frame swapped identity. <b>Fix:</b> track every region with nearest-centre matching and one crossing detector each → 7 of 7.</p></div>
+      <div class="fault"><span class="label">Crack check</span><h3>98–100 % false positives</h3><p>The tile's own edge read as a crack, found by calibrating on 311 intact photos. <b>Fix:</b> blank a border band first → 2–11 %.</p></div>
+      <div class="fault"><span class="label">Corner check</span><h3>Diagonal chips slipped through</h3><p>A chip halfway across only dropped ρ to 0.87. <b>Fix:</b> a second check on gap depth from a distance transform.</p></div>
+      <div class="fault"><span class="label">Model export</span><h3>8 accuracy points lost, no error</h3><p>OpenCV's resize filter differs from Pillow's antialiased bilinear. <b>Fix:</b> match preprocessing; deployed path verified byte-identical.</p></div>
+      <div class="fault"><span class="label">Bench bring-up</span><h3>I²C mux not found on the UNO Q</h3><p>A4/A5 belong to the Wire2 bus, not Wire. <b>Fix:</b> move firmware to Wire2 → mux and encoders found.</p></div>
+      <div class="fault"><span class="label">Watchdog</span><h3>Gantry stopped on long moves</h3><p>No command for 500 ms tripped LINK_TIMEOUT. <b>Fix:</b> the Linux side sends PING every 0.2 s during long moves.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== GALLERY ============================== -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">09 · Screens</div>
+      <h2>Every interface, as it ran.</h2>
+      <p>Bench and demonstration runs, not plant data. Click any screen to enlarge.</p>
+    </div>
+    <div class="filters tabs" id="galFilters" role="toolbar" aria-label="Filter screens"></div>
+    <div class="gallery" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ============================== BUILD LOG ============================== -->
+<section id="build">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">10 · Build log</div>
+      <h2>From the bench.</h2>
+      <p>Photos and clips of the physical prototype.</p>
+    </div>
+    <div class="build">
+      <figure class="slot">
+        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/full_rig.jpg" alt="The full prototype line: conveyor, camera arch, striker and gantry" loading="lazy"></button></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>The whole rig</b><code>media/photos/full_rig.jpg</code></div>
+        <figcaption>The prototype line.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media shot"><video src="media/videos/line_run.mp4" controls muted playsinline preload="metadata"></video></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>A tile through the line</b><code>media/videos/line_run.mp4</code></div>
+        <figcaption>One tile from belt to grade.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/electrical_wiring.jpg" alt="Gantry controller wiring: UNO Q, CNC shield, TMC2208 drivers and encoders" loading="lazy"></button></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Electrical and wiring</b><code>media/photos/electrical_wiring.jpg</code></div>
+        <figcaption>Controller, drivers and wiring.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/camera_station.jpg" alt="Camera arch above the conveyor belt" loading="lazy"></button></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Camera station</b><code>media/photos/camera_station.jpg</code></div>
+        <figcaption>Camera arch over the belt.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media shot"><video src="media/videos/demo_walkthrough.mp4" controls playsinline preload="metadata"></video></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>Software walkthrough</b><code>media/videos/demo_walkthrough.mp4</code></div>
+        <figcaption>Screen recording of the dashboards.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/team_at_rig.jpg" alt="The team with the prototype" loading="lazy"></button></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Team at the rig</b><code>media/photos/team_at_rig.jpg</code></div>
+        <figcaption>The team.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CERTIFICATE ============================== -->
+<section id="certificate">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">11 · Industry certificate</div>
+      <h2>Certified by the tile works that set the problem.</h2>
+      <p>Sree Murugan Tile Works, Pavoorchatram, issued this certificate on 20 October 2026 for the team's work on their inspection and handling requirements.</p>
+    </div>
+    <div class="cert">
+      <div class="cert-pages">
+        <button class="zoom" type="button"><img class="shot" src="media/certificate/smtw_certificate_p1.webp" alt="Certificate from Sree Murugan Tile Works, page 1: the team, the project, and contributions 1 to 6" loading="lazy"></button>
+        <button class="zoom" type="button"><img class="shot" src="media/certificate/smtw_certificate_p2.webp" alt="Certificate from Sree Murugan Tile Works, page 2: contributions 7 to 10 and the authorised signatory" loading="lazy"></button>
+      </div>
+      <div class="prose">
+        <h3>What it recognises</h3>
+        <ol class="cert-list">
+          <li>Industrial process study and problem definition</li>
+          <li>System design and documentation</li>
+          <li>Camera-based inspection prototype</li>
+          <li>Image-based classification and evaluation</li>
+          <li>Acoustic inspection development</li>
+          <li>Robotic pick-and-place development</li>
+          <li>Station coordination and tile traceability</li>
+          <li>Monitoring and operational software</li>
+          <li>Electrical, sensing and safety engineering</li>
+          <li>Testing, feasibility and implementation planning</li>
+        </ol>
+        <p style="font-size:var(--step--1);color:var(--muted)">Signed by K. Lakshmi Anand, Partner. The certificate itself notes that these are design work and partially validated prototypes, not a commissioned production system.</p>
+        <div><a class="btn" href="media/certificate/SMTW_Certificate.pdf" target="_blank" rel="noopener">Open certificate (PDF) ↗</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TEAM ============================== -->
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="label">12 · Team</div>
+      <h2>Who built it.</h2>
+    </div>
+    <div class="team">
+      <div class="person">
+        <div class="avatar">MK<img src="media/photos/team_mithunvel.jpg" alt="" class="opt-img"></div>
+        <div><b>Mithunvel KL</b><span>23BMH1029</span><span>B.Tech. Mechatronics and Automation</span><!-- add your role, e.g. <span>Software, vision and system integration</span> --></div>
+      </div>
+      <div class="person">
+        <div class="avatar">TG<img src="media/photos/team_teja.jpg" alt="" class="opt-img"></div>
+        <div><b>Kanigalpula Teja Pavan Sai Adinarayana Gupta</b><span>23BMH1007</span><span>B.Tech. Mechatronics and Automation</span><!-- role --></div>
+      </div>
+      <div class="person">
+        <div class="avatar">MV<img src="media/photos/team_madhumitha.jpg" alt="" class="opt-img"></div>
+        <div><b>Madhumitha Vemula</b><span>23BMH1019</span><span>B.Tech. Mechatronics and Automation</span><!-- role --></div>
+      </div>
+    </div>
+    <p class="guide">Guided by <b>Dr. Jegadeeshwaran R</b>, School of Mechanical Engineering, VIT Chennai. Problem statement and tile samples from Sree Murugan Tile Works.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Automated Tile Inspection, Grading and Sorting System · VIT Chennai · October 2026</span>
+    <nav aria-label="Links">
+      <a href="https://github.com/KL-Mithunvel/Tile_Sorting" target="_blank" rel="noopener">Tile_Sorting repo ↗</a>
+      <a href="https://github.com/KL-Mithunvel/Acoustic-Analysis" target="_blank" rel="noopener">Acoustic-Analysis repo ↗</a>
+      <a href="plant3d.html" target="_blank" rel="noopener">Plant 3D ↗</a>
+      <a class="opt" data-probe="media/docs/Tile_Inspection_Report.pdf" href="media/docs/Tile_Inspection_Report.pdf" target="_blank" rel="noopener" hidden>Report (PDF) ↗</a>
+    </nav>
+  </div>
+</footer>
+
+<dialog class="lb" id="lightbox" aria-label="Enlarged image">
+  <button type="button" id="lbClose">Close</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+</dialog>
+
+<script src="assets/js/site.js"></script>
+
+</body></html>

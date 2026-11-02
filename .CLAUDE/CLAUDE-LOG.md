@@ -1,5 +1,12 @@
 # Claude Log
 
+## 2026-11-03 — Copy the Traffic and Tile pages from artifacts
+- Searched `Tile_Sorting` and `Traffic-management` (all branches, history, disk): neither holds a showcase page. Found them as artifacts instead: "Look-Ahead Signals" (Traffic) and "Tile Inspection Line" (Tile, 93 files).
+- Copied them into `projects/traffic-management/site/` and `projects/tile-inspection/site/`; provenance and versions in `projects/SOURCES.md`.
+- Verified over local HTTP with headless Chrome plus a static path check: all referenced assets load except 16 files the Tile page expects but the artifact never contained (10 photos, 5 videos, report PDF) — listed in `SOURCES.md`. Traffic page contains no video.
+- Found while testing: the two Enigma pages have no `<meta charset>`, so text garbles without a UTF-8 header. Not fixed; awaiting owner's go-ahead.
+- Decisions: kept the earlier loose hero-pick images (not deleted); 2-DOF arm and ROS lab noted as future projects. Nothing committed yet.
+
 ## 2026-11-03 — Collect showcase assets from four source repos
 - Copied (never moved) curated assets into `projects/` on `main`: `myownenigma/`, `traffic-management/`, `magnet-inserter/`, `tile-inspection/` — 19 MB total. Provenance, source paths, commit hashes and skipped items are in `projects/SOURCES.md`.
 - Decision (owner): copy only what goes on a webpage, not whole repos. The Enigma page embeds its images as base64, so only its two HTML files were copied; the Ender page's 10 referenced files were copied and checked present; Traffic and Tile have no site, so a small hero set was picked.
