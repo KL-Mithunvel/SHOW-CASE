@@ -1,5 +1,12 @@
 # Claude Log
 
+## 2026-11-03 — Record two more future showcase projects
+- Owner asked to add "HERC" and "Time in Team Movis" to the page later. Recorded as one Not Started item in `TODO.md`. No searching or copying done; source repos still to be confirmed with the owner.
+
+## 2026-11-03 — Fix Enigma page encoding
+- Owner approved the charset fix. Added `<meta charset="utf-8">` as the first line of `projects/myownenigma/site/index.html` and `template.html` (the files were already valid UTF-8; only the declaration was missing). Re-rendered over local HTTP: the header now reads correctly. No other bytes changed.
+- Explained the CRLF warning to the owner; `.gitattributes` not added yet (awaiting owner's decision).
+
 ## 2026-11-03 — Copy the Traffic and Tile pages from artifacts
 - Searched `Tile_Sorting` and `Traffic-management` (all branches, history, disk): neither holds a showcase page. Found them as artifacts instead: "Look-Ahead Signals" (Traffic) and "Tile Inspection Line" (Tile, 93 files).
 - Copied them into `projects/traffic-management/site/` and `projects/tile-inspection/site/`; provenance and versions in `projects/SOURCES.md`.
