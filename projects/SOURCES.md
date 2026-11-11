@@ -8,7 +8,7 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 | `traffic-management/` | `PycharmProjects/Traffic-management` | github.com/KL-Mithunvel/Traffic-management | 924c5e5 |
 | `magnet-inserter/` | `PycharmProjects/Creality-Ender-3-V3-SE-` | github.com/KL-Mithunvel/Creality-Ender-3-V3-SE- | 0a99120 |
 | `tile-inspection/` | `PycharmProjects/Tile_Sorting` (+ its `Acoustic-Analysis` submodule) | github.com/KL-Mithunvel/Tile_Sorting | d5c24b2 |
-| `plc-2dof-arm/` | `PycharmProjects/PLC-2-DOF-manipulator` | github.com/KL-Mithunvel/PLC-2-DOF-manipulator | 946c153 |
+| `plc-2dof-arm/` | `PycharmProjects/PLC-2-DOF-manipulator` | github.com/KL-Mithunvel/PLC-2-DOF-manipulator | 49f2362 (946c153 at first copy) |
 | `ros-lab/` | `PycharmProjects/ROS_LAB` | github.com/KL-Mithunvel/ROS_LAB | 96892e0 |
 
 ## myownenigma/site
@@ -19,7 +19,7 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 - Skipped: `docs/images/simulation_run.gif` (13.9 MB) and `simulation_run.mp4` — not used by the page.
 
 ## plc-2dof-arm/site (copied 2026-11-11)
-- `index.html` + `img/` (15 jpgs, `img/plc/` 25 ladder and KincoBuilder pngs) ← `docs/website/`. All 40 referenced paths verified present. Not copied: the paper, PDFs, `.rar`/`.zip` PLC backups, `docs/workspace`.
+- `index.html` + `img/` (15 jpgs, `img/plc/` 25 ladder and KincoBuilder pngs, `img/hmi/` 6 HMI screenshots) ← `docs/website/`. Re-synced 2026-11-12 from repo commit 49f2362 ("Add HMI screenshots to docs and project website"); the 2026-11-11 copy was 946c153. All 45 referenced paths verified present. Not copied: the paper, PDFs, `.rar`/`.zip` PLC backups, `docs/workspace`.
 
 ## ros-lab/site (copied 2026-11-11)
 - `index.html` ← claude.ai artifact "Mithunvel ROS 2 Portfolio" (`claude.ai/artifact/95mdeAT51U9ifLwxFLowbr`, version 1794296091-097d, updated 2026-11-10), pulled 2026-11-11, byte-for-byte (13.6 MB, self-contained). Replaces the earlier copy of `ROS_LAB/showcase/portfolio.html` (4.4 MB), which was older. Not copied: `showcase/acrux`, `beetle`, `beetle_gazebo` (30 MB of captures and webm videos the page does not use); they stay in `ROS_LAB`.
