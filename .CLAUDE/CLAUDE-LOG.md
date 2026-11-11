@@ -1,5 +1,19 @@
 # Claude Log
 
+## 2026-11-12 — Update check across all six projects
+- Checked every source repo (`MyOwnEnigma`, `Traffic-management`, `Creality-Ender-3-V3-SE-`, `Tile_Sorting`, `PLC-2-DOF-manipulator`, `ROS_LAB`) against the commit in `projects/SOURCES.md`, and every artifact's version. Nothing new to copy: all match what is in `projects/`. (`ROS_LAB` has newer commits for the tunnel rig and Coin-D6 lidar; they are untested hardware code.)
+- Decision (owner): leave the tunnel rig and the lidar out of the ROS showcase.
+- Not compared: the Enigma and Magnet artifacts against the repo copies (Magnet `index.html` is 51606 bytes in the artifact vs 51312 here; repo copies kept).
+
+## 2026-11-11/12 — Add the 2-DOF arm and ROS lab; Tile and Traffic updates
+- Added `projects/plc-2dof-arm/` (from `PLC-2-DOF-manipulator/docs/website`, re-synced 2026-11-12 from 49f2362 for the 6 HMI screenshots) and `projects/ros-lab/` (the 13.6 MB "Mithunvel ROS 2 Portfolio" artifact, which replaced the older 4.4 MB `showcase/portfolio.html`). The ROS capture folders (30 MB) were left out: the page is self-contained.
+- Traffic: added the `grid_overload.mp4` replay video to the page (`site/videos/`). Owner picked it; `corridor_surge.mp4` stays unused in `videos/`.
+- Tile: deleted the 6 loose images that duplicated site media, then moved the 4 that differed into the Gallery and removed the loose `images/` folder. Added 32 more images from `Tile_Sorting` (report figures, belt frames, tile photos, 19 dataset contact sheets) as Gallery entries in `site.js`. Left out a COCO-BOX screenshot (not our software), Roboflow v2/v3 plots and YOLO run plots.
+- Tile artifact updated 2026-11-11 (114 files): pulled 9 rig photos, 6 videos (47 MB), page, CSS and JS; `site.js` 3-way merged so the Gallery additions stayed. Still missing: 3 team photos and the optional report PDF.
+- Searched Drive and the repos for the missing Tile photos and videos: nothing there beyond what the artifact later supplied.
+- Ran the Tile master GUI in demo mode by mistake when the owner wanted the showcase's own 3D demo (`plant3d.html`); stopped it and served the showcase site instead. Preview servers were stopped at the end.
+- Commits on `main`: 97da372, 860817c, 18521fb, 4ed4d8a, 04a4c60 (all pushed).
+
 ## 2026-11-03 — Record two more future showcase projects
 - Owner asked to add "HERC" and "Time in Team Movis" to the page later. Recorded as one Not Started item in `TODO.md`. No searching or copying done; source repos still to be confirmed with the owner.
 
