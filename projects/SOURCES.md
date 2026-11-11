@@ -8,6 +8,8 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 | `traffic-management/` | `PycharmProjects/Traffic-management` | github.com/KL-Mithunvel/Traffic-management | 924c5e5 |
 | `magnet-inserter/` | `PycharmProjects/Creality-Ender-3-V3-SE-` | github.com/KL-Mithunvel/Creality-Ender-3-V3-SE- | 0a99120 |
 | `tile-inspection/` | `PycharmProjects/Tile_Sorting` (+ its `Acoustic-Analysis` submodule) | github.com/KL-Mithunvel/Tile_Sorting | d5c24b2 |
+| `plc-2dof-arm/` | `PycharmProjects/PLC-2-DOF-manipulator` | github.com/KL-Mithunvel/PLC-2-DOF-manipulator | 946c153 |
+| `ros-lab/` | `PycharmProjects/ROS_LAB` | github.com/KL-Mithunvel/ROS_LAB | 96892e0 |
 
 ## myownenigma/site
 - `index.html`, `template.html` ← `showcase/`. The page is **self-contained**: its 11 images are embedded as base64, so it has no separate image files. The 24 original photos, CAD renders and PDFs stay in the source repo (`images/`, `cad/`, `ppts/`) and were not copied.
@@ -15,6 +17,13 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 ## magnet-inserter/site
 - `index.html`, `sim.js`, `sim-data.js`, `cad_front.png`, `cad_iso.png`, `demo.mp4`, `f_1.jpg`, `f_7.jpg`, `f_13.jpg`, `f_30.jpg` ← `showcase/`. These are exactly the files `index.html` references; verified none are missing.
 - Skipped: `docs/images/simulation_run.gif` (13.9 MB) and `simulation_run.mp4` — not used by the page.
+
+## plc-2dof-arm/site (copied 2026-11-11)
+- `index.html` + `img/` (15 jpgs, `img/plc/` 25 ladder and KincoBuilder pngs) ← `docs/website/`. All 40 referenced paths verified present. Not copied: the paper, PDFs, `.rar`/`.zip` PLC backups, `docs/workspace`.
+
+## ros-lab/site (copied 2026-11-11)
+- `index.html` ← `showcase/portfolio.html` (renamed). Self-contained (4.4 MB, no external references). Not copied: `showcase/acrux`, `beetle`, `beetle_gazebo` (30 MB of captures and webm videos the page does not use); they stay in `ROS_LAB`.
+- The source repo had uncommitted edits at copy time; the page itself was last committed in 5287d06.
 
 ## Published pages (copied from claude.ai artifacts, 2026-11-03)
 

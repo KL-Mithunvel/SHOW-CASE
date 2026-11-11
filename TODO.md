@@ -5,10 +5,11 @@
 - [ ] Supply the missing Tile photos (10), videos (5) and optional report PDF — see `projects/SOURCES.md` "Known missing files".
 - [ ] Decide whether to add a video to the Traffic page (two candidate MP4s are in `projects/traffic-management/videos/`).
 - [ ] Decide whether to remove the loose hero-pick images under `projects/tile-inspection/images/` now that the full Tile site is copied (kept for now).
-- [ ] Later projects, not yet built: 2-DOF arm (likely `PLC-2-DOF-manipulator`) and ROS lab (`ROS_LAB`).
+- [ ] Wire the 2-DOF arm and ROS lab pages into the combined site (layout, landing page).
 
 
 ## Done
+- [x] Copy the 2-DOF arm site (`projects/plc-2dof-arm/`, 7 MB) and ROS lab portfolio page (`projects/ros-lab/`) from their repos; provenance in `projects/SOURCES.md`. Not yet committed.
 - [x] Add `<meta charset="utf-8">` as the first line of both Enigma pages (`projects/myownenigma/site/`); the garbled "Â·" / "â†’" characters are gone in the rendered page. Not yet committed.
 - [x] Copy the published Traffic page and the full Tile site (93 files) from their claude.ai artifacts into `projects/traffic-management/site/` and `projects/tile-inspection/site/`; checked every path over local HTTP (only the 16 known placeholder files are missing). Not yet committed.
 - [x] Collect showcase assets from MyOwnEnigma, Traffic-management, Creality-Ender-3-V3-SE- and Tile_Sorting into `projects/` (19 MB, only what the pages use or will use) — provenance in `projects/SOURCES.md`. Not yet committed.
