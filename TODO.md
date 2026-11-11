@@ -7,6 +7,7 @@
 
 
 ## Done
+- [x] Write the HERC-26 showcase page, publish it as the artifact "HERC-26 Rover" and save it to `projects/herc-26/site/index.html`; provenance in `projects/SOURCES.md`. Not yet committed.
 - [x] Re-sync the 2-DOF arm site from `PLC-2-DOF-manipulator` commit 49f2362: 6 HMI screenshots and page edits. Not yet committed.
 - [x] Pull the updated Tile artifact (114 files): 9 photos, 6 videos with posters, edited page/CSS/JS; `site.js` merged with the 2026-11-11 gallery additions. Not yet committed.
 - [x] Add 32 Tile images not yet on the site (5 report figures, 2 camera frames and 2 tile photos, 4 re-converted loose images, 19 dataset contact sheets) as new Gallery entries in `site/assets/js/site.js`; remove the now-duplicate loose `images/` folder. Not yet committed.
@@ -23,6 +24,7 @@
 - [x] ~~Merge `main` into `machine-vision`~~ — CANCELLED. The owner keeps the two branches as separate personal copies and never merges them. Added a "Branch Policy" section to `.CLAUDE/CLAUDE.md` so future AI sessions know.
 
 ## Not Started
+- [ ] Later: compare the eight separately made showcase pages (Enigma, Traffic, Magnet, Tile index + 3D plant, 2-DOF arm, ROS lab, HERC-26) and make them consistent across projects: fonts, colours and dark/light theme, header, nav and footer, section and caption style, how images, videos and galleries are shown, mobile layout. Start by listing the differences, then pick one shared look and decide whether to share one CSS file. Do this before building the combined landing page.
 - [ ] Later: add "HERC" and "Time in Team Movis" (owner's wording; exact projects and source repos to be confirmed) as further projects on the showcase page.
 - [ ] Pin dependencies that silently break: record the pin, the reason, and a verification command (machine-vision Development Rule 7).
 - [ ] Record failed experiments and attempts with their numbers (machine-vision Development Rule 8).

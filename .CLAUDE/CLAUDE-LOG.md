@@ -1,5 +1,16 @@
 # Claude Log
 
+## 2026-11-12 — HERC-26 page: roles and livestream links
+- The artifact had a newer version (owner edits). Merged onto it instead of my local copy: added a "Five roles in two years" timeline (Member, Finance Manager, Team Lead, Safety Officer, Programming Team Lead; Team Lead and Safety Officer highlighted) and links to NASA's HERC 2026 Day 1 and Day 2 livestreams. Republished as version 1794434786-292b; `projects/herc-26/site/index.html` re-synced.
+- Roles came from the private notes (LinkedIn, about May 2026) because LinkedIn returned HTTP 999. LinkedIn lists "Team Lead", not "captain"; used the LinkedIn wording.
+
+## 2026-11-12 — HERC-26 showcase page
+- Owner asked for a showcase of `KL-Mithunvel/HERC-26`. Read the local repo (CLAUDE.md, firmware header, validation module, docs, git log), wrote a new page and published it as the private artifact "HERC-26 Rover" (`claude.ai/artifact/HGZYp7ecD6Qi6KCa19n9vY`); saved it to `projects/herc-26/site/index.html` with a `SOURCES.md` entry.
+- Page has two interactive parts (the Mega's 9-byte status frame, the Pi's validation timers) and real numbers from git (321 commits, weekly counts). One check: headless Chrome at desktop width plus a 400px frame overflow test.
+- Decisions: no contributor names, no competition result, no claim that the I²C fix was verified on the rover.
+- Found and flagged to the owner: plaintext proxy credentials in the `HERC-26` README; and `docs/img.png` says a higher `SLOP_FACTOR` feels softer while the firmware ramps faster with a higher value (left off the page).
+- Corrected my own hand count of the ramp (11 ticks) to 10 after computing it from the firmware formula.
+
 ## 2026-11-12 — Update check across all six projects
 - Checked every source repo (`MyOwnEnigma`, `Traffic-management`, `Creality-Ender-3-V3-SE-`, `Tile_Sorting`, `PLC-2-DOF-manipulator`, `ROS_LAB`) against the commit in `projects/SOURCES.md`, and every artifact's version. Nothing new to copy: all match what is in `projects/`. (`ROS_LAB` has newer commits for the tunnel rig and Coin-D6 lidar; they are untested hardware code.)
 - Decision (owner): leave the tunnel rig and the lidar out of the ROS showcase.
