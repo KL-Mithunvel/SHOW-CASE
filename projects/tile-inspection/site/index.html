@@ -4,7 +4,7 @@
 <meta name="description" content="Automated tile inspection, grading and sorting system — machine vision, impact-acoustic testing, fail-closed fusion and a Cartesian pick-and-place gantry. B.Tech. Mechatronics and Automation capstone, VIT Chennai, 2026.">
 <meta property="og:title" content="Automated Tile Inspection, Grading and Sorting System">
 <meta property="og:description" content="Camera + impact-acoustic inspection, fail-closed grade fusion and a pick-and-place gantry for a clay tile works. VIT Chennai capstone, 2026.">
-<meta property="og:image" content="media/screens/master_plant_3d.webp">
+<meta property="og:image" content="media/photos/full_rig.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -47,8 +47,9 @@
         <div class="cta rise d3">
           <a class="btn primary" href="#plant">Explore the 3D plant</a>
           <a class="btn" href="https://github.com/KL-Mithunvel/Tile_Sorting" target="_blank" rel="noopener">Source on GitHub ↗</a>
+          <a class="btn" href="#walkthrough">Watch the walkthrough</a>
           <a class="btn" href="#certificate">Industry certificate</a>
-          <a class="btn opt" data-probe="media/docs/Tile_Inspection_Report.pdf" href="media/docs/Tile_Inspection_Report.pdf" target="_blank" rel="noopener" hidden>Project report (PDF) ↗</a>
+          <a class="btn" href="https://drive.google.com/file/d/1Qz3MCA6ww3IPbiVUL4zZYcLBm-AJY_2X/view?usp=drive_link" target="_blank" rel="noopener">Project report (PDF) ↗</a>
         </div>
       </div>
       <figure class="line-anim rise d1" aria-label="Animated sketch of the line: tiles ride the belt past the camera and the striker, get a grade, and the gantry places each in its bin.">
@@ -112,9 +113,9 @@
           <figcaption>SMTW sorting sheets, two production days, 53,040 tiles.</figcaption>
         </div>
         <figure class="slot">
-          <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/smtw_manual_sorting.jpg" alt="Workers inspecting and tap-testing tiles by hand at Sree Murugan Tile Works" loading="lazy"></button></div>
+          <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/smtw_manual_sorting.jpg" alt="Workers at Sree Murugan Tile Works stacking clay tiles and moving them on hand carts under the sorting shed" loading="lazy"></button></div>
           <div class="ph" style="--ar:16/9"><span class="k">Photo slot</span><b>Manual sorting at SMTW</b><code>media/photos/smtw_manual_sorting.jpg</code></div>
-          <figcaption>Manual inspection at the tile works today.</figcaption>
+          <figcaption>The sorting shed at SMTW: every tile is handled, graded and stacked by hand.</figcaption>
         </figure>
       </div>
     </div>
@@ -128,6 +129,33 @@
       <div class="label">02 · The line</div>
       <h2>Four stations, one tile at a time, every decision logged.</h2>
       <p>Each station is its own computer. It processes its own raw data and publishes only a compact result over MQTT on an isolated network, so the line keeps working with no master PC attached.</p>
+    </div>
+
+    <div class="rig">
+      <figure>
+        <button class="zoom" type="button"><img class="shot" src="media/photos/full_rig.jpg" alt="The built prototype: green conveyor belt with a clay tile under the overhead webcam arch, the solenoid striker and microphone mid-belt, and the aluminium-extrusion Cartesian gantry with orange printed carriages at the far end" fetchpriority="high"></button>
+        <figcaption>The built line on the bench: belt, camera arch, striker with microphone, and the pick-and-place gantry.</figcaption>
+      </figure>
+      <figure>
+        <div class="annot">
+          <button class="zoom" type="button"><img class="shot" src="media/photos/top_view.jpg" alt="Top view of the line with the camera, striker, microphone, controllers and gantry marked 1 to 6" loading="lazy"></button>
+          <span class="pin" style="left:26%;top:47%">1</span>
+          <span class="pin" style="left:58%;top:47%">2</span>
+          <span class="pin" style="left:55%;top:23%">3</span>
+          <span class="pin" style="left:40%;top:23%">4</span>
+          <span class="pin" style="left:79%;top:40%">5</span>
+          <span class="pin" style="left:82%;top:88%">6</span>
+          <span class="flow" aria-hidden="true">tile flow →</span>
+        </div>
+        <ol class="pins">
+          <li>Webcam on the overhead arch</li>
+          <li>Solenoid striker</li>
+          <li>Microphone</li>
+          <li>Arduino Nano: belt and striker driver</li>
+          <li>Cartesian gantry with vacuum cup</li>
+          <li>Gantry controller (UNO Q, CNC shield)</li>
+        </ol>
+      </figure>
     </div>
 
     <nav class="strip" aria-label="Stations in the order a tile meets them">
@@ -201,13 +229,12 @@
         </figure>
         <div class="media-pair">
           <figure>
-            <button class="zoom" type="button"><img class="shot" src="media/screens/camera_dashboard.webp" alt="Camera dashboard replaying a belt recording, with the last captured tile, crack and corner readings and a recent tiles table" loading="lazy" style="aspect-ratio:16/11;object-fit:cover;object-position:top"></button>
+            <button class="zoom" type="button"><img class="shot" src="media/screens/camera_dashboard.webp" alt="Camera dashboard replaying a belt recording, with the last captured tile, crack and corner readings and a recent tiles table" loading="lazy" style="aspect-ratio:4/3;object-fit:cover;object-position:top"></button>
             <figcaption>Camera dashboard on recorded belt footage.</figcaption>
           </figure>
-          <figure class="slot">
-            <div class="media shot"><video src="media/videos/camera_station.mp4" controls muted playsinline preload="metadata"></video></div>
-            <div class="ph" style="--ar:16/11"><span class="k">Video slot</span><b>Camera station running</b><code>media/videos/camera_station.mp4</code></div>
-            <figcaption>The camera arch over the belt, live.</figcaption>
+          <figure>
+            <button class="zoom" type="button"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the belt: the webcam hangs from the extrusion arch above a clay tile on the green belt" loading="lazy" style="object-position:50% 30%"></button>
+            <figcaption>The webcam on its arch, looking down at a tile.</figcaption>
           </figure>
         </div>
       </div>
@@ -228,15 +255,14 @@
       </div>
       <div class="media-stack">
         <div class="media-pair">
-          <figure class="slot">
-            <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/acoustic_station.jpg" alt="The striker rig: sprung solenoid with mallet head above the belt" loading="lazy"></button></div>
-            <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Striker rig</b><code>media/photos/acoustic_station.jpg</code></div>
-            <figcaption>The developed acoustic station.</figcaption>
+          <figure>
+            <button class="zoom" type="button"><img class="shot crop" src="media/photos/acoustic_station.jpg" alt="The striker: a JF-1578B push-pull solenoid with a red mallet head on a printed blue mount over the belt, with the microphone beside it" loading="lazy" style="aspect-ratio:3/4;object-position:50% 60%"></button>
+            <figcaption>JF-1578B solenoid (12 V, 50 N, 15 mm stroke) with its mallet head, and the microphone beside the belt.</figcaption>
           </figure>
           <figure class="slot">
-            <div class="media shot"><video src="media/videos/striker_tap.mp4" controls playsinline preload="metadata"></video></div>
+            <div class="media shot"><video src="media/videos/striker_tap.mp4" poster="media/videos/striker_tap.jpg" controls playsinline preload="metadata"></video></div>
             <div class="ph" style="--ar:4/3"><span class="k">Video slot · with sound</span><b>Striker tapping a tile</b><code>media/videos/striker_tap.mp4</code></div>
-            <figcaption>One tap, with sound.</figcaption>
+            <figcaption>The striker taps a tile (sound on), then the capture app saves the recording.</figcaption>
           </figure>
         </div>
         <figure>
@@ -334,15 +360,14 @@
           <figcaption>Digital twin running real sequencer jobs against the simulated MCU.</figcaption>
         </figure>
         <div class="media-pair">
-          <figure class="slot">
-            <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/gantry.jpg" alt="The pick-and-place gantry prototype" loading="lazy"></button></div>
-            <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Gantry prototype</b><code>media/photos/gantry.jpg</code></div>
-            <figcaption>The gantry and its controller.</figcaption>
+          <figure>
+            <button class="zoom" type="button"><img class="shot crop" src="media/photos/gantry.jpg" alt="The gantry: NEMA 17 steppers, lead screws and printed orange carriages on an aluminium-extrusion frame over the belt" loading="lazy"></button>
+            <figcaption>NEMA 17 axes on lead screws; the Y beam is driven by two motors.</figcaption>
           </figure>
           <figure class="slot">
-            <div class="media shot"><video src="media/videos/gantry_homing.mp4" controls muted playsinline preload="metadata"></video></div>
+            <div class="media shot"><video src="media/videos/gantry_homing.mp4" poster="media/videos/gantry_homing.jpg" controls muted playsinline preload="metadata"></video></div>
             <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>Supervised homing run</b><code>media/videos/gantry_homing.mp4</code></div>
-            <figcaption>Axes homing under supervision.</figcaption>
+            <figcaption>Walk-round of the gantry axes, lead screws and carriages.</figcaption>
           </figure>
         </div>
       </div>
@@ -549,40 +574,45 @@
     <div class="sec-head">
       <div class="label">10 · Build log</div>
       <h2>From the bench.</h2>
-      <p>Photos and clips of the physical prototype.</p>
+      <p>Photos and clips of the physical prototype. Click any photo to enlarge.</p>
     </div>
+    <figure class="walk" id="walkthrough">
+      <div class="shot"><video src="media/videos/full_walkthrough.mp4" poster="media/videos/full_walkthrough.jpg" controls playsinline preload="none"></video></div>
+      <figcaption><b>Full walkthrough, 8:44, sound on.</b> The hardware, a tile through the camera and striker, the station dashboard, the gantry, then the master's 3D plant and analysis screens.</figcaption>
+    </figure>
     <div class="build">
-      <figure class="slot">
-        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/full_rig.jpg" alt="The full prototype line: conveyor, camera arch, striker and gantry" loading="lazy"></button></div>
-        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>The whole rig</b><code>media/photos/full_rig.jpg</code></div>
-        <figcaption>The prototype line.</figcaption>
+      <figure>
+        <button class="zoom" type="button"><img class="shot crop" src="media/photos/top_view_2.jpg" alt="Top view of the line from the gantry end, showing both controller boxes and the wiring" loading="lazy"></button>
+        <figcaption>From above, gantry end: both controller boxes and the wiring.</figcaption>
+      </figure>
+      <figure>
+        <button class="zoom" type="button"><img class="shot crop" src="media/photos/striker_closeup.jpg" alt="Close-up of the JF-1578B solenoid striker on its blue printed mount" loading="lazy"></button>
+        <figcaption>Striker close-up: solenoid on its printed mount.</figcaption>
+      </figure>
+      <figure>
+        <button class="zoom" type="button"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the green belt past the webcam arch towards the striker and gantry" loading="lazy" style="object-position:50% 40%"></button>
+        <figcaption>Down the belt: camera arch, then striker, then gantry.</figcaption>
       </figure>
       <figure class="slot">
-        <div class="media shot"><video src="media/videos/line_run.mp4" controls muted playsinline preload="metadata"></video></div>
+        <div class="media shot"><video src="media/videos/camera_station.mp4" poster="media/videos/camera_station.jpg" controls muted playsinline preload="metadata"></video></div>
+        <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>Camera station running</b><code>media/videos/camera_station.mp4</code></div>
+        <figcaption>A tile reaches the camera and the dashboard captures it.</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="media shot"><video src="media/videos/line_run.mp4" poster="media/videos/line_run.jpg" controls muted playsinline preload="metadata"></video></div>
         <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>A tile through the line</b><code>media/videos/line_run.mp4</code></div>
-        <figcaption>One tile from belt to grade.</figcaption>
+        <figcaption>After the camera: the striker, then the station screen showing Grade A, bin 1.</figcaption>
       </figure>
       <figure class="slot">
-        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/electrical_wiring.jpg" alt="Gantry controller wiring: UNO Q, CNC shield, TMC2208 drivers and encoders" loading="lazy"></button></div>
-        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Electrical and wiring</b><code>media/photos/electrical_wiring.jpg</code></div>
-        <figcaption>Controller, drivers and wiring.</figcaption>
-      </figure>
-      <figure class="slot">
-        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/camera_station.jpg" alt="Camera arch above the conveyor belt" loading="lazy"></button></div>
-        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Camera station</b><code>media/photos/camera_station.jpg</code></div>
-        <figcaption>Camera arch over the belt.</figcaption>
-      </figure>
-      <figure class="slot">
-        <div class="media shot"><video src="media/videos/demo_walkthrough.mp4" controls playsinline preload="metadata"></video></div>
+        <div class="media shot"><video src="media/videos/demo_walkthrough.mp4" poster="media/videos/demo_walkthrough.jpg" controls playsinline preload="metadata"></video></div>
         <div class="ph" style="--ar:4/3"><span class="k">Video slot</span><b>Software walkthrough</b><code>media/videos/demo_walkthrough.mp4</code></div>
-        <figcaption>Screen recording of the dashboards.</figcaption>
-      </figure>
-      <figure class="slot">
-        <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/team_at_rig.jpg" alt="The team with the prototype" loading="lazy"></button></div>
-        <div class="ph" style="--ar:4/3"><span class="k">Photo slot</span><b>Team at the rig</b><code>media/photos/team_at_rig.jpg</code></div>
-        <figcaption>The team.</figcaption>
+        <figcaption>Software: station dashboard and sound capture, then the master's 3D plant (3 min, sound on).</figcaption>
       </figure>
     </div>
+    <figure class="schematic">
+      <button class="zoom" type="button"><img class="shot fig-light" src="media/photos/electrical_schematic.png" alt="KiCad schematic: four AS5600 encoders, Arduino UNO Q and Nano, four TMC2208 stepper drivers, load cell, solenoid driver, TCA9548A I2C mux, MD10A DC motor driver for the belt, Raspberry Pi 5 with camera and mic" loading="lazy"></button>
+      <figcaption>Electrical schematic (KiCad): AS5600 encoders on a TCA9548A mux, four TMC2208 stepper drivers, UNO Q and Nano, solenoid driver, MD10A belt motor driver, Raspberry Pi 5 with camera and mic.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -654,7 +684,7 @@
       <a href="https://github.com/KL-Mithunvel/Tile_Sorting" target="_blank" rel="noopener">Tile_Sorting repo ↗</a>
       <a href="https://github.com/KL-Mithunvel/Acoustic-Analysis" target="_blank" rel="noopener">Acoustic-Analysis repo ↗</a>
       <a href="plant3d.html" target="_blank" rel="noopener">Plant 3D ↗</a>
-      <a class="opt" data-probe="media/docs/Tile_Inspection_Report.pdf" href="media/docs/Tile_Inspection_Report.pdf" target="_blank" rel="noopener" hidden>Report (PDF) ↗</a>
+      <a href="https://drive.google.com/file/d/1Qz3MCA6ww3IPbiVUL4zZYcLBm-AJY_2X/view?usp=drive_link" target="_blank" rel="noopener">Final report (PDF) ↗</a>
     </nav>
   </div>
 </footer>

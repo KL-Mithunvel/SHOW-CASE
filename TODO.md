@@ -2,11 +2,12 @@
 
 ## In Progress
 - [ ] Build the combined showcase site from `projects/` (layout, landing page, one page per project).
-- [ ] Supply the missing Tile photos (10), videos (5) and optional report PDF — see `projects/SOURCES.md` "Known missing files".
+- [ ] Supply the 3 missing Tile team photos (`team_mithunvel`, `team_teja`, `team_madhumitha`) and the optional report PDF — see `projects/SOURCES.md` "Known missing files".
 - [ ] Wire the 2-DOF arm and ROS lab pages into the combined site (layout, landing page).
 
 
 ## Done
+- [x] Pull the updated Tile artifact (114 files): 9 photos, 6 videos with posters, edited page/CSS/JS; `site.js` merged with the 2026-11-11 gallery additions. Not yet committed.
 - [x] Add 32 Tile images not yet on the site (5 report figures, 2 camera frames and 2 tile photos, 4 re-converted loose images, 19 dataset contact sheets) as new Gallery entries in `site/assets/js/site.js`; remove the now-duplicate loose `images/` folder. Not yet committed.
 - [x] Add `grid_overload.mp4` to the Traffic page (`site/videos/`, new "Replay video" block); delete 6 loose Tile images that duplicated site media (05-analyze, 08-label-tool, 09-test-tile, camera_tile_gallery, project_overview_flowchart, conveyor_crossing.gif). Not yet committed.
 - [x] Copy the 2-DOF arm site (`projects/plc-2dof-arm/`, 7 MB) and ROS lab portfolio page (`projects/ros-lab/`) from their repos; provenance in `projects/SOURCES.md`. Not yet committed.

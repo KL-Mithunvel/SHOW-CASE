@@ -39,11 +39,11 @@ Not copied: "Impact-Acoustic Tile Inspection" (a slide deck, not a page), "Magne
 ### Added from Tile_Sorting (2026-11-11)
 Converted to webp (max 1800 px) under `tile-inspection/site/media/` and listed in the Gallery: `figures/` (fig_workflow_acoustic, fig_acoustic_module, fig_feature_auc, fig_reference_z, fig_sensor_timing, fig_first_six, fig_camera_real_frame_pipeline, fig_strike_states) ← `Acoustic-Analysis/docs/final_report_figures/` and the old loose `images/`; `photos_data/` (2 belt frames, 2 tile photos S0020/S0024) ← same folder; `dataset/` (19 contact sheets of the 3A, 3B, 4 and 5 photo sets) ← `development/output/contact_sheets/`; `models/camera_confusion_normalized`. Left out on purpose: a Crystal Instruments COCO-BOX screenshot (not our software), Roboflow v2/v3 comparison plots (84.2% vs 63.2%, no context on the page), YOLO training-run plots, duplicates of images already on the site.
 
+### Updated from the artifact (2026-11-12, version 1794423193-7a3d)
+The Tile artifact gained `media/photos/` (9 files: acoustic_station, camera_station, electrical_schematic, full_rig, gantry, smtw_manual_sorting, striker_closeup, top_view, top_view_2) and `media/videos/` (6 mp4 plus poster jpgs, 47 MB: camera_station, demo_walkthrough, full_walkthrough, gantry_homing, line_run, striker_tap), plus edits to `index.html`, `assets/css/site.css` and `assets/js/site.js`. `index.html` and `site.css` were taken as published; `site.js` was 3-way merged so the Gallery entries added on 2026-11-11 are kept.
+
 ### Known missing files (the Tile page shows empty placeholder boxes for these)
-Not in the artifact and not yet supplied; they 404 locally and need the owner's photos and clips:
-- Photos in `tile-inspection/site/media/photos/`: `smtw_manual_sorting`, `acoustic_station`, `gantry`, `full_rig`, `electrical_wiring`, `camera_station`, `team_at_rig`, `team_mithunvel`, `team_teja`, `team_madhumitha` (all `.jpg`).
-- Videos in `tile-inspection/site/media/videos/`: `camera_station`, `striker_tap`, `gantry_homing`, `line_run`, `demo_walkthrough` (all `.mp4`).
-- `tile-inspection/site/media/docs/Tile_Inspection_Report.pdf` (optional link, hidden when absent).
+- Team photos in `tile-inspection/site/media/photos/`: `team_mithunvel.jpg`, `team_teja.jpg`, `team_madhumitha.jpg`. (`media/docs/Tile_Inspection_Report.pdf`, optional link, is still absent.)
 - Traffic page: no video yet. `traffic-management/videos/` holds two candidate MP4s that the page does not use.
 
 ## traffic-management (loose files — hero set picked before the page was found)

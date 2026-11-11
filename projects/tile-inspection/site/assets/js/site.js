@@ -258,7 +258,7 @@
   const counts = { A: 0, B: 0, C: 0, R: 0, H: 0 };
   let tiles = [], nextId = 41, spawnT = 0, beltOff = 0, time = 0;
   const flashes = [];
-  const gantry = { x: 760, y: BELT.y, z: 1, st: 'idle', tile: null, t: 0 };
+  const gantry = { x: 650, y: BELT.y, z: 1, st: 'idle', tile: null, t: 0 };
 
   const rnd = (a, b) => a + Math.random() * (b - a);
   function newTile() {
@@ -276,17 +276,18 @@
     if (t.snd && RANK[t.snd] > RANK[g]) g = t.snd;
     return g;
   }
+  // Fixed feed: one tile every SPAWN_S seconds. The gantry picks on the move (conveyor
+  // tracking) and its whole cycle takes about 3 s, so it is always free before the next
+  // tile reaches the pick window and tiles never queue or stop on the belt.
+  const SPAWN_S = 4.0, GANTRY_V = 420, PARK = { x: 650, y: BELT.y }, PICK_FROM = 606;
   function step(dt) {
     time += dt; beltOff = (beltOff + SPEED * dt) % 32;
     spawnT -= dt;
-    const lastIn = tiles.filter(t => t.phase === 'belt').reduce((m, t) => Math.min(m, t.x), Infinity);
-    if (spawnT <= 0 && lastIn > BELT.x0 + TS * 0.9) { tiles.push(newTile()); spawnT = rnd(1.7, 2.6); }
-    // ride the belt, queue behind the tile ahead; stop at the pick point
-    const riding = tiles.filter(t => t.phase === 'belt').sort((a, b) => b.x - a.x);
-    let limit = PICK_X;
-    for (const t of riding) {
-      t.x = Math.min(t.x + SPEED * dt, limit);
-      limit = t.x - TS - 14;
+    if (spawnT <= 0) { tiles.push(newTile()); spawnT += SPAWN_S; }
+    // every tile on the belt moves at belt speed, always
+    for (const t of tiles) {
+      if (t.phase !== 'belt') continue;
+      t.x += SPEED * dt;
       if (!t.seenCam && t.x >= CAM_X) {
         t.seenCam = true;
         t.cam = t.vis === 'none' ? 'A' : t.vis === 'crack' ? (Math.random() < 0.5 ? 'B' : 'C') : 'R';
@@ -300,14 +301,16 @@
     }
     // gantry: pick the waiting tile, carry it to its bin
     const G = gantry, toward = (a, b, v) => Math.abs(b - a) <= v * dt ? b : a + Math.sign(b - a) * v * dt;
-    const ready = tiles.find(t => t.phase === 'belt' && t.x >= PICK_X - 0.5 && t.fin);
+    const ready = tiles.find(t => t.phase === 'belt' && t.fin && t.x + TS / 2 >= PICK_FROM);
     if (G.st === 'idle' && ready) { G.tile = ready; G.st = 'toPick'; }
     const T = G.tile;
-    let gx = 760, gy = BELT.y;
+    let gx = PARK.x, gy = PARK.y;
+    // follow the moving tile until it is lifted off the belt
     if (T && (G.st === 'toPick' || G.st === 'down' || G.st === 'grab')) { gx = T.x + TS / 2; gy = T.y; }
     if (T && (G.st === 'toBin' || G.st === 'drop' || G.st === 'rel')) { gx = BIN.x; gy = BIN.y0 + BIN.gap * BINS.indexOf(T.fin); }
-    G.x = toward(G.x, gx, 340); G.y = toward(G.y, gy, 340);
-    const atXY = G.x === gx && G.y === gy;
+    G.x = toward(G.x, gx, GANTRY_V); G.y = toward(G.y, gy, GANTRY_V);
+    if (T && (G.st === 'down' || G.st === 'grab')) { G.x = gx; G.y = gy; }   // locked on while tracking
+    const atXY = Math.abs(G.x - gx) < 1.5 && Math.abs(G.y - gy) < 1.5;
     const zGoal = (G.st === 'down' || G.st === 'grab' || G.st === 'drop' || G.st === 'rel') ? 0 : 1;
     G.z = toward(G.z, zGoal, 4); const atZ = G.z === zGoal;
     switch (G.st) {
@@ -321,6 +324,8 @@
       case 'lift': if (atZ) { G.st = 'idle'; G.tile = null; } break;
     }
     if (T && T.phase === 'carried') { T.x = G.x - TS / 2; T.y = G.y; }
+    // safety net: a tile that somehow reaches the belt end unpicked rolls off rather than piling up
+    tiles = tiles.filter(t => t.phase !== 'belt' || t.x < BELT.x1 + 20 || t === G.tile);
     for (const f of flashes) f.t += dt;
     while (flashes.length && flashes[0].t > 0.9) flashes.shift();
   }
