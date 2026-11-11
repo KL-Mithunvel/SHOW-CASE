@@ -344,6 +344,11 @@ footer p { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 0.6em; }
       </div>
     </div>
 
+    <h3 style="margin-top:44px">Replay video, grid in overload</h3>
+    <div class="videos" style="margin-top:12px">
+      <figure><video src="videos/grid_overload.mp4" controls muted loop playsinline preload="metadata"></video><figcaption>Grid at 2.2x demand. The tuned fixed-time plan locks up at about 400 queued vehicles; neighbour-aware control holds about 190. Four seeds were checked.</figcaption></figure>
+    </div>
+
     <h3 style="margin-top:44px">Terminal output</h3>
     <div class="terms"><div class="termbox"><div class="cmd">$ python -m pytest -q</div><pre class="term">........................................................................ [ 25%]
 ........................................................................ [ 50%]

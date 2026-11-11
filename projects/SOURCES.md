@@ -36,6 +36,9 @@ The Traffic and Tile showcase pages are **not in their repos**; they were publis
 
 Not copied: "Impact-Acoustic Tile Inspection" (a slide deck, not a page), "Magnet-Embed Print Assistant" and "MyOwnEnigma" (repo copies already exist under `magnet-inserter/` and `myownenigma/`; not compared with the artifacts).
 
+### Added from Tile_Sorting (2026-11-11)
+Converted to webp (max 1800 px) under `tile-inspection/site/media/` and listed in the Gallery: `figures/` (fig_workflow_acoustic, fig_acoustic_module, fig_feature_auc, fig_reference_z, fig_sensor_timing, fig_first_six, fig_camera_real_frame_pipeline, fig_strike_states) ← `Acoustic-Analysis/docs/final_report_figures/` and the old loose `images/`; `photos_data/` (2 belt frames, 2 tile photos S0020/S0024) ← same folder; `dataset/` (19 contact sheets of the 3A, 3B, 4 and 5 photo sets) ← `development/output/contact_sheets/`; `models/camera_confusion_normalized`. Left out on purpose: a Crystal Instruments COCO-BOX screenshot (not our software), Roboflow v2/v3 comparison plots (84.2% vs 63.2%, no context on the page), YOLO training-run plots, duplicates of images already on the site.
+
 ### Known missing files (the Tile page shows empty placeholder boxes for these)
 Not in the artifact and not yet supplied; they 404 locally and need the owner's photos and clips:
 - Photos in `tile-inspection/site/media/photos/`: `smtw_manual_sorting`, `acoustic_station`, `gantry`, `full_rig`, `electrical_wiring`, `camera_station`, `team_at_rig`, `team_mithunvel`, `team_teja`, `team_madhumitha` (all `.jpg`).
