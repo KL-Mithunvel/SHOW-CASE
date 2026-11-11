@@ -22,7 +22,7 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 - `index.html` + `img/` (15 jpgs, `img/plc/` 25 ladder and KincoBuilder pngs) ← `docs/website/`. All 40 referenced paths verified present. Not copied: the paper, PDFs, `.rar`/`.zip` PLC backups, `docs/workspace`.
 
 ## ros-lab/site (copied 2026-11-11)
-- `index.html` ← `showcase/portfolio.html` (renamed). Self-contained (4.4 MB, no external references). Not copied: `showcase/acrux`, `beetle`, `beetle_gazebo` (30 MB of captures and webm videos the page does not use); they stay in `ROS_LAB`.
+- `index.html` ← claude.ai artifact "Mithunvel ROS 2 Portfolio" (`claude.ai/artifact/95mdeAT51U9ifLwxFLowbr`, version 1794296091-097d, updated 2026-11-10), pulled 2026-11-11, byte-for-byte (13.6 MB, self-contained). Replaces the earlier copy of `ROS_LAB/showcase/portfolio.html` (4.4 MB), which was older. Not copied: `showcase/acrux`, `beetle`, `beetle_gazebo` (30 MB of captures and webm videos the page does not use); they stay in `ROS_LAB`.
 - The source repo had uncommitted edits at copy time; the page itself was last committed in 5287d06.
 
 ## Published pages (copied from claude.ai artifacts, 2026-11-03)
