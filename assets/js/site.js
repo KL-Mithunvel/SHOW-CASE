@@ -1,13 +1,13 @@
-// Landing page behaviour: theme toggle and "which section am I in" nav highlight.
-// Everything else on the page works with JavaScript turned off.
+// Portfolio behaviour: theme toggle (every page) and topic filter (projects page).
+// Both are extras: the pages read fine with JavaScript turned off.
 
 (function () {
   "use strict";
 
   var THEME_KEY = "theme";
+  var root = document.documentElement;
 
   // ---- theme toggle ------------------------------------------------------
-  var root = document.documentElement;
   var toggle = document.getElementById("theme-toggle");
 
   function systemPrefersDark() {
@@ -37,33 +37,48 @@
     });
   }
 
-  // ---- nav highlight -----------------------------------------------------
-  var links = document.querySelectorAll(".nav a[data-section]");
-  var sections = [];
-  links.forEach(function (link) {
-    var el = document.getElementById(link.getAttribute("data-section"));
-    if (el) sections.push({ link: link, el: el });
+  // ---- topic filter ------------------------------------------------------
+  var topics = document.getElementById("topics");
+  if (!topics) return;                       // not the projects page
+
+  var tiles = topics.querySelectorAll(".topic");
+  var entries = document.querySelectorAll(".entry");
+  var years = document.querySelectorAll(".year");
+  var emptyNote = document.getElementById("empty");
+
+  function plural(n) {
+    return n + (n === 1 ? " project" : " projects");
+  }
+
+  function filterBy(topic) {
+    var shown = 0;
+
+    entries.forEach(function (entry) {
+      var tags = (entry.getAttribute("data-topics") || "").split(" ");
+      var match = topic === "all" || tags.indexOf(topic) !== -1;
+      entry.hidden = !match;
+      if (match) shown += 1;
+    });
+
+    years.forEach(function (year) {
+      var visible = year.querySelectorAll(".entry:not([hidden])").length;
+      year.hidden = visible === 0;
+      var count = year.querySelector(".count");
+      if (count) count.textContent = plural(visible);
+    });
+
+    tiles.forEach(function (tile) {
+      tile.setAttribute("aria-pressed", String(tile.getAttribute("data-topic") === topic));
+    });
+
+    if (emptyNote) emptyNote.hidden = shown !== 0;
+  }
+
+  tiles.forEach(function (tile) {
+    tile.addEventListener("click", function () {
+      filterBy(tile.getAttribute("data-topic"));
+    });
   });
 
-  function setActive(link) {
-    links.forEach(function (l) {
-      if (l === link) l.classList.add("active");
-      else l.classList.remove("active");
-    });
-  }
-
-  if (sections.length && "IntersectionObserver" in window) {
-    // A section counts as "current" while it crosses a band near the top of the viewport.
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var match = sections.find(function (s) { return s.el === entry.target; });
-          if (match) setActive(match.link);
-        });
-      },
-      { rootMargin: "-20% 0px -70% 0px" }
-    );
-    sections.forEach(function (s) { observer.observe(s.el); });
-  }
+  topics.hidden = false;                     // JavaScript works, so show the tiles
 })();

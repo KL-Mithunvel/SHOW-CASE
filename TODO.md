@@ -1,8 +1,9 @@
 # TODO
 
 ## In Progress
-- [ ] Review the new landing page `index.html` in a browser (desktop, phone width, light/dark toggle, nav highlight) and adjust. First version written 2026-11-14, not yet viewed.
-- [ ] Landing page follow-ups: add a contact email (owner to say which), add short muted video previews on cards, add a "back to portfolio" link on each project page, confirm which project repos are public before adding more "Source" links.
+- [ ] Review the landing page (`index.html` + `about.html`, rebuilt 2026-11-14 on Tania Rascia's `/blog/` layout) in a browser: desktop, phone width, light/dark toggle, topic filter. Never viewed yet.
+- [ ] Confirm the project dates on the landing page (taken from each repo's first commit; see `CLAUDE-LOG.md` 2026-11-14).
+- [ ] Landing page follow-ups: add a contact email (owner to say which), add short muted video previews on entries, add a "back to portfolio" link on each project page, confirm which project repos are public before adding "Source" links.
 - [ ] Build the combined showcase site from `projects/` (one page per project). Landing page done 2026-11-14 (see Done).
 - [ ] Supply the 3 missing Tile team photos (`team_mithunvel`, `team_teja`, `team_madhumitha`) and the optional report PDF — see `projects/SOURCES.md` "Known missing files".
 - [ ] Wire the 2-DOF arm and ROS lab pages into the combined site (layout, landing page).
@@ -27,6 +28,7 @@
 - [x] ~~Merge `main` into `machine-vision`~~ — CANCELLED. The owner keeps the two branches as separate personal copies and never merges them. Added a "Branch Policy" section to `.CLAUDE/CLAUDE.md` so future AI sessions know.
 
 ## Not Started
+- [ ] Later: bring back parts of Brittany Chiang's site (owner's decision 2026-11-14): fixed side navigation with active-section highlight, timeline-style experience. Do not add until the owner asks.
 - [ ] Later: compare the eight separately made showcase pages (Enigma, Traffic, Magnet, Tile index + 3D plant, 2-DOF arm, ROS lab, HERC-26) and make them consistent across projects: fonts, colours and dark/light theme, header, nav and footer, section and caption style, how images, videos and galleries are shown, mobile layout. Start by listing the differences, then pick one shared look and decide whether to share one CSS file. Do this before building the combined landing page.
 - [ ] Later: add "HERC" and "Time in Team Movis" (owner's wording; exact projects and source repos to be confirmed) as further projects on the showcase page.
 - [ ] Pin dependencies that silently break: record the pin, the reason, and a verification command (machine-vision Development Rule 7).
