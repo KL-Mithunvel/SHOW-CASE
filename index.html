@@ -6,148 +6,178 @@
   <title>Projects · K L Mithunvel</title>
   <meta name="description" content="Projects by K L Mithunvel, a Mechatronics and Automation student: tile inspection, a competition rover, an FPGA Enigma machine, ROS 2 robots and more.">
   <meta name="color-scheme" content="light dark">
-  <link rel="icon" type="image/svg+xml" href="assets/img/pixel/logo.svg">
+  <link rel="icon" type="image/png" href="assets/img/pixel/logo.png">
 
   <!-- Set the saved theme before first paint so the page does not flash. -->
   <script>
+    document.documentElement.classList.add("js");
     try {
-      var saved = localStorage.getItem("theme");
-      if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
+      var saved = JSON.parse(localStorage.getItem("portfolio-ui") || "{}");
+      if (saved.theme === "light" || saved.theme === "dark") document.documentElement.setAttribute("data-theme", saved.theme);
     } catch (e) { /* storage blocked: fall back to the system setting */ }
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/art.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <div class="wrap">
+  <div class="page">
 
-    <header class="top">
-      <a class="brand" href="index.html">
-        <img src="assets/img/pixel/logo.svg" alt="" width="32" height="32">
-        <span>K L Mithunvel</span>
-      </a>
-      <nav class="topnav" aria-label="Main">
-        <ul>
-          <li><a href="index.html" aria-current="page"><img src="assets/img/pixel/projects.svg" alt="" width="32" height="32"><span>Projects</span></a></li>
-          <li><a href="about.html"><img src="assets/img/pixel/about.svg" alt="" width="32" height="32"><span>About me</span></a></li>
-        </ul>
-      </nav>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark theme">Theme</button>
-    </header>
-
-    <main id="main">
-
-      <section class="intro">
-        <p>Hi, I&rsquo;m Mithunvel. I&rsquo;m a Mechatronics and Automation student at VIT Chennai who builds robots, embedded systems and inspection lines, from CAD and firmware up to the web dashboard. This is where I keep the projects.</p>
-      </section>
-
-      <section aria-labelledby="projects-h">
-        <h1 id="projects-h" class="page-title">Projects</h1>
-        <p class="page-sub">Things I have designed, built and tested. Listed by the year I started them. <a href="about.html">More about me</a></p>
-
-        <!-- Topic tiles: shown by site.js (they only filter the list, so they are hidden without JavaScript). -->
-        <div class="topics" id="topics" role="group" aria-label="Filter projects by topic" hidden>
-          <button type="button" class="topic" data-topic="all" aria-pressed="true"><img src="assets/img/pixel/projects.svg" alt="" width="48" height="48"><span>All</span></button>
-          <button type="button" class="topic" data-topic="robotics" aria-pressed="false"><img src="assets/img/pixel/robotics.svg" alt="" width="48" height="48"><span>Robotics</span></button>
-          <button type="button" class="topic" data-topic="vision" aria-pressed="false"><img src="assets/img/pixel/vision.svg" alt="" width="48" height="48"><span>Vision</span></button>
-          <button type="button" class="topic" data-topic="embedded" aria-pressed="false"><img src="assets/img/pixel/logo.svg" alt="" width="48" height="48"><span>Embedded</span></button>
-          <button type="button" class="topic" data-topic="control" aria-pressed="false"><img src="assets/img/pixel/control.svg" alt="" width="48" height="48"><span>Control</span></button>
-          <button type="button" class="topic" data-topic="simulation" aria-pressed="false"><img src="assets/img/pixel/simulation.svg" alt="" width="48" height="48"><span>Simulation</span></button>
-          <button type="button" class="topic" data-topic="cad" aria-pressed="false"><img src="assets/img/pixel/cad.svg" alt="" width="48" height="48"><span>CAD &amp; print</span></button>
+    <header class="side">
+      <div class="side-inner">
+        <div class="side-top">
+          <a class="brand" href="index.html">
+            <img class="ico" data-icon="logo" src="assets/img/pixel/logo.png" alt="" width="32" height="32">
+            <span>mithunvel</span>
+          </a>
+          <div class="tools">
+            <button class="tool-btn" id="colour-btn" type="button" aria-label="Choose colour and theme" aria-expanded="false" aria-controls="popover"><span class="dot"></span></button>
+            <button class="tool-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+              <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <div class="popover" id="popover" hidden>
+              <h4>Colour</h4>
+              <div class="swatches" id="swatches" role="group" aria-label="Accent colour"></div>
+              <h4>Theme</h4>
+              <div class="themes" id="themes" role="group" aria-label="Theme"></div>
+            </div>
+          </div>
         </div>
 
-        <section class="year" aria-labelledby="y2026">
-          <h2 id="y2026">2026 <span class="count">4 projects</span></h2>
-          <ul class="entries">
-            <li class="entry" data-topics="embedded cad">
-              <img class="thumb" src="assets/img/pixel/magnet.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/magnet-inserter/site/index.html">Magnet-Embed Print Assistant</a></h3>
-                <p class="desc">Pauses a 3D print at the right layer, places a magnet in a printed pocket, and prints over it.</p>
-                <p class="meta"><span class="date">Sep</span><span class="tags">3d-printing arduino cad python</span></p>
-              </div>
-            </li>
-            <li class="entry" data-topics="robotics simulation">
-              <img class="thumb" src="assets/img/pixel/ros.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/ros-lab/site/index.html">ROS 2 Mobile Robots</a></h3>
-                <p class="desc">Two ROS 2 robots taken from simulation to hardware: a Nav2 waypoint mission and a zone patrol.</p>
-                <p class="meta"><span class="date">Sep</span><span class="tags">ros2 nav2 mobile-robots</span></p>
-              </div>
-            </li>
-            <li class="entry" data-topics="robotics vision">
-              <img class="thumb" src="assets/img/pixel/tile.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/tile-inspection/site/index.html">Tile Inspection Line</a></h3>
-                <p class="desc">Tile grading and sorting that fuses machine vision with impact-acoustic testing. B.Tech capstone.</p>
-                <p class="meta"><span class="date">Jun</span><span class="tags">machine-vision acoustics gantry python</span></p>
-              </div>
-            </li>
-            <li class="entry" data-topics="robotics control simulation">
-              <img class="thumb" src="assets/img/pixel/arm.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/plc-2dof-arm/site/index.html">PLC 2-DOF Robotic Arm</a></h3>
-                <p class="desc">A PLC-driven pick-and-place arm that lifts 5&nbsp;kg with an electromagnet, checked in Ansys first.</p>
-                <p class="meta"><span class="date">May</span><span class="tags">plc hmi ansys servo-drives</span></p>
-              </div>
-            </li>
-          </ul>
-        </section>
+        <p class="bio">I&rsquo;m <span class="name">Mithunvel</span>, a mechatronics student and robotics team lead. This is where I keep what I build.</p>
 
-        <section class="year" aria-labelledby="y2025">
-          <h2 id="y2025">2025 <span class="count">1 project</span></h2>
-          <ul class="entries">
-            <li class="entry" data-topics="robotics embedded">
-              <img class="thumb" src="assets/img/pixel/rover.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/herc-26/site/index.html">HERC-26 Rover</a></h3>
-                <p class="desc">Competition rover on a Raspberry Pi and an Arduino Mega that hard-stops on signal loss.</p>
-                <p class="meta"><span class="date">Dec</span><span class="tags">raspberry-pi arduino flask failsafe</span></p>
-              </div>
-            </li>
+        <nav class="nav" aria-label="Main">
+          <ul>
+            <li><a href="index.html" aria-current="page"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32"><span>Projects</span></a></li>
+            <li><a href="about.html"><img class="ico" data-icon="about" src="assets/img/pixel/about.png" alt="" width="32" height="32"><span>About me</span></a></li>
           </ul>
-        </section>
+        </nav>
 
-        <section class="year" aria-labelledby="y2024">
-          <h2 id="y2024">2024 <span class="count">2 projects</span></h2>
-          <ul class="entries">
-            <li class="entry" data-topics="embedded cad">
-              <img class="thumb" src="assets/img/pixel/enigma.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/myownenigma/site/index.html">MyOwnEnigma</a></h3>
-                <p class="desc">The WWII Enigma cipher rebuilt in Verilog on an FPGA, with a keyboard, lamp board and printed case.</p>
-                <p class="meta"><span class="date">Sep</span><span class="tags">fpga verilog kicad cad</span></p>
-              </div>
-            </li>
-            <li class="entry" data-topics="control simulation">
-              <img class="thumb" src="assets/img/pixel/traffic.svg" alt="" width="48" height="48">
-              <div class="entry-body">
-                <h3><a class="entry-link" href="projects/traffic-management/site/index.html">Look-Ahead Signals</a></h3>
-                <p class="desc">Traffic lights that look one junction ahead; about 30% less queueing delay in simulation.</p>
-                <p class="meta"><span class="date">Sep</span><span class="tags">simulation control python</span></p>
-              </div>
-            </li>
-          </ul>
-        </section>
+        <div class="social">
+          <a href="https://github.com/KL-Mithunvel" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+          <a href="https://www.linkedin.com/in/mithunvel-k-l-1b5845287" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+    </header>
 
-        <p class="empty" id="empty" hidden>No projects under this topic yet.</p>
+    <main id="main" class="content">
+
+      <div class="banner art" aria-hidden="true" hidden></div>
+      <div class="page-head">
+        <div>
+          <h1 class="page-title"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32">Projects</h1>
+          <p class="page-sub">Things I have designed, built and tested, listed by the year I started them.</p>
+        </div>
+        <div class="hero-slot" hidden></div>
+      </div>
+
+      <!-- Topic chips: shown by site.js (they only filter the list, so they stay hidden without JavaScript). -->
+      <div class="topics" id="topics" role="group" aria-label="Filter projects by topic" hidden>
+        <button type="button" class="topic" data-topic="all" aria-pressed="true"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32"><span>All</span></button>
+        <button type="button" class="topic" data-topic="robotics" aria-pressed="false"><img class="ico" data-icon="robotics" src="assets/img/pixel/robotics.png" alt="" width="32" height="32"><span>Robotics</span></button>
+        <button type="button" class="topic" data-topic="vision" aria-pressed="false"><img class="ico" data-icon="vision" src="assets/img/pixel/vision.png" alt="" width="32" height="32"><span>Vision</span></button>
+        <button type="button" class="topic" data-topic="embedded" aria-pressed="false"><img class="ico" data-icon="embedded" src="assets/img/pixel/embedded.png" alt="" width="32" height="32"><span>Embedded</span></button>
+        <button type="button" class="topic" data-topic="control" aria-pressed="false"><img class="ico" data-icon="control" src="assets/img/pixel/control.png" alt="" width="32" height="32"><span>Control</span></button>
+        <button type="button" class="topic" data-topic="simulation" aria-pressed="false"><img class="ico" data-icon="simulation" src="assets/img/pixel/simulation.png" alt="" width="32" height="32"><span>Simulation</span></button>
+        <button type="button" class="topic" data-topic="cad" aria-pressed="false"><img class="ico" data-icon="cad" src="assets/img/pixel/cad.png" alt="" width="32" height="32"><span>CAD &amp; print</span></button>
+      </div>
+
+      <section class="year" aria-labelledby="y2026">
+        <h2 id="y2026">2026 <span class="count">4 projects</span></h2>
+        <ul>
+          <li class="entry" data-topics="embedded cad">
+            <img class="ico" data-icon="magnet" src="assets/img/pixel/magnet.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/magnet-inserter/site/index.html">Magnet-Embed Print Assistant</a></h3>
+              <p class="desc">Pauses a 3D print at the right layer, places a magnet in a printed pocket, and prints over it.</p>
+              <p class="date">September</p>
+            </div>
+            <ul class="etags"><li>3d-printing</li><li>arduino</li><li>cad</li><li>python</li></ul>
+          </li>
+          <li class="entry" data-topics="robotics simulation">
+            <img class="ico" data-icon="ros" src="assets/img/pixel/ros.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/ros-lab/site/index.html">ROS 2 Mobile Robots</a></h3>
+              <p class="desc">Two ROS 2 robots taken from simulation to hardware: a Nav2 waypoint mission and a zone patrol.</p>
+              <p class="date">September</p>
+            </div>
+            <ul class="etags"><li>ros2</li><li>nav2</li><li>mobile-robots</li></ul>
+          </li>
+          <li class="entry" data-topics="robotics vision">
+            <img class="ico" data-icon="tile" src="assets/img/pixel/tile.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/tile-inspection/site/index.html">Tile Inspection Line</a></h3>
+              <p class="desc">Tile grading and sorting that fuses machine vision with impact-acoustic testing. B.Tech capstone.</p>
+              <p class="date">June</p>
+            </div>
+            <ul class="etags"><li>machine-vision</li><li>acoustics</li><li>gantry</li><li>python</li></ul>
+          </li>
+          <li class="entry" data-topics="robotics control simulation">
+            <img class="ico" data-icon="arm" src="assets/img/pixel/arm.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/plc-2dof-arm/site/index.html">PLC 2-DOF Robotic Arm</a></h3>
+              <p class="desc">A PLC-driven pick-and-place arm that lifts 5&nbsp;kg with an electromagnet, checked in Ansys first.</p>
+              <p class="date">May</p>
+            </div>
+            <ul class="etags"><li>plc</li><li>hmi</li><li>ansys</li><li>servo-drives</li></ul>
+          </li>
+        </ul>
       </section>
-    </main>
 
-    <footer class="footer">
-      <ul class="footlinks">
-        <li><a href="https://github.com/KL-Mithunvel" rel="noopener"><img src="assets/img/pixel/code.svg" alt="" width="32" height="32"><span>GitHub</span></a></li>
-        <li><a href="https://www.linkedin.com/in/mithunvel-k-l-1b5845287" rel="noopener"><img src="assets/img/pixel/in.svg" alt="" width="32" height="32"><span>LinkedIn</span></a></li>
-      </ul>
-      <p>Hand-built with plain HTML, CSS and a little JavaScript. Pixel icons are drawn in code (<code>tools/make_pixel_icons.py</code>). Layout inspired by <a href="https://www.taniarascia.com/blog/" rel="noopener">tania.dev</a>.</p>
-    </footer>
+      <section class="year" aria-labelledby="y2025">
+        <h2 id="y2025">2025 <span class="count">1 project</span></h2>
+        <ul>
+          <li class="entry" data-topics="robotics embedded">
+            <img class="ico" data-icon="rover" src="assets/img/pixel/rover.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/herc-26/site/index.html">HERC-26 Rover</a></h3>
+              <p class="desc">Competition rover on a Raspberry Pi and an Arduino Mega that hard-stops on signal loss.</p>
+              <p class="date">December</p>
+            </div>
+            <ul class="etags"><li>raspberry-pi</li><li>arduino</li><li>flask</li><li>failsafe</li></ul>
+          </li>
+        </ul>
+      </section>
+
+      <section class="year" aria-labelledby="y2024">
+        <h2 id="y2024">2024 <span class="count">2 projects</span></h2>
+        <ul>
+          <li class="entry" data-topics="embedded cad">
+            <img class="ico" data-icon="enigma" src="assets/img/pixel/enigma.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/myownenigma/site/index.html">MyOwnEnigma</a></h3>
+              <p class="desc">The WWII Enigma cipher rebuilt in Verilog on an FPGA, with a keyboard, lamp board and printed case.</p>
+              <p class="date">September</p>
+            </div>
+            <ul class="etags"><li>fpga</li><li>verilog</li><li>kicad</li><li>cad</li></ul>
+          </li>
+          <li class="entry" data-topics="control simulation">
+            <img class="ico" data-icon="traffic" src="assets/img/pixel/traffic.png" alt="" width="32" height="32">
+            <div>
+              <h3><a class="elink" href="projects/traffic-management/site/index.html">Look-Ahead Signals</a></h3>
+              <p class="desc">Traffic lights that look one junction ahead; about 30% less queueing delay in simulation.</p>
+              <p class="date">September</p>
+            </div>
+            <ul class="etags"><li>simulation</li><li>control</li><li>python</li></ul>
+          </li>
+        </ul>
+      </section>
+
+      <p class="empty" id="empty" hidden>No projects under this topic yet.</p>
+
+      <footer class="footer">
+        <p>Hand-built with plain HTML, CSS and a little JavaScript. Pixel icons are drawn in code (<code>tools/make_pixel_icons.py</code>). Layout inspired by <a href="https://www.taniarascia.com/blog/" rel="noopener">tania.dev</a>.</p>
+      </footer>
+    </main>
   </div>
 
+  <script src="assets/js/design-data.js"></script>
   <script src="assets/js/site.js"></script>
 </body>
 </html>

@@ -1,0 +1,170 @@
+/* Pure-CSS art: banner backgrounds (class "art art-<key>") and 96px illustrations (class "css-art css-<key>").
+   No images are used. Colours follow the page accent (--accent), so they change with the colour picker.
+   Options are listed in assets/js/design-data.js. */
+
+/* ---------------------------------------------------------------- banner backgrounds */
+.art {
+  --a1: color-mix(in srgb, var(--accent) 38%, transparent);
+  --a2: color-mix(in srgb, var(--accent) 16%, transparent);
+  background-color: var(--chip);
+}
+
+.art-blueprint {
+  background-image:
+    linear-gradient(var(--a1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--a1) 1px, transparent 1px),
+    linear-gradient(var(--a2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--a2) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+
+.art-dots {
+  background-image: radial-gradient(var(--a1) 1.6px, transparent 1.8px);
+  background-size: 14px 14px;
+}
+
+.art-scanlines {
+  background-image:
+    repeating-linear-gradient(0deg, var(--a2) 0 2px, transparent 2px 6px),
+    linear-gradient(90deg, transparent, var(--a2), transparent);
+}
+
+.art-circuit {
+  background-image:
+    linear-gradient(90deg, var(--a1) 2px, transparent 2px),
+    linear-gradient(var(--a1) 2px, transparent 2px),
+    radial-gradient(var(--accent) 3px, transparent 3.5px);
+  background-size: 48px 48px, 48px 48px, 48px 48px;
+  background-position: 0 0, 24px 24px, 24px 0;
+}
+
+.art-checker {
+  background-image: conic-gradient(var(--a2) 25%, transparent 0 50%, var(--a2) 0 75%, transparent 0);
+  background-size: 24px 24px;
+}
+
+.art-mesh {
+  background-image:
+    radial-gradient(circle at 15% 20%, var(--a1), transparent 45%),
+    radial-gradient(circle at 80% 30%, color-mix(in srgb, #7aa2ff 40%, transparent), transparent 45%),
+    radial-gradient(circle at 55% 95%, color-mix(in srgb, #ff7ac8 35%, transparent), transparent 50%);
+}
+
+.art-stripes {
+  background-image: repeating-linear-gradient(45deg, var(--a2) 0 10px, transparent 10px 20px);
+}
+
+.art-stars {
+  background-image:
+    radial-gradient(var(--accent) 1.4px, transparent 2px),
+    radial-gradient(var(--a1) 1.6px, transparent 2.2px),
+    radial-gradient(var(--a1) 1px, transparent 1.6px);
+  background-size: 43px 37px, 29px 23px, 17px 19px;
+  background-position: 0 0, 17px 11px, 5px 9px;
+}
+
+.art-rings {
+  background-image: repeating-radial-gradient(circle at 0 100%, transparent 0 14px, var(--a1) 14px 16px);
+}
+
+.art-bands {
+  background-image: linear-gradient(180deg,
+    transparent 0 16%,
+    color-mix(in srgb, var(--accent) 10%, transparent) 16% 33%,
+    color-mix(in srgb, var(--accent) 20%, transparent) 33% 50%,
+    color-mix(in srgb, var(--accent) 30%, transparent) 50% 66%,
+    color-mix(in srgb, var(--accent) 42%, transparent) 66% 83%,
+    color-mix(in srgb, var(--accent) 55%, transparent) 83% 100%);
+}
+
+/* ---------------------------------------------------------------- illustrations (markup: <div class="css-art css-robot"><i></i><i></i><i></i></div>) */
+.css-art { position: relative; width: 96px; height: 96px; flex: none; }
+.css-art i, .css-art::before, .css-art::after { position: absolute; display: block; content: ""; }
+.css-art i { content: none; }
+
+/* robot */
+.css-robot::before {                       /* head */
+  left: 12px; top: 24px; width: 72px; height: 60px; border-radius: 16px;
+  background: #27b5a5; border: 3px solid #145f57;
+  box-shadow: inset 0 4px 0 rgba(255,255,255,.28), inset 0 -6px 0 rgba(0,0,0,.18);
+}
+.css-robot::after {                        /* mouth */
+  left: 32px; top: 68px; width: 32px; height: 6px; border-radius: 3px; background: #1c2740;
+}
+.css-robot i:nth-child(1), .css-robot i:nth-child(2) {   /* eyes */
+  top: 42px; width: 14px; height: 14px; border-radius: 4px; background: #f4f6fa;
+  box-shadow: inset -4px -4px 0 #1c2740;
+}
+.css-robot i:nth-child(1) { left: 26px; }
+.css-robot i:nth-child(2) { left: 56px; }
+.css-robot i:nth-child(3) {                /* antenna */
+  left: 46px; top: 6px; width: 4px; height: 18px; background: #8c9bb4;
+}
+.css-robot i:nth-child(3)::before {
+  content: ""; position: absolute; left: -4px; top: -6px; width: 12px; height: 12px;
+  border-radius: 50%; background: #e4574d; box-shadow: inset -2px -2px 0 rgba(0,0,0,.25);
+}
+
+/* traffic light */
+.css-traffic::before {                     /* housing */
+  left: 29px; top: 4px; width: 38px; height: 78px; border-radius: 10px;
+  background: #2d3648; border: 3px solid #151b28;
+  box-shadow: inset 0 3px 0 rgba(255,255,255,.12);
+}
+.css-traffic::after {                      /* pole */
+  left: 43px; top: 82px; width: 10px; height: 14px; background: #5d6c88;
+}
+.css-traffic i { left: 38px; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset -3px -3px 0 rgba(0,0,0,.25), inset 3px 3px 0 rgba(255,255,255,.35); }
+.css-traffic i:nth-child(1) { top: 12px; background: #e4574d; }
+.css-traffic i:nth-child(2) { top: 36px; background: #f3b134; }
+.css-traffic i:nth-child(3) { top: 60px; background: #58b368; }
+
+/* microchip */
+.css-chip::before {                        /* body */
+  left: 22px; top: 22px; width: 52px; height: 52px; border-radius: 8px;
+  background: #27b5a5; border: 3px solid #145f57;
+  box-shadow: inset 0 4px 0 rgba(255,255,255,.28), inset 0 -5px 0 rgba(0,0,0,.18);
+}
+.css-chip::after {                         /* die */
+  left: 36px; top: 36px; width: 24px; height: 24px; border-radius: 4px; background: #f4f6fa;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,.18);
+}
+.css-chip i:nth-child(1) {                 /* pins top and bottom */
+  left: 28px; top: 8px; width: 6px; height: 14px; background: #8c9bb4;
+  box-shadow: 12px 0 #8c9bb4, 24px 0 #8c9bb4, 0 66px #8c9bb4, 12px 66px #8c9bb4, 24px 66px #8c9bb4;
+}
+.css-chip i:nth-child(2) {                 /* pins left and right */
+  left: 8px; top: 28px; width: 14px; height: 6px; background: #8c9bb4;
+  box-shadow: 0 12px #8c9bb4, 0 24px #8c9bb4, 66px 0 #8c9bb4, 66px 12px #8c9bb4, 66px 24px #8c9bb4;
+}
+
+/* magnet */
+.css-magnet::before {                      /* the U */
+  left: 18px; top: 38px; width: 60px; height: 46px; box-sizing: border-box;
+  border: 18px solid #e4574d; border-top: 0; border-radius: 0 0 40px 40px;
+}
+.css-magnet i:nth-child(1), .css-magnet i:nth-child(2) {   /* arms with silver tips */
+  top: 10px; width: 18px; height: 36px;
+  background: linear-gradient(#b4bfd3 0 14px, #e4574d 14px);
+}
+.css-magnet i:nth-child(1) { left: 18px; }
+.css-magnet i:nth-child(2) { left: 60px; }
+
+/* eye */
+.css-eye::before {                         /* eyeball */
+  left: 4px; top: 22px; width: 88px; height: 54px; border-radius: 50%;
+  background: #f4f6fa; border: 3px solid #2d3648; box-shadow: inset 0 -6px 0 rgba(0,0,0,.08);
+}
+.css-eye i:nth-child(1) {                  /* iris */
+  left: 30px; top: 30px; width: 36px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #8ec1ff, #4a8be0 60%, #2c5cab);
+}
+.css-eye i:nth-child(2) { left: 41px; top: 41px; width: 14px; height: 16px; border-radius: 50%; background: #1c2740; }
+.css-eye i:nth-child(3) { left: 46px; top: 38px; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+
+/* cube */
+.css-cube::before {
+  left: 6px; top: 2px; width: 84px; height: 92px;
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  background: conic-gradient(from -60deg at 50% 50%, #9ccbff 0 120deg, #5d6c88 120deg 240deg, #4a8be0 240deg 360deg);
+}

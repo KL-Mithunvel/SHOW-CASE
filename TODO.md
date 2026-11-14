@@ -1,6 +1,9 @@
 # TODO
 
 ## In Progress
+- [ ] Owner: open `design-lab/index.html`, choose a look, press "Copy settings" and send the JSON. Then Claude bakes it into `DEFAULTS` in `assets/js/design-data.js`, moves the chosen icon set into `assets/`, and removes the unused options (or keeps the lab).
+- [ ] If the owner wants truly different icon drawings (not just styles), draw a second set for the icons they pick (`tools/make_pixel_icons.py`).
+- [ ] Check the rebuilt pages in browsers other than Chrome and at 125% / 150% Windows scaling; test the "Copy settings" button.
 - [ ] Review the landing page (`index.html` + `about.html`, rebuilt 2026-11-14 on Tania Rascia's `/blog/` layout) in a browser: desktop, phone width, light/dark toggle, topic filter. Never viewed yet.
 - [ ] Confirm the project dates on the landing page (taken from each repo's first commit; see `CLAUDE-LOG.md` 2026-11-14).
 - [ ] Landing page follow-ups: add a contact email (owner to say which), add short muted video previews on entries, add a "back to portfolio" link on each project page, confirm which project repos are public before adding "Source" links.

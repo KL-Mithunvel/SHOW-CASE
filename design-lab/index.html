@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design lab · K L Mithunvel</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- One request that loads every font option so the font cards can show real samples. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Sans:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&family=DM+Sans:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&family=Nunito:wght@400;600;700&family=Lora:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../assets/css/art.css">
+  <link rel="stylesheet" href="assets/sprites.css">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+  <header class="lab-top">
+    <div>
+      <h1>Design lab</h1>
+      <p>Click options on the left; the real site on the right changes straight away. Mix pixel-art styles icon by icon. When you like it, press <strong>Copy settings</strong> and send them to Claude.</p>
+    </div>
+    <div class="actions">
+      <button type="button" id="reset" class="btn">Reset</button>
+      <button type="button" id="copy" class="btn primary">Copy settings</button>
+      <button type="button" id="download" class="btn">Download JSON</button>
+    </div>
+  </header>
+
+  <div class="lab">
+    <div class="controls" id="controls" aria-label="Design options"></div>
+
+    <section class="preview" aria-label="Live preview">
+      <div class="preview-bar">
+        <div class="seg" id="bar-page" role="group" aria-label="Page">
+          <button type="button" data-page="../index.html" aria-pressed="true">Projects</button>
+          <button type="button" data-page="../about.html" aria-pressed="false">About</button>
+        </div>
+        <div class="seg" id="bar-width" role="group" aria-label="Screen width">
+          <button type="button" data-width="desktop" aria-pressed="true">Desktop</button>
+          <button type="button" data-width="phone" aria-pressed="false">Phone</button>
+        </div>
+        <div class="seg" id="bar-theme" role="group" aria-label="Theme">
+          <button type="button" data-group="theme" data-value="auto">Auto</button>
+          <button type="button" data-group="theme" data-value="light">Light</button>
+          <button type="button" data-group="theme" data-value="dark">Dark</button>
+        </div>
+      </div>
+      <div class="frame-wrap" id="frame-wrap">
+        <iframe id="frame" src="../index.html" title="Site preview"></iframe>
+      </div>
+    </section>
+  </div>
+
+  <details class="json-box" id="json-box">
+    <summary>Your settings (JSON)</summary>
+    <textarea id="json" readonly rows="10" aria-label="Settings JSON"></textarea>
+  </details>
+
+  <script src="../assets/js/design-data.js"></script>
+  <script src="lab.js"></script>
+</body>
+</html>
