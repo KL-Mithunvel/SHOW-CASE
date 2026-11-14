@@ -1,12 +1,15 @@
 # TODO
 
 ## In Progress
-- [ ] Build the combined showcase site from `projects/` (layout, landing page, one page per project).
+- [ ] Review the new landing page `index.html` in a browser (desktop, phone width, light/dark toggle, nav highlight) and adjust. First version written 2026-11-14, not yet viewed.
+- [ ] Landing page follow-ups: add a contact email (owner to say which), add short muted video previews on cards, add a "back to portfolio" link on each project page, confirm which project repos are public before adding more "Source" links.
+- [ ] Build the combined showcase site from `projects/` (one page per project). Landing page done 2026-11-14 (see Done).
 - [ ] Supply the 3 missing Tile team photos (`team_mithunvel`, `team_teja`, `team_madhumitha`) and the optional report PDF — see `projects/SOURCES.md` "Known missing files".
 - [ ] Wire the 2-DOF arm and ROS lab pages into the combined site (layout, landing page).
 
 
 ## Done
+- [x] Write the combined landing page at the repo root: `index.html`, `assets/css/site.css`, `assets/js/site.js`, 7 pixel icons in `assets/img/pixel/`, generator `tools/make_pixel_icons.py`. Style from Tania Rascia (pixel look, cards) and Brittany Chiang (sticky left nav); six featured projects. Not yet committed; not yet viewed in a browser.
 - [x] Write the HERC-26 showcase page, publish it as the artifact "HERC-26 Rover" and save it to `projects/herc-26/site/index.html`; provenance in `projects/SOURCES.md`. Not yet committed.
 - [x] Re-sync the 2-DOF arm site from `PLC-2-DOF-manipulator` commit 49f2362: 6 HMI screenshots and page edits. Not yet committed.
 - [x] Pull the updated Tile artifact (114 files): 9 photos, 6 videos with posters, edited page/CSS/JS; `site.js` merged with the 2026-11-11 gallery additions. Not yet committed.

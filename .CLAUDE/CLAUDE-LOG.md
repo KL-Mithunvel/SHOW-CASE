@@ -1,5 +1,15 @@
 # Claude Log
 
+## 2026-11-14 — Build the combined landing page (`index.html` at the repo root)
+- Researched portfolio sites (roundups, [Brittany Chiang](https://brittanychiang.com/), [Tania Rascia](https://www.taniarascia.com/), [Awwwards](https://www.awwwards.com/websites/portfolio/), robotics-portfolio advice). Owner picked Tania Rascia's clean pixel-art look and Brittany Chiang's easy, uncluttered navigation. Caveat: I only read text extractions of those sites, never rendered them, so the pixel styling is my interpretation.
+- **Decisions (owner):** landing page at the repo root; Claude picks the projects and icons. **Design (agreed in chat):** fixed left column (name, role, 4 anchors) + scrolling right column, stacked on phones; pixel font (Pixelify Sans, via Google Fonts) for headings only, system font for body; pixel-stepped card borders; light/dark toggle; plain HTML/CSS/vanilla JS, no build step.
+- **Featured 6:** Tile Inspection, HERC-26, Look-Ahead Signals, MyOwnEnigma, PLC 2-DOF Arm, ROS 2 Mobile Robots. Magnet-Embed Print Assistant is a one-line "Also" link. Reason: the first six are the strongest and best documented; Magnet is the smallest.
+- **Files added:** `index.html`, `assets/css/site.css`, `assets/js/site.js`, `assets/img/pixel/*.svg` (7 icons), `tools/make_pixel_icons.py` (regenerates the icons). Existing `projects/*/site/` pages are untouched.
+- **Content rules:** facts only from the project pages and `showcase-private/`. Left off on purpose: phone, address, date of birth, family, grades, ID numbers, and any email address. Card text was checked against each project page; I first guessed three descriptions (PLC arm, ROS lab, Magnet) and corrected them after reading the pages.
+- **Checked:** all 16 local links/assets resolve on disk. **Not checked:** the page has not been viewed in a browser (the Chrome extension was not connected; a local server was blocked), so layout, colours, phone width and the theme toggle are untested.
+- "Source" link only on MyOwnEnigma (known public repo). The other repos' visibility is unconfirmed, and the HERC-26 README holds plaintext credentials (flagged 2026-11-12).
+- Open: no video previews yet; the six project pages do not link back to the landing page; each still has its own look (see the TODO consistency item).
+
 ## 2026-11-12 — HERC-26 page: roles and livestream links
 - The artifact had a newer version (owner edits). Merged onto it instead of my local copy: added a "Five roles in two years" timeline (Member, Finance Manager, Team Lead, Safety Officer, Programming Team Lead; Team Lead and Safety Officer highlighted) and links to NASA's HERC 2026 Day 1 and Day 2 livestreams. Republished as version 1794434786-292b; `projects/herc-26/site/index.html` re-synced.
 - Roles came from the private notes (LinkedIn, about May 2026) because LinkedIn returned HTTP 999. LinkedIn lists "Team Lead", not "captain"; used the LinkedIn wording.

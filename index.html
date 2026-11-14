@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>K L Mithunvel — Robotics &amp; Embedded Systems</title>
+  <meta name="description" content="Portfolio of K L Mithunvel, a Mechatronics and Automation student building robots, embedded systems and inspection lines: tile inspection, a competition rover, an FPGA Enigma machine and more.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/svg+xml" href="assets/img/pixel/logo.svg">
+
+  <!-- Set the saved theme before first paint so the page does not flash. -->
+  <script>
+    try {
+      var saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
+    } catch (e) { /* storage blocked: fall back to the system setting */ }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="layout">
+
+    <!-- Left column: fixed on desktop, stacked on phones -->
+    <header class="side">
+      <div class="side-inner">
+        <img class="logo" src="assets/img/pixel/logo.svg" alt="" width="48" height="48">
+        <h1 class="name">K L Mithunvel</h1>
+        <p class="role">Mechatronics &amp; Automation student</p>
+        <p class="pitch">I build robots, embedded systems and inspection lines, from CAD and firmware up to the web dashboard.</p>
+
+        <nav class="nav" aria-label="Sections">
+          <ul>
+            <li><a href="#about" data-section="about"><span class="bar" aria-hidden="true"></span>About</a></li>
+            <li><a href="#projects" data-section="projects"><span class="bar" aria-hidden="true"></span>Projects</a></li>
+            <li><a href="#experience" data-section="experience"><span class="bar" aria-hidden="true"></span>Experience</a></li>
+            <li><a href="#contact" data-section="contact"><span class="bar" aria-hidden="true"></span>Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="side-foot">
+          <ul class="social">
+            <li><a href="https://github.com/KL-Mithunvel" rel="noopener">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/mithunvel-k-l-1b5845287" rel="noopener">LinkedIn</a></li>
+          </ul>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+            <span class="theme-label">Theme</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="content">
+
+      <section id="about" class="section" aria-labelledby="about-h">
+        <h2 id="about-h" class="section-title">About</h2>
+        <p>I study Mechatronics and Automation at VIT Chennai (2023&ndash;2027). I like projects where hardware and software have to work together, and I try to finish them properly: tested, documented and handed over so someone else can run them.</p>
+        <p>I lead <strong>Team MOVIS</strong>, our university robotics team, and serve as its safety officer. I am also Vice President of the AUTOVIT automotive club. In summer 2025 I interned at <strong>H&Auml;NDLE GmbH</strong> in Germany on industrial plant design and process engineering.</p>
+      </section>
+
+      <section id="projects" class="section" aria-labelledby="projects-h">
+        <h2 id="projects-h" class="section-title">Projects</h2>
+
+        <ol class="cards">
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/tile.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/tile-inspection/site/index.html">Tile Inspection Line</a></h3>
+              <p>Automated tile grading and sorting that combines machine vision with impact-acoustic testing, fused so it fails closed, and drives a Cartesian pick-and-place gantry. B.Tech capstone, 2026.</p>
+              <ul class="tags"><li>Machine vision</li><li>Acoustics</li><li>Gantry</li><li>Python</li></ul>
+            </div>
+          </li>
+
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/rover.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/herc-26/site/index.html">HERC-26 Rover</a></h3>
+              <p>Competition rover for the Human Exploration Rover Challenge. A Raspberry Pi and an Arduino Mega share the work, the rover hard-stops on signal loss, and a web dashboard reads live telemetry.</p>
+              <ul class="tags"><li>Raspberry Pi</li><li>Arduino</li><li>Flask</li><li>Failsafe design</li></ul>
+            </div>
+          </li>
+
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/traffic.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/traffic-management/site/index.html">Look-Ahead Signals</a></h3>
+              <p>Traffic lights that look one junction ahead instead of running a fixed timetable. In a deliberately hard simulation they cut queueing delay by about 30% below saturation, and stayed moving when a 2&times;2 grid was pushed past capacity. Smart India Hackathon 2024 team.</p>
+              <ul class="tags"><li>Simulation</li><li>Control</li><li>Python</li></ul>
+            </div>
+          </li>
+
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/enigma.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/myownenigma/site/index.html">MyOwnEnigma</a></h3>
+              <p>The WWII Enigma cipher rebuilt in Verilog on an Arty S7 FPGA, with a 9&times;4 keyboard matrix, a lamp board, a KiCAD schematic and a 3D-printed case.</p>
+              <ul class="tags"><li>FPGA</li><li>Verilog</li><li>KiCAD</li><li>CAD</li></ul>
+              <p class="card-extra"><a href="https://github.com/KL-Mithunvel/MyOwnEnigma" rel="noopener">Source on GitHub</a></p>
+            </div>
+          </li>
+
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/arm.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/plc-2dof-arm/site/index.html">PLC 2-DOF Robotic Arm</a></h3>
+              <p>A two-axis pick-and-place arm that lifts a 5 kg part with an electromagnet. The structure was checked in Ansys before building; it runs from an industrial PLC with a touch-panel HMI.</p>
+              <ul class="tags"><li>PLC</li><li>HMI</li><li>Ansys FEA</li><li>Servo drives</li></ul>
+            </div>
+          </li>
+
+          <li class="card">
+            <img class="plate" src="assets/img/pixel/ros.svg" alt="" width="64" height="64">
+            <div class="card-body">
+              <h3><a class="card-link" href="projects/ros-lab/site/index.html">ROS 2 Mobile Robots</a></h3>
+              <p>Two ROS 2 robots taken from simulation to working runs on hardware. Acrux drives a waypoint mission on Nav2; BeetleBot patrols a zoned floor and warns when something moves.</p>
+              <ul class="tags"><li>ROS 2</li><li>Nav2</li><li>Mobile robots</li></ul>
+            </div>
+          </li>
+        </ol>
+
+        <p class="more">Also: <a href="projects/magnet-inserter/site/index.html">Magnet-Embed Print Assistant</a>, an add-on applicator and control app that pauses a 3D print at the right layer, places a magnet in a printed pocket, and prints over it.</p>
+      </section>
+
+      <section id="experience" class="section" aria-labelledby="experience-h">
+        <h2 id="experience-h" class="section-title">Experience</h2>
+
+        <ol class="timeline">
+          <li>
+            <p class="when">Jul 2025 &ndash; Present</p>
+            <div>
+              <h3>Team Lead &amp; Safety Officer &middot; Team MOVIS</h3>
+              <p>Coordinate the electrical, mechanical and programming divisions for NASA HERC 2026 and the ISRO Robotics Challenge. Earlier roles on the team: member (since Mar 2024), finance manager and programming team lead.</p>
+              <ul class="tags"><li>Leadership</li><li>Safety</li><li>Robotics</li></ul>
+            </div>
+          </li>
+          <li>
+            <p class="when">Jul 2025 &ndash; Present</p>
+            <div>
+              <h3>Vice President &middot; AUTOVIT Club, VIT Chennai</h3>
+              <p>Run club operations and events, and help organise workshops on ROS, 3D printing and Raspberry Pi.</p>
+              <ul class="tags"><li>Events</li><li>Workshops</li></ul>
+            </div>
+          </li>
+          <li>
+            <p class="when">Jun &ndash; Jul 2025</p>
+            <div>
+              <h3>Intern, Sales &amp; Process Engineering &middot; H&Auml;NDLE GmbH, Germany</h3>
+              <p>Worked on industrial plant design, hydraulic system analysis, extrusion process simulation and robot cycle planning for loading and unloading, with hands-on CNC work.</p>
+              <ul class="tags"><li>Process engineering</li><li>Hydraulics</li><li>CNC</li></ul>
+            </div>
+          </li>
+          <li>
+            <p class="when">2023 &ndash; 2027</p>
+            <div>
+              <h3>B.Tech Mechatronics &amp; Automation &middot; VIT Chennai</h3>
+              <p>Sensors and instrumentation, microcontrollers, control systems, and AI applied to industrial inspection.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="contact" class="section" aria-labelledby="contact-h">
+        <h2 id="contact-h" class="section-title">Contact</h2>
+        <p>The quickest way to reach me is through <a href="https://www.linkedin.com/in/mithunvel-k-l-1b5845287" rel="noopener">LinkedIn</a>. My code and project write-ups are on <a href="https://github.com/KL-Mithunvel" rel="noopener">GitHub</a>.</p>
+      </section>
+
+      <footer class="footer">
+        <p>Hand-built with plain HTML, CSS and a little JavaScript. Pixel icons drawn in code (<code>tools/make_pixel_icons.py</code>).</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="assets/js/site.js"></script>
+</body>
+</html>
