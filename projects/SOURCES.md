@@ -11,6 +11,7 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 | `plc-2dof-arm/` | `PycharmProjects/PLC-2-DOF-manipulator` | github.com/KL-Mithunvel/PLC-2-DOF-manipulator | 49f2362 (946c153 at first copy) |
 | `ros-lab/` | `PycharmProjects/ROS_LAB` | github.com/KL-Mithunvel/ROS_LAB | 96892e0 |
 | `herc-26/` | `PycharmProjects/HERC-26` | github.com/KL-Mithunvel/HERC-26 | fa8ecb3 |
+| `sleepy/` | `PycharmProjects/SLEEPY` | github.com/KL-Mithunvel/SLEEPY | 8a0e3b8 |
 
 ## myownenigma/site
 - `index.html`, `template.html` ← `showcase/`. The page is **self-contained**: its 11 images are embedded as base64, so it has no separate image files. The 24 original photos, CAD renders and PDFs stay in the source repo (`images/`, `cad/`, `ppts/`) and were not copied.
@@ -32,6 +33,12 @@ Everything under `projects/` is a **copy** of material from the owner's other re
 - Facts come from `HERC-26` at fa8ecb3: `mega/rover_mega/rover_mega.ino` (frame layout, ramp constants, failsafe), `spanner/validation.py` (timings), `CLAUDE.md` and `docs/` (rules, sensors), `scratch/i2c_resilience_plan.md`, `git log` (321 commits, weekly counts, timeline). The ramp time (10 ticks) was computed from the firmware formula.
 - Images: `scratch/Screenshot 2026-03-29 171809.png` (dashboard on the simulated stack) and `ARM_sim/arm/ZeroOrientation.png` (arm pose planner).
 - Left out on purpose: other contributors' names, any competition result, and the plaintext proxy credentials in the repo's `README.md` (flagged to the owner).
+
+## sleepy/site (written 2026-11-17)
+- `index.html` is a **new page written for the showcase**; nothing was copied from the repo and the page has no image files (diagrams are inline SVG). Self-contained apart from the shared theme files.
+- Facts come from `SLEEPY` at 8a0e3b8: `.CLAUDE/CLAUDE.md`, `docs/` (charter, `SECURITY_REVIEW.md`, `MCP_CONNECTOR.md`, `RECOVERY.md`), `project/10-ai-pipeline.md`, `code/backend/scheduled_tasks.py` (job times), `md_editor.py` (secret patterns), `selfheal.py` (7 checks), `git log` (114 commits, monthly counts). Line count = non-test `code/backend/*.py`; 693 tests = last count recorded in `SECURITY_REVIEW.md`.
+- The edit demo uses a made-up file (`Personal/garden.md`); the fake key in the "Adds a secret" case is built at runtime so no key-shaped string is in the source.
+- Left out on purpose: the production hostname and the owner's email (both in the repo), server and nginx details, and security findings not yet deployed.
 
 ## Published pages (copied from claude.ai artifacts, 2026-11-03)
 

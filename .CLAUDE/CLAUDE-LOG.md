@@ -1,5 +1,14 @@
 # Claude Log
 
+## 2026-11-17 — Add the SLEEPY showcase page
+- Owner asked for a showcase page for github.com/KL-Mithunvel/SLEEPY (public repo; local clone in sync at 8a0e3b8).
+- New page `projects/sleepy/site/index.html`, written for the showcase (the repo has no site). Indigo accent, shared Plex fonts, shared bar/footer via `tools/apply_shared_theme.py` (SLEEPY added to `ORDER` after the 2-DOF arm). Prev/next links on the arm and HERC pages edited by hand to point at it.
+- Sections: what it does, architecture diagram (inline SVG), night-shift job clock (interactive), safe-edit demo (interactive, made-up file), self-healing table, security rules, timeline + commits-per-month chart, honest limits.
+- Left out on purpose: the production hostname, the owner's email, server/nginx details, and any security finding not yet deployed. No screenshots: the real screens show private notes.
+- Landing page: new 2026 entry (May, first commit 2026-05-11), no topic chip fits so `data-topics` is empty (only visible under "All"). New `sleepy` pixel icon (moon + Zz) in `tools/make_pixel_icons.py`; all icons regenerated, existing PNGs unchanged; `sleepy` added to `ICON_NAMES` in `assets/js/design-data.js`.
+- Owner then asked for a "Software & AI" topic chip: added to `index.html` (key `software`), with a new `software` pixel icon (code window, `</>`, AI spark) in `tools/make_pixel_icons.py` and `ICON_NAMES`. Only SLEEPY is tagged with it.
+- Checked with headless Chrome screenshots at 1280px and in a 390px iframe (no sideways scroll). Not checked in light mode or other browsers. Nothing committed.
+
 ## 2026-11-14 — Clear text, refined pixel art, visitor colour/theme picker, and a design lab
 - **Owner feedback:** the pixelated text looked bad; the pixel art was crude ("much cleaner and refined"); liked [tania.dev/me](https://www.taniarascia.com/me/); liked that visitors can choose colour and light/dark on her page; asked for "a large number of different designs" with a GUI to cut and choose.
 - **Found by screenshot (headless Chrome, `--screenshot`):** the earlier text-only reads of her pages missed that they have a fixed left sidebar (logo, bio, icon nav), plain list rows (no boxed cards), a bold clean sans-serif, and monospace only for dates and `#tags`. Her icons are detailed shaded 32x32 art. I had been building blind; from here I check my own pages with screenshots.

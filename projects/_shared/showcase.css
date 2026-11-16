@@ -1,0 +1,139 @@
+/* Shared look for every project page under projects/<id>/site/.
+   Loaded AFTER each page's own CSS. It does three things:
+   1. Defines one set of neutrals (page, card, text, muted text, lines) and one type family (IBM Plex).
+   2. Points each page's own token names at those shared values (the [data-sc="..."] blocks).
+      Each page keeps its own accent and its own meaning colours (grades, good/bad, parts).
+   3. Styles the shared bar at the top and the shared project links at the bottom.
+   Page markup and content are not changed by this file. */
+
+:root {
+  --sc-paper: #f3f4f2;   /* page background */
+  --sc-sheet: #fbfbfa;   /* cards, panels */
+  --sc-soft:  #e8eae7;   /* code, wells, empty slots */
+  --sc-ink:   #14171b;   /* text */
+  --sc-muted: #4f5761;   /* secondary text */
+  --sc-line:  #d6d9d6;   /* borders, rules */
+  --sc-head: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --sc-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sc-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sc-paper: #111418; --sc-sheet: #171b20; --sc-soft: #1f242a;
+    --sc-ink: #e7eaee; --sc-muted: #a3acb6; --sc-line: #2a3038;
+  }
+}
+:root[data-theme="dark"] {
+  --sc-paper: #111418; --sc-sheet: #171b20; --sc-soft: #1f242a;
+  --sc-ink: #e7eaee; --sc-muted: #a3acb6; --sc-line: #2a3038;
+}
+
+/* ---- 2. Token bridges, one per page. Same specificity as the pages' own
+        :root / dark blocks and loaded later, so these win in every theme. ---- */
+:root[data-sc="herc"] {
+  --paper: var(--sc-paper); --sheet: var(--sc-sheet); --ink: var(--sc-ink); --muted: var(--sc-muted); --rule: var(--sc-line);
+  --f-display: var(--sc-head); --f-body: var(--sc-body); --f-mono: var(--sc-mono);
+}
+:root[data-sc="magnet"] {
+  --bg: var(--sc-paper); --surface: var(--sc-sheet); --code-bg: var(--sc-soft); --ink: var(--sc-ink); --muted: var(--sc-muted); --line: var(--sc-line);
+  --f-display: var(--sc-head); --f-body: var(--sc-body); --f-mono: var(--sc-mono);
+}
+:root[data-sc="enigma"] {
+  /* --font-display stays Special Elite: it is the machine's own lettering (keys, lamps, rotor windows). */
+  --bg: var(--sc-paper); --surface: var(--sc-sheet); --surface-2: var(--sc-soft); --ink: var(--sc-ink); --ink-2: var(--sc-muted); --line: var(--sc-line);
+  --font-body: var(--sc-body); --font-mono: var(--sc-mono);
+}
+:root[data-sc="arm"] {
+  --bg: var(--sc-paper); --surface: var(--sc-sheet); --soft: var(--sc-soft); --ink: var(--sc-ink); --muted: var(--sc-muted); --line: var(--sc-line);
+  --display: var(--sc-head); --body: var(--sc-body); --mono: var(--sc-mono);
+}
+:root[data-sc="ros"] {
+  --bg: var(--sc-paper); --surface: var(--sc-sheet); --slot: var(--sc-soft); --ink: var(--sc-ink); --muted: var(--sc-muted); --line: var(--sc-line);
+  --f-display: var(--sc-head); --f-body: var(--sc-body); --f-mono: var(--sc-mono);
+}
+:root[data-sc="tile"] {
+  --paper: var(--sc-paper); --sheet: var(--sc-sheet); --ink: var(--sc-ink); --muted: var(--sc-muted); --rule: var(--sc-line);
+  --f-display: var(--sc-head); --f-body: var(--sc-body); --f-mono: var(--sc-mono);
+}
+:root[data-sc="traffic"] {
+  --bg: var(--sc-paper); --surface: var(--sc-sheet); --ink: var(--sc-ink); --ink-soft: var(--sc-muted); --rule: var(--sc-line);
+  --font-display: var(--sc-head); --font-body: var(--sc-body); --font-mono: var(--sc-mono);
+}
+
+/* ---- Shared type rules ---- */
+:root[data-sc] body { font-size: 16px; }
+:root[data-sc] h1,
+:root[data-sc] h2,
+:root[data-sc] h3 { font-family: var(--sc-head); font-weight: 600; font-stretch: normal; letter-spacing: -0.005em; text-transform: none; }
+:root[data-sc] h1 { letter-spacing: -0.015em; }
+
+/* Line the shared bar up with each page's own content column. */
+:root[data-sc] { --sc-wrap: 1080px; }
+:root[data-sc="tile"] { --sc-wrap: 1148px; }
+:root[data-sc="traffic"] { --sc-wrap: 1040px; }
+:root[data-sc="arm"] .sc-bar { margin-bottom: 40px; }
+
+/* ---- 3. Shared bar (top) and project links (bottom) ---- */
+.sc-bar, .sc-foot {
+  font-family: var(--sc-body); color: var(--sc-ink); background: var(--sc-paper);
+  -webkit-font-smoothing: antialiased; position: relative; z-index: 20;
+}
+.sc-foot { border-top: 1px solid var(--sc-line); margin-top: 48px; }
+.sc-in {
+  max-width: calc(var(--sc-wrap, 1080px) + 32px); margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sc-bar .sc-in { display: flex; align-items: center; gap: 8px 20px; flex-wrap: wrap; padding-block: 12px; font-size: 0.9rem; }
+.sc-bar a, .sc-foot a { color: inherit; text-decoration: none; }
+.sc-bar a:hover, .sc-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sc-back { font-weight: 500; }
+.sc-me { color: var(--sc-muted); }
+.sc-sp { flex: 1; }
+.sc-theme {
+  font: 500 0.78rem var(--sc-mono); color: var(--sc-muted); background: transparent;
+  border: 1px solid var(--sc-line); border-radius: 999px; padding: 4px 11px; cursor: pointer;
+}
+.sc-theme:hover { color: var(--sc-ink); border-color: var(--sc-muted); }
+.sc-bar :focus-visible, .sc-foot :focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; border-radius: 2px; }
+.sc-foot .sc-in { display: grid; grid-template-columns: 1fr 1fr; padding-block: 0; }
+.sc-foot a { display: flex; flex-direction: column; gap: 2px; padding: 20px 0 28px; min-width: 0; }
+.sc-foot a + a { text-align: right; border-left: 1px solid var(--sc-line); padding-left: 18px; }
+.sc-foot span { font: 400 0.72rem var(--sc-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-muted); }
+.sc-foot b { font-family: var(--sc-head); font-weight: 600; font-size: 1.15rem; overflow-wrap: anywhere; }
+.sc-foot .sc-all { grid-column: 1 / -1; border-top: 1px solid var(--sc-line); border-left: 0; padding: 14px 0 32px; text-align: center; font-size: 0.9rem; color: var(--sc-muted); }
+/* ---- Side navigation (built by showcase.js from the page's <h2> headings) ---- */
+:root[data-sc] { scroll-padding-top: 80px; }
+.sc-nav {
+  position: fixed; z-index: 1000; top: 0; bottom: 0; left: 0;
+  width: min(300px, 86vw); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--sc-paper); border-right: 1px solid var(--sc-line);
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 18px calc(24px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px));
+  font-family: var(--sc-body); font-size: 0.86rem; line-height: 1.35; color: var(--sc-muted);
+  transform: translateX(-105%); visibility: hidden; transition: transform .2s ease, visibility 0s linear .2s;
+  -webkit-font-smoothing: antialiased;
+}
+.sc-nav-open .sc-nav { transform: none; visibility: visible; transition: transform .2s ease; box-shadow: 0 0 40px rgba(0,0,0,.25); }
+.sc-shade { position: fixed; inset: 0; z-index: 999; background: rgba(10, 12, 15, .4); }
+.sc-nav-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.sc-nav-head span { font: 500 0.7rem var(--sc-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--sc-muted); }
+.sc-nav-x { font: 400 1.4rem/1 var(--sc-body); color: var(--sc-muted); background: none; border: 0; padding: 2px 6px; cursor: pointer; }
+.sc-nav ol { list-style: none; margin: 0; padding: 0; counter-reset: scn; }
+.sc-nav li { counter-increment: scn; }
+.sc-nav a { display: grid; grid-template-columns: 2em 1fr; padding: 6px 0 6px 10px; color: inherit; text-decoration: none; border-left: 2px solid var(--sc-line); }
+.sc-nav ol a::before { content: counter(scn, decimal-leading-zero); font: 400 0.7rem/1.9 var(--sc-mono); color: var(--sc-muted); opacity: .8; }
+.sc-nav a:hover { color: var(--sc-ink); }
+.sc-nav a[aria-current="true"] { color: var(--sc-ink); font-weight: 500; border-left-color: var(--sc-ink); }
+.sc-nav a.sc-nav-top { display: block; margin-bottom: 6px; font: 400 0.76rem var(--sc-mono); }
+.sc-nav :focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
+.sc-nav:focus { outline: none; }
+
+/* Rail mode: wide screens with room in the left margin. */
+.sc-rail .sc-nav {
+  top: 96px; bottom: auto; max-height: calc(100vh - 120px); width: 200px; padding: 0 4px 0 0;
+  background: transparent; border-right: 0; transform: none; visibility: visible; box-shadow: none; transition: none;
+}
+.sc-rail .sc-nav-x, .sc-rail .sc-nav-btn { display: none; }
+.sc-rail .sc-shade { display: none; }
+@media (prefers-reduced-motion: reduce) { .sc-nav, .sc-nav-open .sc-nav { transition: none; } }
+
+@media print { .sc-bar, .sc-foot, .sc-nav, .sc-shade { display: none; } }

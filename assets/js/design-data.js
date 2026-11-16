@@ -10,7 +10,7 @@ window.PortfolioDesign = (function () {
 
   var ICON_NAMES = [
     "tile", "rover", "traffic", "enigma", "arm", "ros", "magnet", "logo",
-    "projects", "about", "robotics", "vision", "embedded", "control", "simulation", "cad"
+    "projects", "about", "robotics", "vision", "embedded", "control", "simulation", "cad", "software", "sleepy"
   ];
 
   // Pixel-art icon styles (folders in design-lab/assets/icons/). "classic" is also the site default set.

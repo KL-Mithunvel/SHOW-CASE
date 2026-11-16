@@ -433,12 +433,36 @@ def cad(style):
     return c
 
 
+def software(style):
+    c = Canvas(style)
+    c.paint(rrect(1, 5, 26, 23, 3), "dark")                     # editor window
+    c.paint(rect(3, 11, 22, 15), "navy", bevel=False, outline=False)   # code area
+    for x, colour in ((5, "red"), (8, "amber"), (11, "green")):   # title-bar dots
+        c.dot(x, 8, colour)
+    for seg in (((10, 14), (6, 18.5)), ((6, 18.5), (10, 23)),    # <
+                ((18, 14), (22, 18.5)), ((22, 18.5), (18, 23)),  # >
+                ((16, 13), (12, 24))):                           # /
+        c.paint(line(seg[0], seg[1], 2), "teal", bevel=False, outline=False)
+    spark = rect(26, 1, 2, 9) | rect(23, 4, 8, 3)               # AI spark
+    c.paint(spark, "amber", bevel=False)
+    return c
+
+
+def sleepy(style):
+    c = Canvas(style)
+    c.paint(ellipse(13, 18, 11, 11) - ellipse(19, 13, 9, 9), "amber")   # crescent moon
+    for x, y, k in ((19, 7, 8), (26, 1, 5)):                    # Z, z
+        z = rect(x, y, k, 2) | rect(x, y + k - 2, k, 2) | line((x + k - 1.5, y + 1.5), (x + 1, y + k - 1.5), 2)
+        c.paint(z, "blue", bevel=False)
+    return c
+
+
 ICONS = {
     "tile": tile, "rover": rover, "traffic": traffic, "enigma": enigma,
     "arm": arm, "ros": ros, "magnet": magnet, "logo": logo,
     "projects": projects, "about": about, "robotics": robotics,
     "vision": vision, "embedded": embedded, "control": control,
-    "simulation": simulation, "cad": cad,
+    "simulation": simulation, "cad": cad, "software": software, "sleepy": sleepy,
 }
 
 
