@@ -11,6 +11,7 @@ PUBLISHED = ["index.html", "about.html", "assets", "projects"]
 MAX_MB = 50
 FORBIDDEN = ["showcase-private", "PERSONAL-DETAILS", ".env"]
 REF = re.compile(r'(?:href|src)\s*=\s*["\']([^"\']+)["\']', re.I)
+TAG = re.compile(r"<[^>]+>")
 errors = []
 
 
