@@ -13,7 +13,7 @@
   root.classList.add("js");
   if (!D) return;                                  // design-data.js missing: leave the plain page as is
 
-  var STORE_KEY = "portfolio-ui";                  // visitor choices: { theme, accent }
+  var STORE_KEY = "portfolio-ui";                  // visitor choices: { theme, accent, colours }
   var ICON_DIR = "design-lab/assets/icons/";
   var SPRITES_HREF = "design-lab/assets/sprites.css";
   var DARK_INK = "#1d1e24";
@@ -55,7 +55,11 @@
   function saveVisitor() {
     if (fromLab) return;                           // the lab previews; it must not touch saved choices
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({ theme: settings.theme, accent: settings.accent }));
+      // "colours" lets the project pages (projects/_shared/showcase.js) use the same accent without loading design-data.js.
+      var entry = D.ACCENTS[settings.accent] || D.ACCENTS.teal;
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        theme: settings.theme, accent: settings.accent, colours: { light: entry.light, dark: entry.dark }
+      }));
     } catch (e) { /* storage blocked: the choice still applies for this visit */ }
   }
 
@@ -303,7 +307,31 @@
     topics.hidden = false;                         // JavaScript works, so show the chips
   }
 
+  // ---- section links (profile / projects) --------------------------------
+  // The sidebar links jump to a section; the one being read gets aria-current as you scroll.
+  function setUpSectionLinks() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+    var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+    if (!links.length || sections.indexOf(null) !== -1) return;
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var line = window.innerHeight * 0.35, current = 0;
+      sections.forEach(function (sec, i) { if (sec.getBoundingClientRect().top <= line) current = i; });
+      var atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (atEnd) current = sections.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+      });
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   buildControls();
   setUpFilter();
+  setUpSectionLinks();
   apply();
 })();

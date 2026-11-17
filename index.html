@@ -54,8 +54,8 @@
 
         <nav class="nav" aria-label="Main">
           <ul>
-            <li><a href="index.html" aria-current="page"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32"><span>Projects</span></a></li>
-            <li><a href="about.html"><img class="ico" data-icon="about" src="assets/img/pixel/about.png" alt="" width="32" height="32"><span>About me</span></a></li>
+            <li><a href="#about"><img class="ico" data-icon="about" src="assets/img/pixel/about.png" alt="" width="32" height="32"><span>About me</span></a></li>
+            <li><a href="#projects"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32"><span>Projects</span></a></li>
           </ul>
         </nav>
 
@@ -69,9 +69,62 @@
     <main id="main" class="content">
 
       <div class="banner art" aria-hidden="true" hidden></div>
+      <section id="about" class="block" aria-labelledby="about-title">
+      <div class="prose">
+        <h1 class="page-title" id="about-title"><img class="ico" data-icon="about" src="assets/img/pixel/about.png" alt="" width="32" height="32">About me</h1>
+
+        <p>Hi, I&rsquo;m Mithunvel. I study Mechatronics and Automation at VIT Chennai (2023&ndash;2027). I like projects where hardware and software have to work together, and I try to finish them properly: tested, documented and handed over so someone else can run them.</p>
+        <p>I lead <strong>Team MOVIS</strong>, our university robotics team, and serve as its safety officer. I am also Vice President of the AUTOVIT automotive club. In summer 2025 I interned at <strong>H&Auml;NDLE GmbH</strong> in Germany on industrial plant design and process engineering.</p>
+        <p>You can see what I have built in the <a href="#projects">projects below</a>.</p>
+
+        <h2>Contact</h2>
+        <p>The quickest way to reach me is through the socials.</p>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/mithunvel-k-l-1b5845287" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/KL-Mithunvel" rel="noopener">GitHub</a></li>
+        </ul>
+
+        <h2>Experience</h2>
+        <ul>
+          <li>
+            <strong>Team Lead &amp; Safety Officer, Team MOVIS</strong>
+            <span class="meta">July 2025 to present</span>
+            Coordinate the electrical, mechanical and programming divisions for NASA HERC 2026 and the ISRO Robotics Challenge. Earlier roles on the team: member (since March 2024), finance manager and programming team lead.
+          </li>
+          <li>
+            <strong>Vice President, AUTOVIT Club, VIT Chennai</strong>
+            <span class="meta">July 2025 to present</span>
+            Run club operations and events, and help organise workshops on ROS, 3D printing and Raspberry Pi.
+          </li>
+          <li>
+            <strong>Intern, Sales &amp; Process Engineering, H&Auml;NDLE GmbH, Germany</strong>
+            <span class="meta">June to July 2025</span>
+            Worked on industrial plant design, hydraulic system analysis, extrusion process simulation and robot cycle planning for loading and unloading, with hands-on CNC work.
+          </li>
+        </ul>
+
+        <h2>Education</h2>
+        <ul>
+          <li>
+            <strong>B.Tech Mechatronics &amp; Automation, VIT Chennai</strong>
+            <span class="meta">2023 to 2027</span>
+            Sensors and instrumentation, microcontrollers, control systems, and AI applied to industrial inspection.
+          </li>
+        </ul>
+
+        <h2>Tools</h2>
+        <ul>
+          <li><strong>Languages:</strong> Python, C++, Verilog, JavaScript, SQL, Bash</li>
+          <li><strong>Platforms:</strong> Raspberry Pi, Arduino, ESP32, FPGA, PLC, ROS 2</li>
+          <li><strong>Design and simulation:</strong> Onshape, SolidWorks, KiCad, Ansys, MATLAB and Simulink</li>
+        </ul>
+      </div>
+      </section>
+
+      <section id="projects" class="block" aria-labelledby="projects-title">
       <div class="page-head">
         <div>
-          <h1 class="page-title"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32">Projects</h1>
+          <h2 class="page-title" id="projects-title"><img class="ico" data-icon="projects" src="assets/img/pixel/projects.png" alt="" width="32" height="32">Projects</h2>
           <p class="page-sub">Things I have designed, built and tested, listed by the year I started them.</p>
         </div>
         <div class="hero-slot" hidden></div>
@@ -180,10 +233,7 @@
       </section>
 
       <p class="empty" id="empty" hidden>No projects under this topic yet.</p>
-
-      <footer class="footer">
-        <p>Hand-built with plain HTML, CSS and a little JavaScript. Pixel icons are drawn in code (<code>tools/make_pixel_icons.py</code>). Layout inspired by <a href="https://www.taniarascia.com/blog/" rel="noopener">tania.dev</a>.</p>
-      </footer>
+      </section>
     </main>
   </div>
 

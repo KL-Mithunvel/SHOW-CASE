@@ -22,6 +22,28 @@
   var saved = read().theme;
   if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
 
+  /* Accent colour: the landing page saves the chosen colour (both its light and dark value) under
+     "portfolio-ui"; with no saved choice, use the site default (teal, same as DEFAULTS in
+     assets/js/design-data.js). The page's own main accent is bridged to it in showcase.css. */
+  var DEFAULT_ACCENT = { light: "#0b7a6f", dark: "#35d0c0" };
+  function hex(v) { return typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v) ? v : null; }
+  function applyAccent() {
+    var c = read().colours || {};
+    var dark = isDark();
+    var col = hex(dark ? c.dark : c.light) || DEFAULT_ACCENT[dark ? "dark" : "light"];
+    var s = root.style;
+    s.setProperty("--sc-accent", col);
+    s.setProperty("--sc-accent-ink", dark ? "#1d1e24" : "#ffffff");
+    s.setProperty("--sc-accent-soft", "color-mix(in srgb, " + col + " " + (dark ? "22%" : "14%") + ", var(--sc-sheet))");
+    root.classList.add("sc-accent");
+  }
+  applyAccent();
+  window.addEventListener("storage", applyAccent);   // colour changed in another tab
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", applyAccent);
+  }
+
   function label(btn) {
     var dark = isDark();
     btn.textContent = dark ? "Light" : "Dark";
@@ -41,7 +63,7 @@
     });
     // Keep the label right if the page's own controls or the system change the theme.
     if (window.MutationObserver) {
-      new MutationObserver(function () { Array.prototype.forEach.call(btns, label); })
+      new MutationObserver(function () { Array.prototype.forEach.call(btns, label); applyAccent(); })
         .observe(root, { attributes: true, attributeFilter: ["data-theme"] });
     }
     buildNav();

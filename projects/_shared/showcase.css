@@ -60,6 +60,29 @@
   --font-display: var(--sc-head); --font-body: var(--sc-body); --font-mono: var(--sc-mono);
 }
 
+/* ---- Accent bridges. showcase.js sets --sc-accent / --sc-accent-ink / --sc-accent-soft on <html>
+        (from the colour chosen on the landing page) and adds the class "sc-accent".
+        Only each page's main accent moves; meaning colours (grades, good/bad, parts) stay as they are. ---- */
+:root.sc-accent[data-sc="herc"]    { --rust: var(--sc-accent); --rust-soft: var(--sc-accent-soft); --on-rust: var(--sc-accent-ink); }
+:root.sc-accent[data-sc="magnet"]  { --accent: var(--sc-accent); --accent-soft: var(--sc-accent-soft); }
+:root.sc-accent[data-sc="enigma"]  { --accent: var(--sc-accent); --accent-ink: var(--sc-accent-ink); }
+:root.sc-accent[data-sc="arm"]     { --accent: var(--sc-accent); }
+:root.sc-accent[data-sc="ros"]     { --accent: var(--sc-accent); --accent-ink: var(--sc-accent-ink); }
+:root.sc-accent[data-sc="tile"]    { --belt: var(--sc-accent); --belt-soft: var(--sc-accent-soft); }
+:root.sc-accent[data-sc="traffic"] { --accent: var(--sc-accent); --accent-soft: var(--sc-accent-soft); }
+:root.sc-accent[data-sc="sleepy"]  { --acc: var(--sc-accent); --acc-soft: var(--sc-accent-soft); --on-acc: var(--sc-accent-ink); }
+/* The shared bar and links pick the accent up too. */
+.sc-back, .sc-foot b { color: var(--sc-accent, inherit); }
+.sc-theme:hover, .sc-nav a:hover { border-color: var(--sc-accent, var(--sc-muted)); }
+.sc-nav a[aria-current="true"] { border-left-color: var(--sc-accent, var(--sc-ink)); }
+.sc-bar :focus-visible, .sc-foot :focus-visible, .sc-nav :focus-visible { outline-color: var(--sc-accent, var(--sc-ink)); }
+
+/* SLEEPY had no neutral bridge yet; give it the same neutrals as the others. */
+:root[data-sc="sleepy"] {
+  --paper: var(--sc-paper); --sheet: var(--sc-sheet); --ink: var(--sc-ink); --muted: var(--sc-muted); --rule: var(--sc-line);
+  --f-display: var(--sc-head); --f-body: var(--sc-body); --f-mono: var(--sc-mono);
+}
+
 /* ---- Shared type rules ---- */
 :root[data-sc] body { font-size: 16px; }
 :root[data-sc] h1,
