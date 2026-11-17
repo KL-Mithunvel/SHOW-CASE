@@ -2,7 +2,10 @@
 
 Compared 2026-11-14: the seven project pages under `projects/*/site/` (Enigma, Traffic, Magnet, Tile, 2-DOF arm, ROS lab, HERC-26), read from source (CSS, markup, scripts). **Not yet viewed side by side in a browser**, so visual impressions below are inferred from the CSS. Content differences are expected; this lists the *presentation and plumbing* differences only.
 
-## Status — first pass done 2026-11-14 (not committed)
+## Status — resolved 2026-11-17
+All eight project pages (SLEEPY, HERC-26, Look-Ahead Signals, MyOwnEnigma, ROS lab, 2-DOF arm, Magnet, Tile) are now built on one template: `projects/_shared/base.css` + `base.js`, one `project.css` / `project.js` per page. Rules, skeleton and components: `projects/TEMPLATE.md`. Owner's decisions: one accent for all pages (the landing page's), local copies may diverge from the published artifacts, template first then one page per commit. `tools/check_site.py` now fails any project page that is not on the template. Embedded base64 media (Enigma, Traffic, ROS, HERC) was moved to real files. The old overlay (`showcase.css/js`, `tools/apply_shared_theme.py`) is gone. Everything below is the original audit and the earlier first pass, kept as the record of why.
+
+## Earlier status — first pass 2026-11-14 (superseded)
 - `projects/_shared/showcase.css` + `showcase.js`, wired into all 7 pages by `tools/apply_shared_theme.py` (re-run it after re-copying any page from its source; already-themed pages are skipped).
 - Shared now: one type family (IBM Plex Sans / Sans Condensed / Mono), one set of neutrals in light and dark, sentence-case headings, 16px body, a top bar ("← All projects", name, theme button) and previous/next project links at the bottom. Theme choice is stored under the landing page's key, so it carries across pages.
 - Each page keeps its own accent and meaning colours. Enigma keeps Special Elite for the machine's own lettering only. Tile keeps its own theme button (it stores the theme under a different key).

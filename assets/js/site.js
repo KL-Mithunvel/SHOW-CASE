@@ -55,7 +55,7 @@
   function saveVisitor() {
     if (fromLab) return;                           // the lab previews; it must not touch saved choices
     try {
-      // "colours" lets the project pages (projects/_shared/showcase.js) use the same accent without loading design-data.js.
+      // "colours" lets the project pages (projects/_shared/base.js) use the same accent without loading design-data.js.
       var entry = D.ACCENTS[settings.accent] || D.ACCENTS.teal;
       localStorage.setItem(STORE_KEY, JSON.stringify({
         theme: settings.theme, accent: settings.accent, colours: { light: entry.light, dark: entry.dark }
