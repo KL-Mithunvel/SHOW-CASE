@@ -1,5 +1,9 @@
 # Claude Log
 
+## 2026-11-17 — Update workflow action versions
+- Cause: deploy run warned that checkout@v4, setup-python@v5, configure-pages@v5, deploy-pages@v4, upload-artifact@v4 target Node 20. Latest releases read from the GitHub API: checkout v7, setup-python v7, configure-pages v6, upload-pages-artifact v5, deploy-pages v5. Runner pinned to `ubuntu-24.04` (was `ubuntu-latest`, which moves to Ubuntu 26 on 2026-10-19... per the warning text) so the OS only changes when we change it.
+- Not yet verified: the new versions have not run. Check the `deploy` run after merging to `prod`.
+
 ## 2026-11-17 — Plan and set up GitHub Pages hosting (main -> prod)
 - Owner asked for a standard self-hosting procedure on GitHub with a `prod` branch: build, commit and test on `main`, then a PR into `prod` deploys. Repo is public. `design-lab/` is not published.
 - Added `.github/workflows/check.yml` (runs on push to `main` and on PRs to `prod`), `.github/workflows/deploy.yml` (on push to `prod`; stages only `index.html`, `about.html`, `assets/`, `projects/` into `_site/`), `tools/check_site.py` (broken links, files over 50 MB, tracked private paths, root-absolute links; skips `opt-img` images that have a fallback) and `DEPLOY.md` (procedure, rollback, one-time settings). `CLAUDE.md` branch policy now names `prod`.
