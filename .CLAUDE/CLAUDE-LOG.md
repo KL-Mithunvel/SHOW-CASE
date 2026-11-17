@@ -4,7 +4,8 @@
 ## 2026-11-17 — Shared accent, one-page profile + projects
 - Accent colour chosen on the landing page now carries to all eight project pages (`projects/_shared/showcase.{css,js}`; `site.js` saves `colours` in `portfolio-ui`). SLEEPY got the shared neutrals. Meaning colours unchanged.
 - Profile (about) moved into `index.html` above Projects as one scrolling page; sidebar links jump to sections and the active one follows the scroll. `about.html` is now a redirect to `index.html#about`. Footer text removed.
-- Not viewed in a browser yet; `tools/check_site.py` passes.
+- Icons follow the accent: `site.js` recolours the teal pixels of the PNG icons (and the favicon) to the accent's hue on a canvas; the CSS illustrations in `art.css` use `var(--accent)`. Traffic-light colours and the robot's antenna keep their meaning colours. Needs http(s): on `file://` the icons keep their original colours. `design-lab/assets/sprites.css` (CSS box-shadow icon mode, lab only) is not recoloured.
+- Checked in headless Chrome with the violet accent: logo, About and Projects icons turned violet. `tools/check_site.py` passes.
 ## 2026-11-17 — Update workflow action versions
 - Cause: deploy run warned that checkout@v4, setup-python@v5, configure-pages@v5, deploy-pages@v4, upload-artifact@v4 target Node 20. Latest releases read from the GitHub API: checkout v7, setup-python v7, configure-pages v6, upload-pages-artifact v5, deploy-pages v5. Runner pinned to `ubuntu-24.04` (was `ubuntu-latest`, which the runner notice says migrates to Ubuntu 26 from 2026-10-19) so the OS only changes when we change it.
 - Not yet verified: the new versions have not run. Check the `deploy` run after merging to `prod`.
