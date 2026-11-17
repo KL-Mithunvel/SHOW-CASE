@@ -21,6 +21,7 @@ This repo holds **two independent copies** of the template, kept as separate bra
 - **Do not treat `machine-vision` as unmerged work.** Do not suggest merging it, syncing it, or resolving differences between the two branches.
 - **To share an improvement, copy the text by hand** into the other branch's files, as its own commit on that branch, and only after asking the owner.
 - **Check `git branch --show-current` before editing.** Changes belong to the branch you are on.
+- **`prod` is the deployment branch (GitHub Pages).** The only allowed merge is a PR from `main` into `prod`, after the build is committed and tested. Never commit to `prod` directly. The deploy rules are in `DEPLOY.md`.
 
 ---
 

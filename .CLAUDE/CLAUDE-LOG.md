@@ -1,5 +1,11 @@
 # Claude Log
 
+## 2026-11-17 — Plan and set up GitHub Pages hosting (main -> prod)
+- Owner asked for a standard self-hosting procedure on GitHub with a `prod` branch: build, commit and test on `main`, then a PR into `prod` deploys. Repo is public. `design-lab/` is not published.
+- Added `.github/workflows/check.yml` (runs on push to `main` and on PRs to `prod`), `.github/workflows/deploy.yml` (on push to `prod`; stages only `index.html`, `about.html`, `assets/`, `projects/` into `_site/`), `tools/check_site.py` (broken links, files over 50 MB, tracked private paths, root-absolute links; skips `opt-img` images that have a fallback) and `DEPLOY.md` (procedure, rollback, one-time settings). `CLAUDE.md` branch policy now names `prod`.
+- Not done yet: the `prod` branch does not exist, and the Pages source, `prod` branch protection and environment rule (listed in `DEPLOY.md`) are GitHub settings the owner must set. Nothing has run on GitHub yet.
+- `site.js` falls back to `design-lab/` icons only for non-classic styles; the default is classic, so the published site works without it.
+
 ## 2026-11-17 — Add the SLEEPY showcase page
 - Owner asked for a showcase page for github.com/KL-Mithunvel/SLEEPY (public repo; local clone in sync at 8a0e3b8).
 - New page `projects/sleepy/site/index.html`, written for the showcase (the repo has no site). Indigo accent, shared Plex fonts, shared bar/footer via `tools/apply_shared_theme.py` (SLEEPY added to `ORDER` after the 2-DOF arm). Prev/next links on the arm and HERC pages edited by hand to point at it.
