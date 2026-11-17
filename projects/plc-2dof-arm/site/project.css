@@ -1,0 +1,101 @@
+/* PLC 2-DOF arm only: the parts that are not in the shared template (projects/_shared/base.css).
+   Figure cards, simulation bar charts, the motion player, PLC stepper, process steps. Material colours are data, not decoration:
+   steel and aluminium keep their own colours, and the third data series is a fixed orange so it never clashes with the accent. */
+
+:root { --steel: #3F6185; --alu: #24877A; --series-3: #D2601A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --steel: #7FA3C9; --alu: #4FC0AE; --series-3: #F08A46; } }
+:root[data-theme="dark"] { --steel: #7FA3C9; --alu: #4FC0AE; --series-3: #F08A46; }
+
+.block { display: flex; flex-direction: column; gap: 1.1rem; }
+.block > p { max-width: 68ch; }
+.muted { color: var(--muted); }
+.callout b { color: var(--accent); }
+.stat b small { font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-left: 2px; }
+.shot a.zoom { border-radius: 3px; overflow: hidden; background: #fff; }
+.chip { color: #fff; border: 0; padding: 1px 7px; font-size: 0.7rem; }
+
+.fig{background:var(--chip);border:1px solid var(--border);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;margin:0}
+.fig svg{width:100%;height:auto;display:block}
+.grid2.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:520px){.grid2.two{grid-template-columns:1fr}}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.part{background:var(--chip);border:1px solid var(--border);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.part .tag{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.chip{display:inline-block;font-family:var(--font-mono);font-size:.7rem;padding:1px 7px;border-radius:99px;color:#fff;vertical-align:middle}
+.chip.st{background:var(--steel)} .chip.al{background:var(--alu)}
+ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.tblwrap{overflow-x:auto}
+td.mono{font-family:var(--font-mono);font-size:.84rem;white-space:nowrap}
+/* hero */
+.heroimg{margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--chip)}
+.heroimg img{display:block;width:100%;height:auto;border:0;border-radius:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.92rem;color:var(--muted)}
+.meta b{color:var(--text);font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:.85rem;text-decoration:none;padding:9px 14px;border-radius:4px;border:1px solid var(--border);background:var(--chip);color:var(--text)}
+.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+/* photo pair */
+.photos{display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:stretch}
+@media (max-width:620px){.photos{grid-template-columns:1fr}}
+.photos figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.photos img{width:100%;height:100%;object-fit:cover;border-radius:6px;border:1px solid var(--border);display:block}
+.photos .pw{flex:1;min-height:0}
+/* gallery */
+.shot{margin:0;background:var(--chip);border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.shot img{display:block;width:100%;height:auto;border:0;border-radius:0}
+.shot.tall img{max-height:520px;object-fit:contain;margin:0 auto}
+/* bars */
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:64px 1fr 92px;align-items:center;gap:10px;font-size:.88rem}
+.bar .lab{color:var(--muted)}
+.bar .track{height:14px;background:var(--hover);border-radius:2px;position:relative}
+.bar .fill{height:100%;border-radius:2px;display:block}
+.bar .val{font-family:var(--font-mono);font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--bad)}
+/* process */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:p}
+@media (max-width:620px){.process{grid-template-columns:1fr 1fr;row-gap:16px}}
+.process div{padding:0 14px 0 0;display:flex;flex-direction:column;gap:4px;border-top:3px solid var(--border);padding-top:10px}
+.process div:first-child{border-top-color:var(--accent)}
+.process b{font-family:var(--font-body);font-size:1.2rem;font-weight:600}
+.process span{font-size:.88rem;color:var(--muted)}
+.process em{font-family:var(--font-mono);font-style:normal;font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+/* player */
+.views{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+@media (max-width:540px){.views{grid-template-columns:1fr}}
+.view{border:1px solid var(--border);border-radius:4px;padding:8px;min-width:0}
+.view .vt{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+button.play{font-family:var(--font-mono);font-size:.85rem;background:var(--text);color:var(--bg);border:0;border-radius:4px;padding:8px 14px;cursor:pointer}
+input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:480px){.readout{grid-template-columns:repeat(2,1fr)}}
+.ro{background:var(--hover);border-radius:4px;padding:8px 10px}
+.ro .k{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ro .v{font-family:var(--font-mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.formula{font-family:var(--font-mono);font-size:.9rem;background:var(--hover);border-radius:4px;padding:10px 14px;overflow-x:auto;white-space:nowrap}
+.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.flag{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid var(--border);border-radius:6px;background:var(--chip)}
+.flag b{font-family:var(--font-body);font-size:1.12rem;font-weight:600}
+.flag span{font-size:.9rem;color:var(--muted)}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.person{background:var(--chip);border:1px solid var(--border);border-radius:6px;padding:14px}
+.person b{display:block;font-size:1.05rem}
+.person span{font-family:var(--font-mono);font-size:.78rem;color:var(--muted)}
+.skills{display:flex;flex-wrap:wrap;gap:8px}
+.skills span{font-size:.84rem;padding:4px 10px;border:1px solid var(--border);border-radius:99px;background:var(--chip)}
+svg text{font-family:var(--font-mono)}
+/* PLC program section */
+.gallery.big{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.stepper{display:flex;flex-direction:column;gap:12px}
+.sbs{display:flex;flex-wrap:wrap;gap:6px}
+.sb{font-family:var(--font-mono);font-size:.78rem;padding:6px 10px;border:1px solid var(--border);border-radius:4px;background:var(--chip);color:var(--text);cursor:pointer}
+.sb[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
+.detail>div{background:var(--hover);border-radius:4px;padding:10px 12px;min-width:0;overflow-wrap:anywhere}
+.detail .k{font-family:var(--font-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:2px}
+.pill{display:inline-block;font-family:var(--font-mono);font-size:.75rem;padding:2px 9px;border-radius:99px;border:1px solid var(--border);color:var(--muted)}
+.pill.on{background:var(--ok);border-color:var(--ok);color:var(--bg)}
+.codebits{font-family:var(--font-mono);font-size:.84rem}

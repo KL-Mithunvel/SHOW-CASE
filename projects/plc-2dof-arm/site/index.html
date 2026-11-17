@@ -1,173 +1,46 @@
-<!doctype html><html lang="en" data-sc="arm"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>PLC 2-DOF Robotic Arm</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
-<style>
-/* Layout: engineering case study — photo-led hero, then one ~760px reading column of chapters (build → simulate → size → control → results), each pairing short prose with real figures; wide figure grids break out to 1080px. */
-:root{
-  --bg:#F2F4F6; --surface:#FFFFFF; --ink:#17212C; --muted:#5B6876; --line:#D4DBE2; --soft:#E7ECF1;
-  --steel:#3F6185; --alu:#24877A; --accent:#D2601A; --bad:#BE3A2A; --good:#2E8B4E;
-  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
-  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#11171D; --surface:#19212A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2E3A46; --soft:#222C36;
-  --steel:#7FA3C9; --alu:#4FC0AE; --accent:#F08A46; --bad:#EE6A57; --good:#5CC17E; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#11171D; --surface:#19212A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2E3A46; --soft:#222C36;
-  --steel:#7FA3C9; --alu:#4FC0AE; --accent:#F08A46; --bad:#EE6A57; --good:#5CC17E; color-scheme:dark}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px}
-.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:64px}
-.wide{width:min(1080px,calc(100vw - 32px));margin-left:50%;transform:translateX(-50%)}
-h1,h2,h3{font-family:var(--display);line-height:1.08;text-wrap:balance;margin:0;letter-spacing:.01em}
-h1{font-size:clamp(2.6rem,8.5vw,4.2rem);font-weight:700}
-h2{font-size:clamp(1.9rem,5.5vw,2.5rem);font-weight:600}
-h3{font-size:1.35rem;font-weight:600}
-p{margin:0}
-a{color:var(--steel);text-underline-offset:3px}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-section{display:flex;flex-direction:column;gap:18px}
-.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-.lede{font-size:1.12rem;color:var(--muted);max-width:64ch}
-.muted{color:var(--muted)}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.fig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;margin:0}
-.fig svg{width:100%;height:auto;display:block}
-.cap,figcaption{font-size:.84rem;color:var(--muted)}
-.note{border-left:3px solid var(--accent);padding:4px 0 4px 14px}
-.note b{color:var(--accent)}
-.grid2.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (max-width:520px){.grid2.two{grid-template-columns:1fr}}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-.part{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
-.part .tag{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.chip{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:1px 7px;border-radius:99px;color:#fff;vertical-align:middle}
-.chip.st{background:var(--steel)} .chip.al{background:var(--alu)}
-ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
-.tblwrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:440px}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
-td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
-td.mono{font-family:var(--mono);font-size:.84rem;white-space:nowrap}
-/* hero */
-.hero{display:flex;flex-direction:column;gap:22px}
-.heroimg{margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
-.heroimg img{display:block;width:100%;height:auto}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
-.stat .v{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1}
-.stat .v small{font-size:1rem;font-weight:600;color:var(--muted);margin-left:2px}
-.stat .k{font-size:.82rem;color:var(--muted)}
-.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.92rem;color:var(--muted)}
-.meta b{color:var(--ink);font-weight:600}
-.links{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:9px 14px;border-radius:4px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
-.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-/* photo pair */
-.photos{display:grid;grid-template-columns:2fr 1fr;gap:12px;align-items:stretch}
-@media (max-width:620px){.photos{grid-template-columns:1fr}}
-.photos figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
-.photos img{width:100%;height:100%;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
-.photos .pw{flex:1;min-height:0}
-/* gallery */
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.shot{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.shot button{all:unset;cursor:zoom-in;display:block;border-radius:3px;overflow:hidden;background:#fff}
-.shot button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.shot img{display:block;width:100%;height:auto}
-.shot.tall img{max-height:520px;object-fit:contain;margin:0 auto}
-dialog{border:0;padding:0;background:transparent;max-width:min(1400px,96vw);max-height:94vh}
-dialog::backdrop{background:rgba(10,14,18,.86)}
-dialog img{display:block;max-width:100%;max-height:86vh;margin:0 auto;border-radius:4px;background:#fff}
-dialog p{color:#E3E9EF;font-size:.88rem;text-align:center;padding-top:10px}
-dialog form{position:absolute;top:8px;right:8px}
-dialog .x{background:#000a;color:#fff;border:0;border-radius:4px;padding:6px 10px;font-family:var(--mono);cursor:pointer}
-/* bars */
-.bars{display:flex;flex-direction:column;gap:10px}
-.bar{display:grid;grid-template-columns:64px 1fr 92px;align-items:center;gap:10px;font-size:.88rem}
-.bar .lab{color:var(--muted)}
-.bar .track{height:14px;background:var(--soft);border-radius:2px;position:relative}
-.bar .fill{height:100%;border-radius:2px;display:block}
-.bar .val{font-family:var(--mono);font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--muted)}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-.mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--bad)}
-/* process */
-.process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:p}
-@media (max-width:620px){.process{grid-template-columns:1fr 1fr;row-gap:16px}}
-.process div{padding:0 14px 0 0;display:flex;flex-direction:column;gap:4px;border-top:3px solid var(--line);padding-top:10px}
-.process div:first-child{border-top-color:var(--accent)}
-.process b{font-family:var(--display);font-size:1.2rem;font-weight:600}
-.process span{font-size:.88rem;color:var(--muted)}
-.process em{font-family:var(--mono);font-style:normal;font-size:.7rem;color:var(--muted);letter-spacing:.08em}
-/* player */
-.views{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
-@media (max-width:540px){.views{grid-template-columns:1fr}}
-.view{border:1px solid var(--line);border-radius:4px;padding:8px;min-width:0}
-.view .vt{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-button.play{font-family:var(--mono);font-size:.85rem;background:var(--ink);color:var(--bg);border:0;border-radius:4px;padding:8px 14px;cursor:pointer}
-input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
-.readout{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-@media (max-width:480px){.readout{grid-template-columns:repeat(2,1fr)}}
-.ro{background:var(--soft);border-radius:4px;padding:8px 10px}
-.ro .k{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.ro .v{font-family:var(--mono);font-size:1.05rem;font-variant-numeric:tabular-nums}
-.formula{font-family:var(--mono);font-size:.9rem;background:var(--soft);border-radius:4px;padding:10px 14px;overflow-x:auto;white-space:nowrap}
-.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-.flag{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
-.flag b{font-family:var(--display);font-size:1.12rem;font-weight:600}
-.flag span{font-size:.9rem;color:var(--muted)}
-.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.person{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px}
-.person b{display:block;font-size:1.05rem}
-.person span{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
-.skills{display:flex;flex-wrap:wrap;gap:8px}
-.skills span{font-size:.84rem;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
-footer{font-size:.84rem;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
-svg text{font-family:var(--mono)}
-/* PLC program section */
-.gallery.big{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
-.stepper{display:flex;flex-direction:column;gap:12px}
-.sbs{display:flex;flex-wrap:wrap;gap:6px}
-.sb{font-family:var(--mono);font-size:.78rem;padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);cursor:pointer}
-.sb[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
-.detail>div{background:var(--soft);border-radius:4px;padding:10px 12px;min-width:0;overflow-wrap:anywhere}
-.detail .k{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:2px}
-.pill{display:inline-block;font-family:var(--mono);font-size:.75rem;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
-.pill.on{background:var(--good);border-color:var(--good);color:var(--bg)}
-.codebits{font-family:var(--mono);font-size:.84rem}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+<!doctype html>
+<html lang="en" data-project="arm">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PLC 2-DOF Robotic Arm · K L Mithunvel</title>
 <meta name="description" content="A PLC-driven pick-and-place arm that lifts 5 kg with an electromagnet, checked in Ansys first.">
-<link rel="stylesheet" href="../../_shared/showcase.css">
-<script src="../../_shared/showcase.js"></script>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../../../assets/img/pixel/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../_shared/base.css">
+<link rel="stylesheet" href="project.css">
+<script src="../../_shared/base.js"></script>
 </head>
 <body>
-<nav class="sc-bar" aria-label="Portfolio"><div class="sc-in"><a class="sc-back" href="../../../index.html">← All projects</a><span class="sc-me">K L Mithunvel</span><span class="sc-sp"></span><button class="sc-theme" type="button">Dark</button></div></nav>
+<a class="skip" href="#main">Skip to content</a>
 
+<nav class="pbar" aria-label="Portfolio">
+  <div class="pwrap">
+    <a class="back" href="../../../index.html">← All projects</a>
+    <span class="name">K L Mithunvel</span>
+    <span class="sp"></span>
+    <button class="pbtn theme" type="button">Dark</button>
+  </div>
+</nav>
 
-<div class="wrap">
+<div class="pwrap">
+<main id="main">
 
 <header class="hero">
   <span class="eyebrow">Project case study · Mechatronics & Automation · VIT Chennai</span>
   <h1>A PLC-controlled 2-DOF robotic arm, designed by simulation</h1>
-  <p class="lede">A two-axis pick-and-place arm that lifts a 5&nbsp;kg ferrous part with an electromagnet, swings it 90° and sets it down. The structure was checked in Ansys before building, those results set the motor sizes, and the arm runs on an industrial PLC with a touch-panel HMI. It has been built and tested on the bench.</p>
+  <p class="lead">A two-axis pick-and-place arm that lifts a 5&nbsp;kg ferrous part with an electromagnet, swings it 90° and sets it down. The structure was checked in Ansys before building, those results set the motor sizes, and the arm runs on an industrial PLC with a touch-panel HMI. It has been built and tested on the bench.</p>
   <figure class="heroimg"><img src="img/arm-photo-side.jpg" alt="The built 2-DOF robotic arm: black steel base with a 2DOF ROBOTIC ARM label, base servo, shoulder servo, long aluminium Link-1 and the electromagnet at the end" width="1600" height="1200"></figure>
   <div class="stats">
-    <div class="stat"><span class="v">5<small>kg</small></span><span class="k">Design payload (electromagnet)</span></div>
-    <div class="stat"><span class="v">420<small>mm</small></span><span class="k">Reach, shoulder to tool point</span></div>
-    <div class="stat"><span class="v">0.085<small>mm</small></span><span class="k">Max simulated deflection</span></div>
-    <div class="stat"><span class="v">4.63</span><span class="k">Min factor of safety (joint)</span></div>
-    <div class="stat"><span class="v">2</span><span class="k">Harmonic-drive servo axes</span></div>
-    <div class="stat"><span class="v">200<small>kHz</small></span><span class="k">PLC pulse outputs</span></div>
+    <div class="stat"><b>5<small>kg</small></b><span>Design payload (electromagnet)</span></div>
+    <div class="stat"><b>420<small>mm</small></b><span>Reach, shoulder to tool point</span></div>
+    <div class="stat"><b>0.085<small>mm</small></b><span>Max simulated deflection</span></div>
+    <div class="stat"><b>4.63</b><span>Min factor of safety (joint)</span></div>
+    <div class="stat"><b>2</b><span>Harmonic-drive servo axes</span></div>
+    <div class="stat"><b>200<small>kHz</small></b><span>PLC pulse outputs</span></div>
   </div>
   <div class="meta">
     <span><b>Team</b> Mithunvel K L (23BMH1029) · Vaishnav V G (24BMH1035) · Nadraj</span>
@@ -180,7 +53,7 @@ svg text{font-family:var(--mono)}
   </div>
 </header>
 
-<section>
+<section class="block">
   <span class="eyebrow">In short</span>
   <h2>What this project shows</h2>
   <div class="grid2 two">
@@ -197,30 +70,30 @@ svg text{font-family:var(--mono)}
   </div>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">The hardware</span>
   <h2>The arm as built</h2>
-  <div class="photos wide">
+  <div class="photos">
     <figure><div class="pw"><img src="img/arm-photo-side.jpg" alt="Side view of the arm with Link-1 raised" loading="lazy"></div><figcaption>Side view. Steel base with the base servo under the turntable, shoulder servo on the side, aluminium Link-1, and the electromagnet on the drop link.</figcaption></figure>
     <figure><div class="pw"><img src="img/arm-photo-load.jpg" alt="The arm holding stacked steel test plates on its electromagnet" loading="lazy"></div><figcaption>Holding stacked steel test plates on the electromagnet.</figcaption></figure>
   </div>
   <div class="fig">
     <svg viewBox="0 0 640 330" role="img" aria-label="Labelled side view of the arm">
       <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="var(--muted)" stroke-width="1.5"/></pattern>
-      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker></defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--series-3)"/></marker></defs>
       <rect x="60" y="292" width="210" height="12" fill="url(#hatch)"/>
       <rect x="80" y="270" width="170" height="22" rx="3" fill="var(--steel)" opacity=".9"/>
       <rect x="100" y="205" width="130" height="65" fill="none" stroke="var(--steel)" stroke-width="6"/>
       <rect x="140" y="215" width="50" height="55" fill="var(--bad)" opacity=".75"/>
       <rect x="125" y="190" width="80" height="16" fill="var(--steel)"/>
       <rect x="140" y="140" width="50" height="52" fill="var(--steel)" opacity=".9"/>
-      <circle cx="165" cy="140" r="26" fill="var(--steel)"/><circle cx="165" cy="140" r="9" fill="var(--surface)"/>
-      <rect x="155" y="124" width="320" height="32" rx="16" fill="var(--alu)"/><circle cx="459" cy="140" r="7" fill="var(--surface)"/>
+      <circle cx="165" cy="140" r="26" fill="var(--steel)"/><circle cx="165" cy="140" r="9" fill="var(--chip)"/>
+      <rect x="155" y="124" width="320" height="32" rx="16" fill="var(--alu)"/><circle cx="459" cy="140" r="7" fill="var(--chip)"/>
       <rect x="445" y="140" width="28" height="100" rx="6" fill="var(--alu)" opacity=".85"/>
-      <rect x="440" y="236" width="38" height="12" fill="var(--ink)" opacity=".7"/>
+      <rect x="440" y="236" width="38" height="12" fill="var(--text)" opacity=".7"/>
       <rect x="420" y="250" width="78" height="62" rx="4" fill="var(--steel)" opacity=".55"/>
-      <text x="459" y="286" text-anchor="middle" font-size="13" fill="var(--ink)">5 kg</text>
-      <g font-size="12" fill="var(--ink)">
+      <text x="459" y="286" text-anchor="middle" font-size="13" fill="var(--text)">5 kg</text>
+      <g font-size="12" fill="var(--text)">
         <line x1="40" y1="281" x2="80" y2="281" stroke="var(--muted)"/><text x="6" y="270">BASE</text>
         <line x1="190" y1="240" x2="285" y2="240" stroke="var(--muted)"/><text x="290" y="244">BASE SERVO M8025 (101:1)</text>
         <line x1="140" y1="140" x2="70" y2="110" stroke="var(--muted)"/><text x="6" y="104">SHOULDER SERVO M8010</text>
@@ -230,7 +103,7 @@ svg text{font-family:var(--mono)}
       </g>
     </svg>
     <div class="legend"><span><i style="background:var(--steel)"></i>Mild steel AISI 1010</span><span><i style="background:var(--alu)"></i>Aluminium 6061</span><span><i style="background:var(--bad);opacity:.75"></i>Base servo</span></div>
-    <span class="cap">Schematic side view, not to scale. Two actuated axes: base rotation (waist) and shoulder pitch.</span>
+    <span class="note">Schematic side view, not to scale. Two actuated axes: base rotation (waist) and shoulder pitch.</span>
   </div>
   <div class="tblwrap"><table>
     <thead><tr><th>Subsystem</th><th>What it is</th><th>Material / model</th></tr></thead>
@@ -245,10 +118,10 @@ svg text{font-family:var(--mono)}
       <tr><td>Operator panel</td><td>7-inch touch HMI, Ethernet</td><td class="mono">Kinco M2070HE</td></tr>
     </tbody>
   </table></div>
-  <figure class="shot"><button type="button" data-zoom><img src="img/workspace.jpg" alt="Robot work envelope drawing: plan view diameter 843 mm and side view reach R420 with 180 degree arc" loading="lazy"></button><figcaption>Work envelope of the tool point P: a Ø843&nbsp;mm ring in plan view, 420&nbsp;mm reach and a 180° shoulder arc in side view.</figcaption></figure>
+  <figure class="shot"><a class="zoom" href="img/workspace.jpg"><img src="img/workspace.jpg" alt="Robot work envelope drawing: plan view diameter 843 mm and side view reach R420 with 180 degree arc" loading="lazy"></a><figcaption>Work envelope of the tool point P: a Ø843&nbsp;mm ring in plan view, 420&nbsp;mm reach and a 180° shoulder arc in side view.</figcaption></figure>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Step 1 · Structural simulation</span>
   <h2>Checking the structure before building it</h2>
   <p>The question was simple: with 5&nbsp;kg hanging off a 420&nbsp;mm arm, does any part bend too much or come close to yielding? The model was built and solved in <b>Ansys Mechanical 2023&nbsp;R1</b>, first in two held poses (static) and then through a full moving cycle (transient).</p>
@@ -256,8 +129,8 @@ svg text{font-family:var(--mono)}
   <h3>Model preparation</h3>
   <p>Bolts, screws and bearings were removed, small holes and fillets suppressed, and mating parts bonded. These details barely affect overall stiffness but make the mesh slow and messy. The assembly was then merged into five solid bodies.</p>
   <div class="gallery">
-    <figure class="shot"><button type="button" data-zoom><img src="img/cad-cleanup.jpg" alt="Robotic arm CAD after clean-up" loading="lazy"></button><figcaption>CAD after clean-up: base, base motor, joint motor, Link-1, Link-2, 5&nbsp;kg load.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/five-bodies.jpg" alt="Simulation model split into five bodies" loading="lazy"></button><figcaption>The five simulation bodies, each treated as one continuous solid.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/cad-cleanup.jpg"><img src="img/cad-cleanup.jpg" alt="Robotic arm CAD after clean-up" loading="lazy"></a><figcaption>CAD after clean-up: base, base motor, joint motor, Link-1, Link-2, 5&nbsp;kg load.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/five-bodies.jpg"><img src="img/five-bodies.jpg" alt="Simulation model split into five bodies" loading="lazy"></a><figcaption>The five simulation bodies, each treated as one continuous solid.</figcaption></figure>
   </div>
   <div class="grid2">
     <div class="part"><span class="tag">Body 1 · <span class="chip st">steel</span></span><h3>Base</h3><p class="muted">Housing with the base motor. Fixed to the table.</p></div>
@@ -271,12 +144,12 @@ svg text{font-family:var(--mono)}
   <div class="fig">
     <div class="bars" id="matbars"></div>
     <div class="legend"><span><i style="background:var(--steel)"></i>Mild steel AISI 1010</span><span><i style="background:var(--alu)"></i>Aluminium 6061</span></div>
-    <span class="cap">Aluminium 6061 matches the steel's yield strength at about one third of the density, which cuts the gravity torque the shoulder motor must hold. The trade-off is one third of the stiffness, so the links bend the most.</span>
+    <span class="note">Aluminium 6061 matches the steel's yield strength at about one third of the density, which cuts the gravity torque the shoulder motor must hold. The trade-off is one third of the stiffness, so the links bend the most.</span>
   </div>
 
   <h3>Mesh, supports and loads</h3>
   <div class="gallery">
-    <figure class="shot"><button type="button" data-zoom><img src="img/mesh.jpg" alt="Finite element mesh with 5 mm elements" loading="lazy"></button><figcaption>Uniform 5&nbsp;mm element mesh across all bodies.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/mesh.jpg"><img src="img/mesh.jpg" alt="Finite element mesh with 5 mm elements" loading="lazy"></a><figcaption>Uniform 5&nbsp;mm element mesh across all bodies.</figcaption></figure>
     <div class="fig">
       <svg viewBox="0 0 600 250" role="img" aria-label="Loads and supports">
         <rect x="50" y="220" width="160" height="12" fill="url(#hatch)"/>
@@ -285,49 +158,49 @@ svg text{font-family:var(--mono)}
         <rect x="115" y="100" width="330" height="26" rx="13" fill="var(--alu)"/>
         <rect x="420" y="113" width="22" height="70" rx="5" fill="var(--alu)" opacity=".85"/>
         <rect x="402" y="185" width="58" height="45" rx="3" fill="var(--steel)" opacity=".55"/>
-        <path d="M431 196 v40" stroke="var(--accent)" stroke-width="3" marker-end="url(#ar)"/>
-        <text x="468" y="222" font-size="13" fill="var(--accent)">5 kg × 9.81 ≈ 49 N</text>
-        <path d="M545 40 v60" stroke="var(--accent)" stroke-width="3" marker-end="url(#ar)"/>
-        <text x="510" y="30" font-size="13" fill="var(--accent)">gravity −Y</text>
-        <text x="20" y="246" font-size="13" fill="var(--ink)">BASE: FIXED SUPPORT</text>
+        <path d="M431 196 v40" stroke="var(--series-3)" stroke-width="3" marker-end="url(#ar)"/>
+        <text x="468" y="222" font-size="13" fill="var(--series-3)">5 kg × 9.81 ≈ 49 N</text>
+        <path d="M545 40 v60" stroke="var(--series-3)" stroke-width="3" marker-end="url(#ar)"/>
+        <text x="510" y="30" font-size="13" fill="var(--series-3)">gravity −Y</text>
+        <text x="20" y="246" font-size="13" fill="var(--text)">BASE: FIXED SUPPORT</text>
       </svg>
-      <span class="cap">Base fixed in all directions, gravity on every body, and the 5&nbsp;kg payload weight at the magnet.</span>
+      <span class="note">Base fixed in all directions, gravity on every body, and the 5&nbsp;kg payload weight at the magnet.</span>
     </div>
   </div>
   <p>Two held poses were solved. <b>Pose A (pick-up):</b> arm extended over the part. <b>Pose B (holding):</b> base turned 90° with Link-1 raised, part held. Each solve reports deformation, von Mises stress and factor of safety (yield strength ÷ peak stress; Ansys caps the display at 15).</p>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Step 1 · Results</span>
   <h2>Stiff, lightly stressed, and the joint governs</h2>
   <p>The largest deflection anywhere is <b>0.085&nbsp;mm</b> at the Link-2 tip, about the width of a hair. Peak stress is under <b>9&nbsp;MPa</b> against yield strengths of 250–259&nbsp;MPa. The joint is the most critical part because it carries the whole cantilever moment of the arm and load.</p>
   <div class="fig">
     <h3>Deformation by body (mm)</h3>
     <div class="bars" id="defbars"></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>Pose A: pick-up</span><span><i style="background:var(--steel)"></i>Pose B: holding at 90°</span></div>
+    <div class="legend"><span><i style="background:var(--series-3)"></i>Pose A: pick-up</span><span><i style="background:var(--steel)"></i>Pose B: holding at 90°</span></div>
   </div>
   <div class="fig">
     <h3>Peak stress at pick-up vs yield (MPa)</h3>
     <div class="bars" id="strbars"></div>
-    <span class="cap">Bars on a 0–260&nbsp;MPa scale; red tick = yield strength of that body's material. The bars are barely visible because the metal is barely working.</span>
+    <span class="note">Bars on a 0–260&nbsp;MPa scale; red tick = yield strength of that body's material. The bars are barely visible because the metal is barely working.</span>
   </div>
   <div class="fig">
     <h3>Minimum factor of safety by body</h3>
     <div class="bars" id="fosbars"></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>Pose A: pick-up</span><span><i style="background:var(--steel)"></i>Pose B: holding at 90°</span><span><i style="background:var(--bad)"></i>FOS = 1 (yield)</span></div>
-    <span class="cap">Governing case: the <b>joint in Pose B, FOS 4.63</b>. Raising the arm changes how the bending moment passes through the joint housing and pin.</span>
+    <div class="legend"><span><i style="background:var(--series-3)"></i>Pose A: pick-up</span><span><i style="background:var(--steel)"></i>Pose B: holding at 90°</span><span><i style="background:var(--bad)"></i>FOS = 1 (yield)</span></div>
+    <span class="note">Governing case: the <b>joint in Pose B, FOS 4.63</b>. Raising the arm changes how the bending moment passes through the joint housing and pin.</span>
   </div>
   <h3>Ansys result plots</h3>
   <div class="gallery">
-    <figure class="shot"><button type="button" data-zoom><img src="img/deformation-pickup.jpg" alt="Total deformation plots at pick-up" loading="lazy"></button><figcaption>Total deformation, Pose A (pick-up).</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/stress-pickup.jpg" alt="Equivalent stress plots at pick-up" loading="lazy"></button><figcaption>Von Mises stress, Pose A.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/fos-pickup.jpg" alt="Factor of safety plots at pick-up" loading="lazy"></button><figcaption>Factor of safety, Pose A.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/deformation-holding.jpg" alt="Total deformation plots at holding pose" loading="lazy"></button><figcaption>Total deformation, Pose B (holding at 90°).</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/fos-holding.jpg" alt="Factor of safety plots at holding pose" loading="lazy"></button><figcaption>Factor of safety, Pose B. Joint minimum 4.63.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/deformation-pickup.jpg"><img src="img/deformation-pickup.jpg" alt="Total deformation plots at pick-up" loading="lazy"></a><figcaption>Total deformation, Pose A (pick-up).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/stress-pickup.jpg"><img src="img/stress-pickup.jpg" alt="Equivalent stress plots at pick-up" loading="lazy"></a><figcaption>Von Mises stress, Pose A.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/fos-pickup.jpg"><img src="img/fos-pickup.jpg" alt="Factor of safety plots at pick-up" loading="lazy"></a><figcaption>Factor of safety, Pose A.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/deformation-holding.jpg"><img src="img/deformation-holding.jpg" alt="Total deformation plots at holding pose" loading="lazy"></a><figcaption>Total deformation, Pose B (holding at 90°).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/fos-holding.jpg"><img src="img/fos-holding.jpg" alt="Factor of safety plots at holding pose" loading="lazy"></a><figcaption>Factor of safety, Pose B. Joint minimum 4.63.</figcaption></figure>
   </div>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Step 1 · Transient analysis</span>
   <h2>Moving through a full pick-and-place cycle</h2>
   <p>The transient study drives the joints through a 120&nbsp;s cycle with smooth ramps, so inertia is included. Press play or drag the slider to see the prescribed motion.</p>
@@ -339,15 +212,15 @@ svg text{font-family:var(--mono)}
           <rect x="40" y="160" width="90" height="22" fill="var(--steel)"/>
           <rect x="70" y="100" width="30" height="60" fill="var(--steel)" opacity=".85"/>
           <g id="l1"></g>
-          <circle cx="85" cy="100" r="11" fill="var(--steel)"/><circle cx="85" cy="100" r="4" fill="var(--surface)"/>
+          <circle cx="85" cy="100" r="11" fill="var(--steel)"/><circle cx="85" cy="100" r="4" fill="var(--chip)"/>
         </svg>
       </div>
       <div class="view"><span class="vt">Top view · base swing</span>
         <svg viewBox="0 0 200 200" aria-label="Top view animation">
-          <path d="M60 140 m0 -110 a110 110 0 0 1 110 110" fill="none" stroke="var(--line)" stroke-dasharray="4 4"/>
-          <rect x="155" y="125" width="30" height="30" fill="none" stroke="var(--accent)" stroke-dasharray="3 3"/>
+          <path d="M60 140 m0 -110 a110 110 0 0 1 110 110" fill="none" stroke="var(--border)" stroke-dasharray="4 4"/>
+          <rect x="155" y="125" width="30" height="30" fill="none" stroke="var(--series-3)" stroke-dasharray="3 3"/>
           <text x="150" y="172" font-size="10" fill="var(--muted)">origin</text>
-          <rect x="45" y="15" width="30" height="30" fill="none" stroke="var(--accent)" stroke-dasharray="3 3"/>
+          <rect x="45" y="15" width="30" height="30" fill="none" stroke="var(--series-3)" stroke-dasharray="3 3"/>
           <text x="80" y="22" font-size="10" fill="var(--muted)">target</text>
           <g id="topArm"></g>
           <rect x="40" y="120" width="40" height="40" fill="var(--steel)" opacity=".85"/>
@@ -366,12 +239,12 @@ svg text{font-family:var(--mono)}
     </div>
     <p id="phase"></p>
     <svg viewBox="0 0 640 150" id="graph" aria-label="Angle vs time for the three prescribed rotations"></svg>
-    <div class="legend"><span><i style="background:var(--steel)"></i>Base (0→90°)</span><span><i style="background:var(--alu)"></i>Link-1 (0→25°)</span><span><i style="background:var(--accent)"></i>Link-2 (end-link orientation)</span></div>
-    <span class="cap">Recreated from the Ansys input profiles. Link-2 has no motor; its profile represents the end link's orientation change as Link-1 pitches.</span>
+    <div class="legend"><span><i style="background:var(--steel)"></i>Base (0→90°)</span><span><i style="background:var(--alu)"></i>Link-1 (0→25°)</span><span><i style="background:var(--series-3)"></i>Link-2 (end-link orientation)</span></div>
+    <span class="note">Recreated from the Ansys input profiles. Link-2 has no motor; its profile represents the end link's orientation change as Link-1 pitches.</span>
   </div>
   <div class="gallery">
-    <figure class="shot tall"><button type="button" data-zoom><img src="img/motion-profiles.jpg" alt="Ansys rotation vs time input tables and graphs" loading="lazy"></button><figcaption>Ansys input: rotation vs time for the joint, Link-1 and Link-2.</figcaption></figure>
-    <figure class="shot tall"><button type="button" data-zoom><img src="img/transient.jpg" alt="Transient deformation and FOS plots" loading="lazy"></button><figcaption>Transient deformation and FOS of the base, joint, Link-1 and Link-2.</figcaption></figure>
+    <figure class="shot tall"><a class="zoom" href="img/motion-profiles.jpg"><img src="img/motion-profiles.jpg" alt="Ansys rotation vs time input tables and graphs" loading="lazy"></a><figcaption>Ansys input: rotation vs time for the joint, Link-1 and Link-2.</figcaption></figure>
+    <figure class="shot tall"><a class="zoom" href="img/transient.jpg"><img src="img/transient.jpg" alt="Transient deformation and FOS plots" loading="lazy"></a><figcaption>Transient deformation and FOS of the base, joint, Link-1 and Link-2.</figcaption></figure>
   </div>
   <div class="tblwrap"><table>
     <thead><tr><th>Body</th><th class="num">Max deformation at t = 120 s (mm)</th><th class="num">FOS</th></tr></thead>
@@ -382,10 +255,10 @@ svg text{font-family:var(--mono)}
       <tr><td>Link-2 + magnet</td><td class="num">0.0010</td><td class="num">≥15</td></tr>
     </tbody>
   </table></div>
-  <p class="note"><b>Takeaway:</b> at 90° in 30&nbsp;s (0.5&nbsp;rpm) the motion is slow enough that inertia adds little. Motion never beat the static holding pose, so <b>Pose B, joint FOS 4.63</b> is the design case.</p>
+  <p class="callout"><b>Takeaway:</b> at 90° in 30&nbsp;s (0.5&nbsp;rpm) the motion is slow enough that inertia adds little. Motion never beat the static holding pose, so <b>Pose B, joint FOS 4.63</b> is the design case.</p>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Step 2 · Actuator selection</span>
   <h2>From simulated loads to motor choice</h2>
   <p>The simulation fixed three requirements: the gravity moment of the governing pose, the speed and acceleration of the cycle, and a tip accuracy in line with the 0.085&nbsp;mm structural deflection. Both axes use <b>integrated harmonic-drive servos</b>, each with motor, drive, absolute encoder and strain-wave reducer in one housing.</p>
@@ -421,7 +294,7 @@ svg text{font-family:var(--mono)}
   <p class="muted">Tip error budget: 0.085&nbsp;mm deflection + 0.04&nbsp;mm backlash ≈ 0.13&nbsp;mm, well inside what a magnetic gripper tolerates.</p>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Step 3 · Control system</span>
   <h2>Industrial PLC + HMI control</h2>
   <p>A <b>Kinco K615S-16DT</b> PLC drives both servos in pulse/direction mode, reads their alarm and zero signals, switches the magnet relay and handles the emergency stop. A <b>Kinco M2070HE</b> 7-inch HMI gives the operator jog, auto-cycle and status screens over Ethernet.</p>
@@ -440,14 +313,14 @@ svg text{font-family:var(--mono)}
       </g>
       <text x="346" y="100" font-size="12" fill="var(--muted)">Ethernet · Modbus TCP</text>
       <text x="310" y="378" font-size="12" fill="var(--muted)">24 VDC</text>
-      <g fill="none" stroke="var(--line)" stroke-width="1.5">
+      <g fill="none" stroke="var(--border)" stroke-width="1.5">
         <rect x="236" y="20" width="200" height="56" rx="8"/>
         <rect x="536" y="116" width="200" height="72" rx="8"/><rect x="536" y="204" width="200" height="88" rx="8"/><rect x="536" y="308" width="200" height="56" rx="8"/>
         <rect x="24" y="116" width="152" height="48" rx="8"/><rect x="24" y="180" width="152" height="48" rx="8"/><rect x="24" y="244" width="152" height="48" rx="8"/>
       </g>
-      <rect x="236" y="116" width="200" height="176" rx="8" fill="var(--accent)" fill-opacity=".1" stroke="var(--accent)" stroke-width="2"/>
-      <rect x="24" y="412" width="712" height="56" rx="8" fill="var(--soft)" stroke="var(--line)"/>
-      <g font-size="13" fill="var(--ink)">
+      <rect x="236" y="116" width="200" height="176" rx="8" fill="var(--series-3)" fill-opacity=".1" stroke="var(--series-3)" stroke-width="2"/>
+      <rect x="24" y="412" width="712" height="56" rx="8" fill="var(--hover)" stroke="var(--border)"/>
+      <g font-size="13" fill="var(--text)">
         <text x="336" y="44" text-anchor="middle" font-weight="600">HMI · Kinco M2070HE</text>
         <text x="336" y="64" text-anchor="middle" font-size="11.5" fill="var(--muted)">7-in touch: jog, auto, status</text>
         <text x="336" y="140" text-anchor="middle" font-weight="600">PLC · K615S-16DT</text>
@@ -472,7 +345,7 @@ svg text{font-family:var(--mono)}
         <text x="380" y="455" text-anchor="middle" font-size="11.5" fill="var(--muted)">feeds the PLC, HMI, both servos and the electromagnet</text>
       </g>
     </svg>
-    <span class="cap">Control and power architecture with PLC addresses, taken from the project's electrical drawings.</span>
+    <span class="note">Control and power architecture with PLC addresses, taken from the project's electrical drawings.</span>
   </div>
   <div class="grid2">
     <div class="part"><span class="tag">Why a PLC</span><ul class="clean">
@@ -502,16 +375,16 @@ svg text{font-family:var(--mono)}
     </tbody>
   </table></div>
   <div class="gallery">
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc-outputs.jpg" alt="Electrical drawing: PLC output connections" loading="lazy"></button><figcaption>Electrical drawing: PLC outputs.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc-inputs.jpg" alt="Electrical drawing: PLC input connections" loading="lazy"></button><figcaption>Electrical drawing: PLC inputs.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc-outputs.jpg"><img src="img/plc-outputs.jpg" alt="Electrical drawing: PLC output connections" loading="lazy"></a><figcaption>Electrical drawing: PLC outputs.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc-inputs.jpg"><img src="img/plc-inputs.jpg" alt="Electrical drawing: PLC input connections" loading="lazy"></a><figcaption>Electrical drawing: PLC inputs.</figcaption></figure>
   </div>
 </section>
 
-<section id="plc-program">
+<section class="block" id="plc-program">
   <span class="eyebrow">Step 3 · Inside the PLC program</span>
   <h2>How the ladder program moves the arm</h2>
   <p>The program is one ladder routine called <b>MAIN</b>, 39 networks long, written in KincoBuilder 8.5 for the K615S-16DT. It does not count pulses. Instead it writes a target position for each joint into the servo drives over <b>CANopen</b> and reads the actual position back, so the PLC is a coordinator and the drives run their own position loops. The two sub-routines SBR_0 and SBR_1 are empty.</p>
-  <p class="note"><b>Note:</b> the pulse and direction outputs shown in the electrical drawings (Q0.0 to Q0.3) are not used by this saved program. Motion goes over the CAN bus. The magnet output Q0.7 and the e-stop input I0.0 are used as drawn.</p>
+  <p class="callout"><b>Note:</b> the pulse and direction outputs shown in the electrical drawings (Q0.0 to Q0.3) are not used by this saved program. Motion goes over the CAN bus. The magnet output Q0.7 and the e-stop input I0.0 are used as drawn.</p>
 
   <h3>One program, six jobs</h3>
   <div class="tblwrap"><table>
@@ -598,17 +471,17 @@ svg text{font-family:var(--mono)}
         <button class="play" id="splay" type="button">Play</button>
       </div>
     </div>
-    <span class="cap">Step flags are M31.0 to M31.7 and M32.0. M30.1 is "auto running" and M30.2 is "stop or complete". Read from networks 21 to 35 of the ladder.</span>
+    <span class="note">Step flags are M31.0 to M31.7 and M32.0. M30.1 is "auto running" and M30.2 is "stop or complete". Read from networks 21 to 35 of the ladder.</span>
   </div>
 
   <h3>The operator screens</h3>
   <p>The M2070HE panel runs four working screens, shown here as they appear in the Kinco DTools editor. Auto handles the cycle count, timer and start/stop; Manual jogs each motor and switches the magnet; Settings teaches the five positions; the network screen sets up Wi-Fi.</p>
   <div class="gallery">
-    <figure class="shot"><button type="button" data-zoom><img src="img/hmi/hmi_auto.png" alt="HMI auto screen with cycle count, cycle time, start and stop" loading="lazy"></button><figcaption>Auto: cycle count, cycle time, START / STOP and home indicators.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/hmi/hmi_manual.png" alt="HMI manual screen with base and shoulder jog buttons and magnet switch" loading="lazy"></button><figcaption>Manual: base FWD / REV, shoulder UP / DOWN, speed entry and electromagnet switch.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/hmi/hmi_settings.png" alt="HMI settings screen with teach positions for both motors" loading="lazy"></button><figcaption>Settings: initialization and four taught positions for both motors, with TEACH buttons.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/hmi/hmi_wifi_network.png" alt="HMI Wi-Fi and network screen" loading="lazy"></button><figcaption>Wi-Fi and network setup.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/hmi/hmi_network_topology.png" alt="DTools connection view: M2070HE-WIFI panel connected to the Kinco PLC over Ethernet" loading="lazy"></button><figcaption>Connection view: panel to PLC over Ethernet (TCP).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/hmi/hmi_auto.png"><img src="img/hmi/hmi_auto.png" alt="HMI auto screen with cycle count, cycle time, start and stop" loading="lazy"></a><figcaption>Auto: cycle count, cycle time, START / STOP and home indicators.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/hmi/hmi_manual.png"><img src="img/hmi/hmi_manual.png" alt="HMI manual screen with base and shoulder jog buttons and magnet switch" loading="lazy"></a><figcaption>Manual: base FWD / REV, shoulder UP / DOWN, speed entry and electromagnet switch.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/hmi/hmi_settings.png"><img src="img/hmi/hmi_settings.png" alt="HMI settings screen with teach positions for both motors" loading="lazy"></a><figcaption>Settings: initialization and four taught positions for both motors, with TEACH buttons.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/hmi/hmi_wifi_network.png"><img src="img/hmi/hmi_wifi_network.png" alt="HMI Wi-Fi and network screen" loading="lazy"></a><figcaption>Wi-Fi and network setup.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/hmi/hmi_network_topology.png"><img src="img/hmi/hmi_network_topology.png" alt="DTools connection view: M2070HE-WIFI panel connected to the Kinco PLC over Ethernet" loading="lazy"></a><figcaption>Connection view: panel to PLC over Ethernet (TCP).</figcaption></figure>
   </div>
 
   <h3>Memory the operator panel uses</h3>
@@ -640,45 +513,45 @@ svg text{font-family:var(--mono)}
 
   <h3>KincoBuilder screenshots: settings</h3>
   <div class="gallery big">
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_hardware_io.png" alt="KincoBuilder Hardware page, I/O tab for the K615S-16DT" loading="lazy"></button><figcaption>Hardware, I/O tab: K615S-16DT with 8 inputs and 8 outputs.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_hardware_comm.png" alt="KincoBuilder Hardware page, Comm tab with serial port settings" loading="lazy"></button><figcaption>Hardware, Comm tab: port 0 at 115200, ports 1 and 2 at 9600.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_hardware_retentive.png" alt="KincoBuilder Hardware page, Reten tab with empty retentive ranges" loading="lazy"></button><figcaption>Hardware, Reten tab: no retentive ranges.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_hardware_others.png" alt="KincoBuilder Hardware page, Others tab" loading="lazy"></button><figcaption>Hardware, Others tab: project backup on, CANopen slave off.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_canopen_global.png" alt="CANopen global settings: 1000 kbps, SDO timeout 60 ms" loading="lazy"></button><figcaption>CANopen, Global Settings: 1000&nbsp;kbps, SDO timeout 60&nbsp;ms, configure slaves at start-up.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_canopen_network.png" alt="CANopen network settings listing two AIM slaves with heartbeat error control" loading="lazy"></button><figcaption>CANopen, Network settings: two AIM drives, heartbeat 500&nbsp;ms, consumer time 600&nbsp;ms.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_canopen_mapping.png" alt="CANopen mapping parameters page" loading="lazy"></button><figcaption>CANopen, Mapping Parameters: the PDO mapping editor for both slaves.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_canopen_summary.png" alt="CANopen summary table of mapped objects and PLC variables" loading="lazy"></button><figcaption>CANopen, Summary: every mapped object with its PLC variable.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/kincobuilder_tcpip.png" alt="TCP/IP configuration dialog showing 192.168.0.252, port 502" loading="lazy"></button><figcaption>TCP/IP Settings: 192.168.0.252, port 502.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_hardware_io.png"><img src="img/plc/kincobuilder_hardware_io.png" alt="KincoBuilder Hardware page, I/O tab for the K615S-16DT" loading="lazy"></a><figcaption>Hardware, I/O tab: K615S-16DT with 8 inputs and 8 outputs.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_hardware_comm.png"><img src="img/plc/kincobuilder_hardware_comm.png" alt="KincoBuilder Hardware page, Comm tab with serial port settings" loading="lazy"></a><figcaption>Hardware, Comm tab: port 0 at 115200, ports 1 and 2 at 9600.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_hardware_retentive.png"><img src="img/plc/kincobuilder_hardware_retentive.png" alt="KincoBuilder Hardware page, Reten tab with empty retentive ranges" loading="lazy"></a><figcaption>Hardware, Reten tab: no retentive ranges.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_hardware_others.png"><img src="img/plc/kincobuilder_hardware_others.png" alt="KincoBuilder Hardware page, Others tab" loading="lazy"></a><figcaption>Hardware, Others tab: project backup on, CANopen slave off.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_canopen_global.png"><img src="img/plc/kincobuilder_canopen_global.png" alt="CANopen global settings: 1000 kbps, SDO timeout 60 ms" loading="lazy"></a><figcaption>CANopen, Global Settings: 1000&nbsp;kbps, SDO timeout 60&nbsp;ms, configure slaves at start-up.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_canopen_network.png"><img src="img/plc/kincobuilder_canopen_network.png" alt="CANopen network settings listing two AIM slaves with heartbeat error control" loading="lazy"></a><figcaption>CANopen, Network settings: two AIM drives, heartbeat 500&nbsp;ms, consumer time 600&nbsp;ms.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_canopen_mapping.png"><img src="img/plc/kincobuilder_canopen_mapping.png" alt="CANopen mapping parameters page" loading="lazy"></a><figcaption>CANopen, Mapping Parameters: the PDO mapping editor for both slaves.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_canopen_summary.png"><img src="img/plc/kincobuilder_canopen_summary.png" alt="CANopen summary table of mapped objects and PLC variables" loading="lazy"></a><figcaption>CANopen, Summary: every mapped object with its PLC variable.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/kincobuilder_tcpip.png"><img src="img/plc/kincobuilder_tcpip.png" alt="TCP/IP configuration dialog showing 192.168.0.252, port 502" loading="lazy"></a><figcaption>TCP/IP Settings: 192.168.0.252, port 502.</figcaption></figure>
   </div>
 
   <h3>KincoBuilder screenshots: ladder diagram, left half</h3>
   <p class="muted">Ten screens from the top of MAIN (Network 0) to the bottom (Network 38). Click an image to enlarge it.</p>
   <div class="gallery big">
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_01.png" alt="Ladder diagram, left half, screen 1 of 10" loading="lazy"></button><figcaption>Left half, screen 1 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_02.png" alt="Ladder diagram, left half, screen 2 of 10" loading="lazy"></button><figcaption>Left half, screen 2 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_03.png" alt="Ladder diagram, left half, screen 3 of 10" loading="lazy"></button><figcaption>Left half, screen 3 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_04.png" alt="Ladder diagram, left half, screen 4 of 10" loading="lazy"></button><figcaption>Left half, screen 4 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_05.png" alt="Ladder diagram, left half, screen 5 of 10" loading="lazy"></button><figcaption>Left half, screen 5 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_06.png" alt="Ladder diagram, left half, screen 6 of 10" loading="lazy"></button><figcaption>Left half, screen 6 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_07.png" alt="Ladder diagram, left half, screen 7 of 10, Networks 25 to 29" loading="lazy"></button><figcaption>Left half, screen 7 of 10 (Networks 25 to 29).</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_08.png" alt="Ladder diagram, left half, screen 8 of 10" loading="lazy"></button><figcaption>Left half, screen 8 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_09.png" alt="Ladder diagram, left half, screen 9 of 10" loading="lazy"></button><figcaption>Left half, screen 9 of 10.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_left_10.png" alt="Ladder diagram, left half, screen 10 of 10, end of the program" loading="lazy"></button><figcaption>Left half, screen 10 of 10 (end of the program).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_01.png"><img src="img/plc/ladder_left_01.png" alt="Ladder diagram, left half, screen 1 of 10" loading="lazy"></a><figcaption>Left half, screen 1 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_02.png"><img src="img/plc/ladder_left_02.png" alt="Ladder diagram, left half, screen 2 of 10" loading="lazy"></a><figcaption>Left half, screen 2 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_03.png"><img src="img/plc/ladder_left_03.png" alt="Ladder diagram, left half, screen 3 of 10" loading="lazy"></a><figcaption>Left half, screen 3 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_04.png"><img src="img/plc/ladder_left_04.png" alt="Ladder diagram, left half, screen 4 of 10" loading="lazy"></a><figcaption>Left half, screen 4 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_05.png"><img src="img/plc/ladder_left_05.png" alt="Ladder diagram, left half, screen 5 of 10" loading="lazy"></a><figcaption>Left half, screen 5 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_06.png"><img src="img/plc/ladder_left_06.png" alt="Ladder diagram, left half, screen 6 of 10" loading="lazy"></a><figcaption>Left half, screen 6 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_07.png"><img src="img/plc/ladder_left_07.png" alt="Ladder diagram, left half, screen 7 of 10, Networks 25 to 29" loading="lazy"></a><figcaption>Left half, screen 7 of 10 (Networks 25 to 29).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_08.png"><img src="img/plc/ladder_left_08.png" alt="Ladder diagram, left half, screen 8 of 10" loading="lazy"></a><figcaption>Left half, screen 8 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_09.png"><img src="img/plc/ladder_left_09.png" alt="Ladder diagram, left half, screen 9 of 10" loading="lazy"></a><figcaption>Left half, screen 9 of 10.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_left_10.png"><img src="img/plc/ladder_left_10.png" alt="Ladder diagram, left half, screen 10 of 10, end of the program" loading="lazy"></a><figcaption>Left half, screen 10 of 10 (end of the program).</figcaption></figure>
   </div>
 
   <h3>KincoBuilder screenshots: ladder diagram, right half</h3>
   <p class="muted">The long networks continue past the left screens. These show their right ends, with the final blocks and the set and reset coils. They line up with the left screens above.</p>
   <div class="gallery big">
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_01.png" alt="Ladder diagram, right half, top of the program" loading="lazy"></button><figcaption>Right half, top of the program.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_02.png" alt="Ladder diagram, right half, screen 2 of 6" loading="lazy"></button><figcaption>Right half, screen 2 of 6.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_03.png" alt="Ladder diagram, right half, screen 3 of 6, Networks 25 to 27 ending in set coils" loading="lazy"></button><figcaption>Right half, screen 3 of 6 (same rows as left screen 7).</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_04.png" alt="Ladder diagram, right half, screen 4 of 6" loading="lazy"></button><figcaption>Right half, screen 4 of 6.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_05.png" alt="Ladder diagram, right half, screen 5 of 6" loading="lazy"></button><figcaption>Right half, screen 5 of 6.</figcaption></figure>
-    <figure class="shot"><button type="button" data-zoom><img src="img/plc/ladder_right_06.png" alt="Ladder diagram, right half, bottom of the program" loading="lazy"></button><figcaption>Right half, bottom of the program.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_01.png"><img src="img/plc/ladder_right_01.png" alt="Ladder diagram, right half, top of the program" loading="lazy"></a><figcaption>Right half, top of the program.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_02.png"><img src="img/plc/ladder_right_02.png" alt="Ladder diagram, right half, screen 2 of 6" loading="lazy"></a><figcaption>Right half, screen 2 of 6.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_03.png"><img src="img/plc/ladder_right_03.png" alt="Ladder diagram, right half, screen 3 of 6, Networks 25 to 27 ending in set coils" loading="lazy"></a><figcaption>Right half, screen 3 of 6 (same rows as left screen 7).</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_04.png"><img src="img/plc/ladder_right_04.png" alt="Ladder diagram, right half, screen 4 of 6" loading="lazy"></a><figcaption>Right half, screen 4 of 6.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_05.png"><img src="img/plc/ladder_right_05.png" alt="Ladder diagram, right half, screen 5 of 6" loading="lazy"></a><figcaption>Right half, screen 5 of 6.</figcaption></figure>
+    <figure class="shot"><a class="zoom" href="img/plc/ladder_right_06.png"><img src="img/plc/ladder_right_06.png" alt="Ladder diagram, right half, bottom of the program" loading="lazy"></a><figcaption>Right half, bottom of the program.</figcaption></figure>
   </div>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Engineering judgement</span>
   <h2>Next validation steps</h2>
   <p>The design passes with margin. These are the checks that would take it from "simulated and working" to "validated":</p>
@@ -692,7 +565,7 @@ svg text{font-family:var(--mono)}
   </div>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">People & skills</span>
   <h2>Team</h2>
   <div class="team">
@@ -705,7 +578,7 @@ svg text{font-family:var(--mono)}
   </div>
 </section>
 
-<section>
+<section class="block">
   <span class="eyebrow">Documentation</span>
   <h2>Read more</h2>
   <ul class="clean">
@@ -715,99 +588,14 @@ svg text{font-family:var(--mono)}
   </ul>
 </section>
 
-<footer>PLC 2-DOF Robotic Arm · Mithunvel K L · Vaishnav V G · Nadraj · VIT Chennai, 2026</footer>
+</main>
+
+<footer class="pfoot">
+  <p>PLC 2-DOF Robotic Arm · Mithunvel K L · Vaishnav V G · Nadraj · VIT Chennai, 2026</p>
+  <p class="claim">Not claimed: the Ansys results (0.085 mm deflection, 4.63 factor of safety) have not been checked against measurements on the built arm; see Next validation steps.</p>
+</footer>
 </div>
 
-<dialog id="lb" aria-label="Enlarged figure"><form method="dialog"><button class="x" type="submit" aria-label="Close">Close ✕</button></form><img loading="lazy" id="lbimg" alt=""><p id="lbcap"></p></dialog>
-
-<script>
-(function(){
-  const $=id=>document.getElementById(id);
-  const S='var(--steel)',A='var(--alu)',O='var(--accent)';
-  const row=(lab,w,c,val,extra='')=>`<div class="bar"><span class="lab">${lab}</span><span class="track">${extra}<span class="fill" style="width:${Math.max(w,0.4)}%;background:${c}"></span></span><span class="val">${val}</span></div>`;
-  const grp=(name,inner)=>`<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:.85rem;font-weight:600">${name}</span>${inner}</div>`;
-
-  const mat=[['Density',7872,2713,'kg/m³'],['Yield strength',250,259.2,'MPa'],['Ultimate strength',460,313.1,'MPa'],["Young's modulus",200,68.9,'GPa']];
-  $('matbars').innerHTML=mat.map(m=>{const mx=Math.max(m[1],m[2]);return grp(m[0],row('Steel',m[1]/mx*100,S,`${m[1]} ${m[3]}`)+row('Alu',m[2]/mx*100,A,`${m[2]} ${m[3]}`))}).join('');
-
-  const def=[['Base',0.0015562,0.00048213],['Joint',0.0071232,0.0036526],['Link-1',0.083389,0.065192],['Link-2',0.085189,0.068636]];
-  $('defbars').innerHTML=def.map(d=>grp(d[0],row('Pick-up',d[1]/0.09*100,O,d[1].toPrecision(3))+row('At 90°',d[2]/0.09*100,S,d[2].toPrecision(3)))).join('');
-
-  const st=[['Base',5.1493,250,S],['Joint',8.8051,250,S],['Link-1',4.438,259.2,A],['Link-2',1.1322,259.2,A]];
-  $('strbars').innerHTML=st.map(s=>row(s[0],s[1]/260*100,s[3],`${s[1].toFixed(2)} / ${s[2]}`,`<span class="mark" style="left:${s[2]/260*100-0.5}%"></span>`)).join('');
-
-  const fos=[['Base',15,15],['Joint',9.7898,4.631],['Link-1',15,9.0155],['Link-2',15,15]];
-  const mk=`<span class="mark" style="left:${100/15}%"></span>`;
-  $('fosbars').innerHTML=fos.map(f=>grp(f[0],row('Pick-up',f[1]/15*100,O,f[1]==15?'≥15':f[1].toFixed(2),mk)+row('At 90°',f[2]/15*100,S,f[2]==15?'≥15':f[2].toFixed(2),mk))).join('');
-
-  // lightbox
-  const lb=$('lb');
-  document.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{
-    const im=b.querySelector('img');$('lbimg').src=im.src;$('lbimg').alt=im.alt;
-    const fc=b.closest('figure').querySelector('figcaption');$('lbcap').textContent=fc?fc.textContent:'';
-    try{lb.showModal()}catch(e){}
-  }));
-  lb.addEventListener('click',e=>{if(e.target===lb)lb.close()});
-
-  // motion
-  const lerp=(a,b,u)=>a+(b-a)*Math.min(1,Math.max(0,u));
-  const joint=t=>t<30?lerp(0,90,t/30):t<60?90:t<90?lerp(90,0,(t-60)/30):0;
-  function tri(t,pk){const seg=(s,e)=>{const m=(s+e)/2;return t<m?lerp(0,pk,(t-s)/(m-s)):lerp(pk,0,(t-m)/(e-m))};
-    if(t>=30&&t<=58)return seg(30,58);if(t>=92&&t<=120)return seg(92,120);return 0}
-  const l1=t=>tri(t,25), l2=t=>tri(t,10);
-  const G=$('graph'),gx=v=>40+v/120*590,gy=v=>130-v/90*115;
-  let g='<g font-size="10" fill="var(--muted)">';
-  [0,30,60,90,120].forEach(v=>{g+=`<line x1="${gx(v)}" y1="15" x2="${gx(v)}" y2="130" stroke="var(--line)"/><text x="${gx(v)}" y="144" text-anchor="middle">${v}s</text>`});
-  [0,25,45,90].forEach(v=>{g+=`<text x="34" y="${gy(v)+3}" text-anchor="end">${v}°</text>`});
-  g+='</g>';
-  const line=(f,c)=>{let d='';for(let t=0;t<=120;t+=0.5)d+=(t?'L':'M')+gx(t).toFixed(1)+' '+gy(f(t)).toFixed(1);return `<path d="${d}" fill="none" stroke="${c}" stroke-width="2.2"/>`};
-  g+=line(joint,S)+line(l1,A)+line(l2,O)+'<line id="cur" x1="40" y1="12" x2="40" y2="130" stroke="var(--ink)" stroke-width="1.2"/>';
-  G.innerHTML=g;
-  const phases=[[30,'Swinging 90° from the origin to the target, carrying the part.'],[60,'At the target: arms tilt up and back down to place the part.'],[90,'Swinging back 90° to the origin.'],[121,'At the origin: arms tilt up and down again to pick the next part.']];
-  function draw(t){
-    const a1=l1(t)*Math.PI/180,a2=l2(t)*Math.PI/180,px=85,py=100,L1=165,L2=55;
-    const ex=px+L1*Math.cos(a1),ey=py-L1*Math.sin(a1),dir=Math.PI/2-a1+a2,fx=ex+L2*Math.cos(dir),fy=ey+L2*Math.sin(dir);
-    $('l1').innerHTML=`<line x1="${px}" y1="${py}" x2="${ex}" y2="${ey}" stroke="var(--alu)" stroke-width="14" stroke-linecap="round"/><line x1="${ex}" y1="${ey}" x2="${fx}" y2="${fy}" stroke="var(--alu)" stroke-width="10" stroke-linecap="round" opacity=".85"/><circle cx="${ex}" cy="${ey}" r="4" fill="var(--surface)"/><rect x="${fx-15}" y="${fy+4}" width="30" height="24" rx="3" fill="var(--steel)" opacity=".6"/>`;
-    const j=joint(t)*Math.PI/180,cx=60,cy=140,R=110,tx=cx+R*Math.cos(-j),ty=cy+R*Math.sin(-j);
-    $('topArm').innerHTML=`<line x1="${cx}" y1="${cy}" x2="${tx}" y2="${ty}" stroke="var(--alu)" stroke-width="12" stroke-linecap="round"/><rect x="${tx-11}" y="${ty-11}" width="22" height="22" fill="var(--steel)" opacity=".7"/>`;
-    $('cur').setAttribute('x1',gx(t));$('cur').setAttribute('x2',gx(t));
-    $('rt').textContent=t.toFixed(0)+' s';$('rj').textContent=joint(t).toFixed(0)+'°';$('r1').textContent=l1(t).toFixed(1)+'°';$('r2').textContent=l2(t).toFixed(1)+'°';
-    $('phase').innerHTML='<b>Now:</b> '+phases.find(p=>t<p[0])[1];
-  }
-  const sl=$('t');let raf=null,last=0;
-  sl.addEventListener('input',()=>draw(+sl.value));
-  function step(ts){if(!last)last=ts;let t=+sl.value+(ts-last)/1000*12;last=ts;if(t>120)t=0;sl.value=t;draw(t);raf=requestAnimationFrame(step)}
-  $('play').addEventListener('click',()=>{if(raf){cancelAnimationFrame(raf);raf=null;$('play').textContent='Play'}else{last=0;raf=requestAnimationFrame(step);$('play').textContent='Pause'}});
-  draw(0);
-
-  // auto-cycle stepper
-  const steps=[
-    {n:'Home',nets:'N13 to N16',flag:'M50.0, M50.1',tgt:'Home counts: base %VD1002, shoulder %VD1028',adv:'Base below −745000 and shoulder above −57648500 counts',mag:0},
-    {n:'Point 1',nets:'N21',flag:'M31.0',tgt:'%VD2300 → %VD1002 and %VD2400 → %VD1028',adv:'Both axes within ±2000 counts of the targets',mag:0},
-    {n:'Point 2',nets:'N22',flag:'M31.1',tgt:'%VD2304 → %VD1002 and %VD2404 → %VD1028',adv:'Both axes within ±2000 counts',mag:0},
-    {n:'Point 3 (pick)',nets:'N23',flag:'M31.2, also M30.6',tgt:'%VD2308 → %VD1002 and %VD2408 → %VD1028',adv:'Both axes within window; the magnet switches on',mag:1},
-    {n:'Dwell',nets:'N24',flag:'M31.3',tgt:'Targets unchanged',adv:'On-delay T21 (preset 20) has finished',mag:1},
-    {n:'Lift to point 2',nets:'N25',flag:'M31.4',tgt:'%VD2304 and %VD2404',adv:'Both axes within ±2000 counts',mag:1},
-    {n:'Point 4',nets:'N26',flag:'M31.5',tgt:'%VD2312 and %VD2412',adv:'Both axes within ±2000 counts',mag:1},
-    {n:'Point 5 (place)',nets:'N27',flag:'M31.6',tgt:'%VD2316 and %VD2416',adv:'Both axes within window',mag:1},
-    {n:'Release and count',nets:'N28 to N30',flag:'M31.7',tgt:'Targets unchanged',adv:'On-delays T22 and T23 release the magnet (M30.6 reset) and C2 counts the cycle; T26 then sets the flag',mag:0},
-    {n:'Repeat or stop',nets:'N31 to N35',flag:'M32.0, or M30.2 to stop',tgt:'Point 4, then point 2, then back to point 3; or point 1 to finish',adv:'C2 (cycles done) reaches %VW2036 (cycles wanted)',mag:0}
-  ];
-  let si=0,sTimer=null;
-  const sbs=$('sbs');
-  steps.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='sb';b.textContent=(i+1)+'. '+s.n;b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>{stopPlay();show(i)});sbs.appendChild(b)});
-  function show(i){si=(i+steps.length)%steps.length;const s=steps[si];
-    [...sbs.children].forEach((b,k)=>b.setAttribute('aria-pressed',k===si?'true':'false'));
-    $('d-name').textContent=s.n;$('d-nets').textContent=s.nets;$('d-flag').textContent=s.flag;$('d-tgt').textContent=s.tgt;$('d-adv').textContent=s.adv;
-    const m=$('d-mag');m.textContent=s.mag?'on':'off';m.className='pill'+(s.mag?' on':'')}
-  function stopPlay(){if(sTimer){clearInterval(sTimer);sTimer=null;$('splay').textContent='Play'}}
-  $('sprev').addEventListener('click',()=>{stopPlay();show(si-1)});
-  $('snext').addEventListener('click',()=>{stopPlay();show(si+1)});
-  $('splay').addEventListener('click',()=>{if(sTimer){stopPlay()}else{$('splay').textContent='Pause';sTimer=setInterval(()=>show(si+1),2200)}});
-  show(0);
-})();
-</script>
-
-
-<nav class="sc-foot" aria-label="More projects"><div class="sc-in"><a href="../../tile-inspection/site/index.html"><span>← Previous</span><b>Tile Inspection Line</b></a><a href="../../sleepy/site/index.html"><span>Next →</span><b>SLEEPY Assistant</b></a><a class="sc-all" href="../../../index.html">All projects</a></div></nav>
-</body></html>
+<script src="project.js"></script>
+</body>
+</html>
