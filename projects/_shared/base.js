@@ -199,25 +199,30 @@
   }
 
   /* ---------- 4. lightbox ---------- */
+  // One delegated click handler, so a.zoom links added after load (galleries built by a page's own script) work too.
   function buildLightbox() {
-    var links = document.querySelectorAll("a.zoom");
-    if (!links.length || typeof HTMLDialogElement === "undefined") return;   // without it the link just opens the image
-    var dlg = document.createElement("dialog");
-    dlg.className = "lightbox";
-    dlg.setAttribute("aria-label", "Enlarged image");
-    dlg.innerHTML = '<form method="dialog"><button class="pbtn lb-x" aria-label="Close">Close</button></form><img alt=""><div class="lb-cap"></div>';
-    document.body.appendChild(dlg);
-    var img = dlg.querySelector("img"), cap = dlg.querySelector(".lb-cap");
-    Array.prototype.forEach.call(links, function (a) {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        var thumb = a.querySelector("img"), fig = a.closest("figure"), fc = fig && fig.querySelector("figcaption");
-        img.src = a.getAttribute("href");
-        img.alt = thumb ? thumb.alt : "";
-        cap.textContent = fc ? fc.textContent : "";
-        dlg.showModal();
-      });
+    if (typeof HTMLDialogElement === "undefined") return;   // without it the link just opens the image
+    var dlg = null, img, cap;
+    function make() {
+      dlg = document.createElement("dialog");
+      dlg.className = "lightbox";
+      dlg.setAttribute("aria-label", "Enlarged image");
+      dlg.innerHTML = '<form method="dialog"><button class="pbtn lb-x" aria-label="Close">Close</button></form><img alt=""><div class="lb-cap"></div>';
+      document.body.appendChild(dlg);
+      img = dlg.querySelector("img");
+      cap = dlg.querySelector(".lb-cap");
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });   // click on the backdrop
+    }
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a.zoom");
+      if (!a || !a.getAttribute("href")) return;
+      e.preventDefault();
+      if (!dlg) make();
+      var thumb = a.querySelector("img"), fig = a.closest("figure"), fc = fig && fig.querySelector("figcaption");
+      img.src = a.getAttribute("href");
+      img.alt = thumb ? thumb.alt : "";
+      cap.textContent = fc ? fc.textContent : "";
+      dlg.showModal();
     });
-    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });   // click on the backdrop
   }
 })();
