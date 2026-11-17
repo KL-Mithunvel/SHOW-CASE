@@ -1,207 +1,38 @@
 <!doctype html>
-<html lang="en" data-sc="magnet">
+<html lang="en" data-project="magnet">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Magnet-Embed Print Assistant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
-<style>
-/* Layout: lab-sheet column, hero splits copy | portrait demo video; sections ruled like a build log */
-:root{
-  --bg:#eef1f4; --surface:#ffffff; --ink:#18202a; --muted:#5a6573; --line:#d3d9e0;
-  --accent:#1d8a4e; --accent-soft:#dff1e6; --slate:#7a8496;
-  --part:#2f9e5b; --part-line:#25804a; --mag:#3a424e; --mag-n:#c4473d;
-  --appl:#fbfcfd; --appl-line:#9aa5b3; --head:#4b5563; --head-dark:#2b313a;
-  --servo:#2c49c9; --gear:#bdb5a6; --rack:#cfd5dd; --bed:#262b33; --code-bg:#e4e9ef;
-  --f-display:"Chakra Petch", "Segoe UI", system-ui, sans-serif;
-  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#12161c; --surface:#1a2028; --ink:#e6eaef; --muted:#9aa4b2; --line:#2b333e;
-  --accent:#43c27b; --accent-soft:#16301f; --slate:#8994a6;
-  --part:#2f9e5b; --part-line:#3db46b; --mag:#9aa4b2; --mag-n:#e0675c;
-  --appl:#c9d0d8; --appl-line:#7d8796; --head:#5b6574; --head-dark:#3a424e;
-  --servo:#4b68e6; --gear:#a69f91; --rack:#56606e; --bed:#07090c; --code-bg:#222a34; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#12161c; --surface:#1a2028; --ink:#e6eaef; --muted:#9aa4b2; --line:#2b333e;
-  --accent:#43c27b; --accent-soft:#16301f; --slate:#8994a6;
-  --part:#2f9e5b; --part-line:#3db46b; --mag:#9aa4b2; --mag-n:#e0675c;
-  --appl:#c9d0d8; --appl-line:#7d8796; --head:#5b6574; --head-dark:#3a424e;
-  --servo:#4b68e6; --gear:#a69f91; --rack:#56606e; --bed:#07090c; --code-bg:#222a34; color-scheme:dark}
-
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
-.wrap{max-width:1080px;margin:0 auto}
-h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
-p{margin:0}
-.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-a{color:var(--accent)}
-
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;align-items:center;padding-block:56px 48px}
-.hero-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
-.hero h1{font-size:clamp(38px,6vw,64px);font-weight:700;letter-spacing:-.01em}
-.hero h1 span{color:var(--accent)}
-.lede{font-size:19px;color:var(--muted);max-width:34em}
-.meta{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-family:var(--f-mono);font-size:12.5px;padding:5px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink)}
-.by{font-size:14.5px;color:var(--muted)}
-.by strong{color:var(--ink);font-weight:600}
-.video-card{background:#0d1014;border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(10,20,30,.45);max-width:340px;justify-self:center;width:100%}
-.video-card video{display:block;width:100%;aspect-ratio:480/854;max-width:100%;background:#0d1014}
-.video-cap{font-family:var(--f-mono);font-size:12px;color:#b8c2cc;padding:10px 14px;display:flex;justify-content:space-between;gap:8px}
-.rec{color:#5fd391}
-
-/* sections */
-section{border-top:1px solid var(--line);padding-block:48px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:32px}
-section > .label{padding-top:6px}
-.body{display:flex;flex-direction:column;gap:20px;min-width:0}
-section h2{font-size:clamp(26px,3.4vw,34px);font-weight:600}
-.prose{max-width:62ch;color:var(--ink)}
-.prose + .prose{margin-top:-6px}
-.muted{color:var(--muted)}
-
-/* process */
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
-.step{padding:20px 18px;display:flex;flex-direction:column;gap:8px;border-left:1px solid var(--line);min-width:0}
-.step:first-child{border-left:0}
-.step .n{font-family:var(--f-mono);font-size:12px;color:var(--accent);font-weight:500}
-.step h3{font-size:19px;font-weight:600}
-.step p{font-size:14.5px;color:var(--muted)}
-
-/* gallery */
-.cad{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
-figure img{display:block;width:100%;border-radius:8px;border:1px solid var(--line);background:#e9edf3}
-figcaption{font-size:13.5px;color:var(--muted)}
-figcaption b{font-family:var(--f-mono);font-weight:500;font-size:12px;color:var(--ink);margin-right:6px}
-.cad img{aspect-ratio:1/1;object-fit:contain;padding:8px}
-.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.photos img{aspect-ratio:3/4;object-fit:cover;background:#111}
-
-/* software */
-.feats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px;margin:0;padding:0;list-style:none}
-.feats li{padding:14px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
-.feats li strong{font-weight:600}
-.feats li span{font-size:14.5px;color:var(--muted)}
-.stats{display:flex;flex-wrap:wrap;gap:32px}
-.stat{display:flex;flex-direction:column}
-.stat .v{font-family:var(--f-display);font-size:34px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--accent);line-height:1.1}
-.stat .k{font-size:13.5px;color:var(--muted)}
-
-/* status */
-.status{display:flex;flex-direction:column;border-left:2px solid var(--line);margin-left:6px}
-.st{position:relative;padding:0 0 22px 24px;display:flex;flex-direction:column;gap:2px}
-.st:last-child{padding-bottom:0}
-.st::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--slate)}
-.st.done::before{background:var(--accent);border-color:var(--accent)}
-.st.now::before{background:var(--accent-soft);border-color:var(--accent)}
-.st strong{font-weight:600}
-.st span{font-size:14.5px;color:var(--muted)}
-.pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-left:8px;vertical-align:2px}
-.pill.ok{background:var(--accent-soft);color:var(--accent)}
-.pill.next{border:1px solid var(--line);color:var(--muted)}
-
-footer{border-top:1px solid var(--line);padding-block:28px 48px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--muted)}
-
-@media (max-width:820px){
-  .hero{grid-template-columns:1fr;gap:32px;padding-block:36px 32px}
-  section{grid-template-columns:1fr;gap:14px;padding-block:36px}
-  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .step:nth-child(3){border-left:0}
-  .step:nth-child(n+3){border-top:1px solid var(--line)}
-  .feats{grid-template-columns:1fr}
-}
-@media (max-width:520px){
-  .steps{grid-template-columns:1fr}
-  .step{border-left:0;border-top:1px solid var(--line)}
-  .step:first-child{border-top:0}
-  .cad,.photos{grid-template-columns:1fr}
-  .photos img{aspect-ratio:4/3}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-
-/* 3D simulation */
-#sim-stage{position:relative;aspect-ratio:16/10;max-height:620px;min-height:300px;background:#0b0e12;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
-#sim-stage canvas{display:block;width:100%;height:100%}
-#sim-hud{position:absolute;left:12px;top:10px;padding:8px 12px;border-radius:8px;background:rgba(11,14,18,.6);color:#e6ebf2;pointer-events:none;max-width:min(360px,calc(100% - 24px))}
-#sim-phase{font-family:var(--f-display);font-size:18px;font-weight:600}
-#sim-note{font-size:13px;color:#aab4c2}
-#sim-steps{position:absolute;left:12px;right:12px;bottom:10px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
-#sim-steps span{font-family:var(--f-mono);font-size:11.5px;padding:2px 9px;border-radius:99px;background:rgba(23,29,37,.85);border:1px solid #2a3340;color:#8b97a8}
-#sim-steps span.done{color:#e6ebf2;border-color:#3a4658}
-#sim-steps span.on{background:var(--accent);border-color:var(--accent);color:#08120c;font-weight:500}
-#sim-steps span.on.seal{background:#3cc8b4;border-color:#3cc8b4}
-.sim-speed{font-family:var(--f-mono);font-size:13px;display:flex;align-items:center;gap:6px;color:var(--muted)}
-.sim-speed select{font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px}
-@media (max-width:520px){#sim-stage{aspect-ratio:4/5}#sim-note{display:none}}
-
-/* in-page nav */
-.nav{display:flex;flex-wrap:wrap;gap:6px 18px;padding-block:0 28px;font-size:14px}
-.nav a{color:var(--muted);text-decoration:none;font-family:var(--f-mono);font-size:13px}
-.nav a:hover,.nav a:focus-visible{color:var(--accent)}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-h3.sub{font-size:21px;font-weight:600;margin-top:12px}
-code,.mono{font-family:var(--f-mono);font-size:.9em}
-code{background:var(--code-bg);padding:1px 5px;border-radius:3px}
-
-/* animations */
-.anim{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.anim svg{display:block;width:100%;height:auto;max-width:100%}
-.anim svg text{font-family:var(--f-mono);font-size:12px;fill:var(--muted)}
-.anim svg text.strong{fill:var(--ink);font-weight:500}
-.anim-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-.btn{font-family:var(--f-mono);font-size:13px;padding:7px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;min-width:84px}
-.btn:hover{border-color:var(--accent)}
-.anim-bar input[type=range]{flex:1 1 160px;min-width:0;accent-color:var(--accent)}
-.phase-now{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:500}
-.gline{font-family:var(--f-mono);font-size:13px;background:var(--code-bg);border-radius:6px;padding:10px 12px;color:var(--ink);overflow-x:auto;white-space:nowrap}
-.phases{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
-.phases li{font-family:var(--f-mono);font-size:12px;padding:3px 8px;border-radius:4px;border:1px solid var(--line);color:var(--muted)}
-.phases li.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-
-/* tables */
-.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
-thead th{border-top:0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--bg)}
-td.mono,td code{white-space:nowrap}
-td{font-variant-numeric:tabular-nums}
-.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.two > div{min-width:0;display:flex;flex-direction:column;gap:10px}
-
-/* architecture */
-.arch{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px 14px;align-items:center}
-.node{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
-.node strong{font-family:var(--f-display);font-size:17px;font-weight:600}
-.node span{font-size:13px;color:var(--muted)}
-.node.main{grid-row:span 2;border-color:var(--accent)}
-.link{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);text-align:center;line-height:1.35}
-.link b{display:block;color:var(--accent);font-weight:500;font-size:16px}
-@media (max-width:820px){.two{grid-template-columns:1fr}}
-@media (max-width:620px){.arch{grid-template-columns:1fr}.node.main{grid-row:auto}.link b{transform:rotate(90deg)}}
-</style>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Magnet-Embed Print Assistant · K L Mithunvel</title>
 <meta name="description" content="Pauses a 3D print at the right layer, places a magnet in a printed pocket, and prints over it.">
-<link rel="stylesheet" href="../../_shared/showcase.css">
-<script src="../../_shared/showcase.js"></script>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../../../assets/img/pixel/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../_shared/base.css">
+<link rel="stylesheet" href="project.css">
+<script src="../../_shared/base.js"></script>
 </head>
 <body>
-<nav class="sc-bar" aria-label="Portfolio"><div class="sc-in"><a class="sc-back" href="../../../index.html">← All projects</a><span class="sc-me">K L Mithunvel</span><span class="sc-sp"></span><button class="sc-theme" type="button">Dark</button></div></nav>
+<a class="skip" href="#main">Skip to content</a>
 
+<nav class="pbar" aria-label="Portfolio">
+  <div class="pwrap">
+    <a class="back" href="../../../index.html">← All projects</a>
+    <span class="name">K L Mithunvel</span>
+    <span class="sp"></span>
+    <button class="pbtn theme" type="button">Dark</button>
+  </div>
+</nav>
 
-<div class="wrap">
+<div class="pwrap">
+<main id="main">
   <header class="hero">
     <div class="hero-copy">
       <div class="label">Mechatronics project · FFF 3D printing</div>
       <h1>Magnets <span>inside</span> the print, placed mid-print.</h1>
-      <p class="lede">An add-on applicator and a desktop control app that let a standard 3D printer pause at the right layer, place a permanent magnet into a printed pocket, and then print over it so the magnet is sealed inside the part.</p>
+      <p class="lead">An add-on applicator and a desktop control app that let a standard 3D printer pause at the right layer, place a permanent magnet into a printed pocket, and then print over it so the magnet is sealed inside the part.</p>
       <div class="meta">
         <span class="chip">Creality Ender-3 V3 SE</span>
         <span class="chip">Python desktop app</span>
@@ -216,22 +47,19 @@ td{font-variant-numeric:tabular-nums}
       <div class="video-cap"><span class="rec">● First hardware trial</span><span>0:32</span></div>
     </div>
   </header>
-  <nav class="nav" aria-label="Sections">
-    <a href="#hardware">Hardware</a><a href="#mechanism">Mechanism</a><a href="#cycle">Insert cycle</a><a href="#sim">3D simulation</a><a href="#software">Software</a><a href="#trial">First trial</a><a href="#status">Status</a>
-  </nav>
 
-  <section>
-    <div class="label">The problem</div>
+  <section class="block">
     <div class="body">
+      <p class="eyebrow">The problem</p>
       <h2>Embedding parts in a print is still done by hand.</h2>
       <p class="prose">Magnets give printed parts snap-shut lids, panels that stick to a frame, and alignment features. Today the usual method is to add a pause to the print, wait beside the machine, drop each magnet in by hand, and press resume. It ties up the operator, it is hard to repeat consistently, and every minute of pause risks nozzle ooze and a cooled part that bonds poorly to the next layer.</p>
       <p class="prose">This project automates that pause, place and resume cycle on an off-the-shelf printer, so embedding a magnet becomes part of the print job instead of a manual interruption.</p>
     </div>
   </section>
 
-  <section>
-    <div class="label">How a print runs</div>
+  <section class="block">
     <div class="body">
+      <p class="eyebrow">How a print runs</p>
       <h2>Four stages, one print job.</h2>
       <div class="steps">
         <div class="step"><span class="n">01</span><h3>Print to the pocket</h3><p>The part prints normally until the layer where its magnet pocket is complete.</p></div>
@@ -242,32 +70,32 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <section id="hardware">
-    <div class="label">Hardware</div>
+  <section class="block" id="hardware">
     <div class="body">
+      <p class="eyebrow">Hardware</p>
       <h2>A clip-on applicator for the print head.</h2>
       <p class="prose muted">First prototype, designed in SolidWorks and printed in-house. It mounts beside the nozzle and carries a magnet magazine and a servo-driven delivery mechanism. The applicator is kept lightweight so it changes the print head's dynamics as little as possible. Switching magnet sizes means swapping a single part.</p>
       <div class="stats">
-        <div class="stat"><span class="v">40–50</span><span class="k">magnets per magazine load</span></div>
-        <div class="stat"><span class="v">Ø6–10 mm</span><span class="k">magnet diameter range</span></div>
-        <div class="stat"><span class="v">3 mm</span><span class="k">magnet thickness</span></div>
-        <div class="stat"><span class="v">1 part</span><span class="k">swapped to change magnet size</span></div>
+        <div class="stat"><b>40–50</b><span>magnets per magazine load</span></div>
+        <div class="stat"><b>Ø6–10 mm</b><span>magnet diameter range</span></div>
+        <div class="stat"><b>3 mm</b><span>magnet thickness</span></div>
+        <div class="stat"><b>1 part</b><span>swapped to change magnet size</span></div>
       </div>
       <div class="cad">
-        <figure><img src="cad_front.png" alt="SolidWorks front view of the applicator assembly with magazine housing, gear and rack" loading="lazy"><figcaption><b>CAD</b>Applicator assembly, front view</figcaption></figure>
-        <figure><img src="cad_iso.png" alt="SolidWorks isometric view of the applicator assembly" loading="lazy"><figcaption><b>CAD</b>Applicator assembly, isometric view</figcaption></figure>
+        <figure><a class="zoom" href="cad_front.png"><img src="cad_front.png" decoding="async" alt="SolidWorks front view of the applicator assembly with magazine housing, gear and rack" loading="lazy"></a><figcaption><b>CAD</b>Applicator assembly, front view</figcaption></figure>
+        <figure><a class="zoom" href="cad_iso.png"><img src="cad_iso.png" decoding="async" alt="SolidWorks isometric view of the applicator assembly" loading="lazy"></a><figcaption><b>CAD</b>Applicator assembly, isometric view</figcaption></figure>
       </div>
       <div class="photos">
-        <figure><img src="f_13.jpg" alt="Applicator mounted on the Ender-3 V3 SE above a green test part" loading="lazy"><figcaption><b>Build</b>Mounted on the Ender-3 V3 SE</figcaption></figure>
-        <figure><img src="f_7.jpg" alt="Close-up of the applicator tip above the pocket in a green PETG test part" loading="lazy"><figcaption><b>Trial</b>Applicator over the test pocket</figcaption></figure>
-        <figure><img src="f_30.jpg" alt="Green test part on the print bed after the insert step" loading="lazy"><figcaption><b>Trial</b>Test part after the insert step</figcaption></figure>
+        <figure><a class="zoom" href="f_13.jpg"><img src="f_13.jpg" decoding="async" alt="Applicator mounted on the Ender-3 V3 SE above a green test part" loading="lazy"></a><figcaption><b>Build</b>Mounted on the Ender-3 V3 SE</figcaption></figure>
+        <figure><a class="zoom" href="f_7.jpg"><img src="f_7.jpg" decoding="async" alt="Close-up of the applicator tip above the pocket in a green PETG test part" loading="lazy"></a><figcaption><b>Trial</b>Applicator over the test pocket</figcaption></figure>
+        <figure><a class="zoom" href="f_30.jpg"><img src="f_30.jpg" decoding="async" alt="Green test part on the print bed after the insert step" loading="lazy"></a><figcaption><b>Trial</b>Test part after the insert step</figcaption></figure>
       </div>
     </div>
   </section>
 
-  <section id="mechanism">
-    <div class="label">Mechanism</div>
+  <section class="block" id="mechanism">
     <div class="body">
+      <p class="eyebrow">Mechanism</p>
       <h2>One servo, one pinion, two racks.</h2>
       <p class="prose">An <strong>SG90 micro servo</strong> turns a single <strong>pinion</strong>. Two <strong>racks</strong> mesh with it on opposite sides, so whenever the pinion turns, one rack moves down while the other moves up. Each rack has its own job:</p>
       <div class="two">
@@ -291,13 +119,13 @@ td{font-variant-numeric:tabular-nums}
           <rect x="258" y="112" width="64" height="116" rx="5" style="fill:var(--servo);opacity:.9"/>
           <text x="290" y="244" text-anchor="middle" class="strong">SG90</text>
           <g id="m-gear"></g>
-          <circle cx="290" cy="170" r="7" style="fill:var(--surface);stroke:var(--head-dark)"/>
+          <circle cx="290" cy="170" r="7" style="fill:var(--chip);stroke:var(--head-dark)"/>
           <text x="232" y="350" text-anchor="middle" class="strong">Dispense rack</text>
           <text x="348" y="350" text-anchor="middle" class="strong">Release rack</text>
           <rect x="408" y="282" width="44" height="12" rx="2" style="fill:var(--appl);stroke:var(--appl-line)"/>
           <text x="430" y="276" text-anchor="middle">holding tip</text>
           <rect x="396" y="330" width="72" height="30" style="fill:url(#layA)"/>
-          <rect x="404" y="330" width="52" height="16" style="fill:var(--surface)"/>
+          <rect x="404" y="330" width="52" height="16" style="fill:var(--chip)"/>
           <text x="500" y="350" text-anchor="middle">pocket</text>
           <g id="m-mag"></g>
           <text id="m-arrowL" x="200" y="174" text-anchor="middle" class="strong"></text>
@@ -323,9 +151,9 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <section id="cycle">
-    <div class="label">Insert cycle</div>
+  <section class="block" id="cycle">
     <div class="body">
+      <p class="eyebrow">Insert cycle</p>
       <h2>What happens at the pocket layer.</h2>
       <p class="prose muted">Side section view of one insert. The applicator tip sits to the side of the nozzle, so the printer moves the nozzle to <em>pocket position minus tool offset</em> to put the tip over the pocket. The bar under the drawing shows the commands the app sends during each phase.</p>
       <div class="anim" id="cyc">
@@ -336,7 +164,7 @@ td{font-variant-numeric:tabular-nums}
           <rect x="0" y="270" width="720" height="16" style="fill:var(--bed)"/>
           <text x="10" y="298">build plate</text>
           <rect id="c-part" x="250" y="270" width="150" height="0" style="fill:url(#layB)"/>
-          <rect id="c-void" x="299" y="240" width="52" height="0" style="fill:var(--surface)"/>
+          <rect id="c-void" x="299" y="240" width="52" height="0" style="fill:var(--chip)"/>
           <g id="c-mag"></g>
           <g id="c-head"></g>
           <text id="c-note" x="560" y="40" text-anchor="middle" class="strong"></text>
@@ -353,9 +181,9 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <section id="sim">
-    <div class="label">3D simulation</div>
+  <section class="block" id="sim">
     <div class="body">
+      <p class="eyebrow">3D simulation</p>
       <h2>The whole insert, on the machine.</h2>
       <p class="prose">The planned insert from the control app, drawn on a model of the Ender-3 V3 SE with the applicator fitted. Like the real printer, the bed slides in Y while the head moves in X and Z. Play it, scrub it, or drag to orbit and scroll to zoom.</p>
       <div class="anim">
@@ -376,9 +204,9 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <section id="software">
-    <div class="label">Software</div>
+  <section class="block" id="software">
     <div class="body">
+      <p class="eyebrow">Software</p>
       <h2>A control app that runs the whole job.</h2>
       <p class="prose muted">A Python desktop app (Tkinter) on a Windows PC talks to the printer and the Arduino over USB serial and drives the print from start to finish, including the insert. The printer's own Marlin firmware is used as shipped.</p>
 
@@ -459,16 +287,16 @@ td{font-variant-numeric:tabular-nums}
       </ul>
       <p class="prose muted">The same checks run in the plan dialog, the preview and the real run, so they can't disagree.</p>
       <div class="stats">
-        <div class="stat"><span class="v">266</span><span class="k">automated tests passing</span></div>
-        <div class="stat"><span class="v">18</span><span class="k">software build phases complete</span></div>
-        <div class="stat"><span class="v">USB</span><span class="k">printer link verified on real hardware</span></div>
+        <div class="stat"><b>266</b><span>automated tests passing</span></div>
+        <div class="stat"><b>18</b><span>software build phases complete</span></div>
+        <div class="stat"><b>USB</b><span>printer link verified on real hardware</span></div>
       </div>
     </div>
   </section>
 
-  <section id="trial">
-    <div class="label">First trial</div>
+  <section class="block" id="trial">
     <div class="body">
+      <p class="eyebrow">First trial</p>
       <h2>26 October 2026, on the printer.</h2>
       <p class="prose">The first hardware run used a 30 × 30 × 10 mm PETG test cube (0.12 mm layers, 83 layers) with a 10 × 10 mm pocket centred at X110 Y110. The pocket floor is at Z ≈ 6.0 mm and its walls rise about 4 mm. For this trial the insert motion was driven by point-to-point playback rather than the automatic sequence, which made it easy to adjust each position by hand.</p>
       <div class="two">
@@ -488,9 +316,9 @@ td{font-variant-numeric:tabular-nums}
         <div>
           <p class="muted">At P4 the tip was over the pocket centre, so the applicator's offset from the nozzle can be read straight off the recording:</p>
           <div class="stats">
-            <div class="stat"><span class="v">+52.0</span><span class="k">X offset, mm</span></div>
-            <div class="stat"><span class="v">−36.8</span><span class="k">Y offset, mm</span></div>
-            <div class="stat"><span class="v">≈ 0</span><span class="k">Z offset, mm</span></div>
+            <div class="stat"><b>+52.0</b><span>X offset, mm</span></div>
+            <div class="stat"><b>−36.8</b><span>Y offset, mm</span></div>
+            <div class="stat"><b>≈ 0</b><span>Z offset, mm</span></div>
           </div>
           <p class="muted" style="font-size:14px">Aligned by eye, so good to roughly ±1–3 mm. These values go into the app's tool offset for the automatic runs.</p>
         </div>
@@ -498,9 +326,9 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <section id="status">
-    <div class="label">Status</div>
+  <section class="block" id="status">
     <div class="body">
+      <p class="eyebrow">Status</p>
       <h2>Where the project is now.</h2>
       <div class="status">
         <div class="st done"><strong>Control software<span class="pill ok">Done</span></strong><span>Serial streaming, G-code viewer, insert planning and sequence, point-to-point recorder, safety checks and simulator.</span></div>
@@ -512,181 +340,17 @@ td{font-variant-numeric:tabular-nums}
     </div>
   </section>
 
-  <footer>
-    <span>KL Mithunvel · Kiran T · Madhumitha V · Taja Pavan · VIT Chennai · 2026</span>
-    <span>Source code and design files are not published on this page.</span>
-  </footer>
+  </main>
+
+<footer class="pfoot">
+  <p>KL Mithunvel · Kiran T · Madhumitha V · Taja Pavan · VIT Chennai · 2026</p>
+  <p class="claim">Not claimed: source code and design files are not published on this page.</p>
+</footer>
 </div>
 
-<script>
-(function(){
-  const NS='http://www.w3.org/2000/svg';
-  const el=(tag,attrs,style)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(style)e.setAttribute('style',style);return e;};
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-  const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-  const lerp=(a,b,t)=>a+(b-a)*t;
-  let reduce=false; try{reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
-
-  function timeline(phases){
-    const T=phases.reduce((s,p)=>s+p.d,0);
-    return {T, at(t){let a=0;for(let i=0;i<phases.length;i++){const p=phases[i];if(t<a+p.d||i===phases.length-1)return {i,p,u:clamp((t-a)/p.d,0,1)};a+=p.d;}}};
-  }
-  function runner(draw,T,btn,scrub){
-    let t=0,playing=!reduce,last=null;
-    function frame(ts){
-      if(last!==null&&playing){t=(t+(ts-last)/1000)%T;}
-      last=ts;draw(t);if(scrub&&playing)scrub.value=Math.round(t/T*1000);
-      requestAnimationFrame(frame);
-    }
-    btn.textContent=playing?'Pause':'Play';
-    btn.addEventListener('click',()=>{playing=!playing;btn.textContent=playing?'Pause':'Play';});
-    if(scrub)scrub.addEventListener('input',()=>{t=scrub.value/1000*T;if(playing){playing=false;btn.textContent='Play';}});
-    draw(reduce?T*0.55:0);
-    requestAnimationFrame(frame);
-  }
-
-  /* ---------- mechanism: SG90 + pinion + two racks ---------- */
-  (function(){
-    const R=44,N=18,PITCH=2*Math.PI*R/N,CX=290,CY=170,MAXA=60;
-    const gear=document.getElementById('m-gear');
-    let d='';
-    for(let i=0;i<N;i++){
-      const a=i*2*Math.PI/N,s=2*Math.PI/N;
-      const pts=[[R-6,a],[R+6,a+s*0.2],[R+6,a+s*0.45],[R-6,a+s*0.65],[R-6,a+s]];
-      pts.forEach((p,j)=>{d+=(i===0&&j===0?'M':'L')+(p[0]*Math.cos(p[1])).toFixed(2)+','+(p[0]*Math.sin(p[1])).toFixed(2);});
-    }
-    const gp=el('path',{d:d+'Z'},'fill:var(--gear);stroke:var(--head-dark);stroke-width:1');
-    gear.appendChild(gp);
-    gear.appendChild(el('circle',{cx:0,cy:0,r:22},'fill:none;stroke:var(--head-dark);stroke-width:1;opacity:.5'));
-    function rack(g,x,teethRight){
-      const L=170,top=CY-L/2;
-      g.appendChild(el('rect',{x:x,y:top,width:20,height:L,rx:2},'fill:var(--rack);stroke:var(--appl-line)'));
-      let p='';const tx=teethRight?x+20:x;const dir=teethRight?1:-1;
-      for(let y=top+4;y<top+L-PITCH;y+=PITCH){p+=`M${tx},${y} L${tx+dir*10},${y+PITCH*0.3} L${tx+dir*10},${y+PITCH*0.55} L${tx},${y+PITCH*0.85} Z `;}
-      g.appendChild(el('path',{d:p},'fill:var(--rack);stroke:var(--appl-line)'));
-    }
-    const rL=document.getElementById('m-rackL'),rR=document.getElementById('m-rackR');
-    rack(rL,222,true);rack(rR,338,false);
-    const stack=document.getElementById('m-stack'),magG=document.getElementById('m-mag');
-    const mags=[];
-    function magnet(){const g=el('g',{});g.appendChild(el('rect',{x:0,y:0,width:44,height:12,rx:2},'fill:var(--mag)'));g.appendChild(el('rect',{x:0,y:0,width:44,height:6,rx:2},'fill:var(--mag-n);opacity:.9'));return g;}
-    for(let k=0;k<11;k++){const m=magnet();stack.appendChild(m);mags.push(m);}
-    const mv=magnet();magG.appendChild(mv);
-    const aL=document.getElementById('m-arrowL'),aR=document.getElementById('m-arrowR'),ph=document.getElementById('mech-phase');
-    const P=[
-      {d:.7,n:'Ready: magazine loaded'},
-      {d:1.3,n:'Dispense stroke: servo turns, dispense rack feeds one magnet'},
-      {d:.9,n:'Head moves the tip over the pocket'},
-      {d:1.4,n:'Press fit into the pocket, then release stroke frees the magnet; tool shears away'},
-      {d:1.0,n:'Servo returns home, stack drops by one'},
-      {d:.9,n:'Magnet seated, ready for the next one'}];
-    const tl=timeline(P);
-    const path=[[58,244],[58,294],[408,294]];
-    function along(u){const L1=50,L2=350,s=u*(L1+L2);if(s<L1)return[58,244+s];return[58+(s-L1),294];}
-    let lastI=-1;
-    function draw(t){
-      const {i,u}=tl.at(t);let ang=0,mx=null,my=null,shift=0,show=true;
-      if(i===0){ang=0;mx=58;my=244;}
-      else if(i===1){const e=ease(u);ang=MAXA*e;[mx,my]=along(e);}
-      else if(i===2){ang=MAXA;mx=408;my=294;}
-      else if(i===3){const e=ease(u);ang=lerp(MAXA,-MAXA,e);mx=408;my=e<.6?294:lerp(294,332,ease((e-.6)/.4));}
-      else if(i===4){ang=lerp(-MAXA,0,ease(u));mx=408;my=332;shift=ease(u);}
-      else {ang=0;mx=408;my=332;shift=1;}
-      const dpx=R*ang*Math.PI/180;
-      gear.setAttribute('transform',`translate(${CX},${CY}) rotate(${-ang})`);
-      rL.setAttribute('transform',`translate(0,${dpx})`);
-      rR.setAttribute('transform',`translate(0,${-dpx})`);
-      // stack: slot k at y=244-18k (k=0 bottom, which is the moving magnet in phase 0)
-      const moving=i>=1;
-      mags.forEach((m,k)=>{
-        const slot=k+1; // stack sits above the dispensed one
-        const y=244-18*slot+18*(i>=4||i===5?shift:0);
-        m.setAttribute('transform',`translate(58,${y})`);
-        m.style.display=slot<=11?'':'none';
-      });
-      mv.setAttribute('transform',`translate(${mx},${my})`);
-      aL.textContent=Math.abs(dpx)<1?'':(dpx>0?'↓':'↑');
-      aR.textContent=Math.abs(dpx)<1?'':(dpx>0?'↑':'↓');
-      if(i!==lastI){ph.textContent=P[i].n;lastI=i;}
-    }
-    runner(draw,tl.T,document.getElementById('mech-play'),null);
-  })();
-
-  /* ---------- insert cycle, side section view ---------- */
-  (function(){
-    const BED=270,FLOOR=240,WALL=225,CAP=212,SH=25,OFF=260,TIPZ=20,POCK=325,PARKY=150,PARKX=40;
-    const part=document.getElementById('c-part'),voidR=document.getElementById('c-void');
-    const head=document.getElementById('c-head'),magG=document.getElementById('c-mag');
-    const note=document.getElementById('c-note'),temp=document.getElementById('c-temp');
-    const gl=document.getElementById('cyc-g'),list=document.getElementById('cyc-phases');
-    // head drawing in local coords, nozzle tip at (0,0)
-    head.appendChild(el('rect',{x:-30,y:-96,width:OFF+60,height:16,rx:3},'fill:var(--head)'));
-    head.appendChild(el('rect',{x:-18,y:-80,width:36,height:66,rx:3},'fill:var(--head)'));
-    head.appendChild(el('polygon',{points:'-7,-14 7,-14 0,0'},'fill:var(--head-dark)'));
-    head.appendChild(el('rect',{x:OFF-20,y:-80,width:40,height:80-TIPZ-10,rx:3},'fill:var(--appl);stroke:var(--appl-line)'));
-    head.appendChild(el('rect',{x:OFF-13,y:-TIPZ-10,width:26,height:10,rx:2},'fill:var(--appl);stroke:var(--appl-line)'));
-    const nozT=el('text',{x:0,y:-104,'text-anchor':'middle'});nozT.textContent='nozzle';head.appendChild(nozT);
-    const tipT=el('text',{x:OFF,y:-104,'text-anchor':'middle'});tipT.textContent='applicator tip';head.appendChild(tipT);
-    const mag=el('g',{});mag.appendChild(el('rect',{x:0,y:0,width:50,height:15,rx:2},'fill:var(--mag)'));mag.appendChild(el('rect',{x:0,y:0,width:50,height:7.5,rx:2},'fill:var(--mag-n);opacity:.9'));magG.appendChild(mag);
-    const zig=s=>255+140*(0.5-0.5*Math.cos(s*5));
-    const P=[
-      {n:'Print to pocket',d:3.2,g:'G1 X118.4 Y102.7 E0.0213   ; each line answered with ok, layer by layer'},
-      {n:'Save + park',d:1.4,g:'M83 · G1 E-3 F2400 · G90 · G1 Z+15 F6000 · M400 · M104 S160'},
-      {n:'Dispense',d:1.2,g:'PC → Uno: DISPENSE      Uno → PC: OK DISPENSE'},
-      {n:'Approach',d:1.2,g:'G1 X58.0 Y146.8 F6000 · M400   ; nozzle = pocket (X110 Y110) − tool offset'},
-      {n:'Press fit',d:1.4,g:'G1 Z6.04 F60 · G4 P500 · M400   ; slow push, magnet press-fits into the pocket'},
-      {n:'Release + shear',d:1.6,g:'release stroke · G1 X53.0 F1200 · M400   ; tool shears sideways, pocket walls hold the magnet'},
-      {n:'Lift + confirm',d:1.4,g:'G1 Z+15 · park · M400 · operator: Success / Retry / Abort'},
-      {n:'Resume',d:1.2,g:'M109 S240 · G1 X Y (saved) · G1 Z (saved) · G1 E3 · G92 E(saved) · M82'},
-      {n:'Seal over',d:2.4,g:'streaming continues: the remaining layers print over the magnet'},
-      {n:'Done',d:1.2,g:'; magnet sealed inside the part'}];
-    P.forEach(p=>{const li=document.createElement('li');li.textContent=p.n;list.appendChild(li);});
-    const lis=[...list.children];
-    const tl=timeline(P);
-    const endPrintX=zig(P[0].d*1.0), resumeY=WALL-2;
-    let lastI=-1;
-    function draw(t){
-      const {i,u}=tl.at(t);const e=ease(u);
-      let top,nx,ny,ms='none',my=0,mo=1,nt='',tt='';
-      const pressY=FLOOR-15+TIPZ; // nozzle y when magnet bottom touches floor
-      switch(i){
-        case 0: top=lerp(BED,WALL,u);nx=zig(u*P[0].d);ny=top-1;tt='nozzle 240 °C';break;
-        case 1: top=WALL;nx=lerp(endPrintX,PARKX,e);ny=lerp(WALL-1,PARKY,Math.min(1,e*1.6));tt='nozzle → 160 °C standby';nt='print paused';break;
-        case 2: top=WALL;nx=PARKX;ny=PARKY;ms='disp';my=u;tt='160 °C standby';nt='servo: dispense stroke';break;
-        case 3: top=WALL;nx=lerp(PARKX,POCK-OFF,e);ny=PARKY;ms='held';tt='160 °C standby';break;
-        case 4: top=WALL;nx=POCK-OFF;ny=lerp(PARKY,pressY,ease(Math.min(1,u*1.25)));ms='held';tt='slow Z, F60';nt=u>.6?'press fit into pocket':'';break;
-        case 5: top=WALL;nx=u<.35?POCK-OFF:lerp(POCK-OFF,POCK-OFF-SH,ease((u-.35)/.65));ny=pressY;ms=u<.3?'held':'seated';nt=u<.35?'servo: release stroke':'shear away sideways';break;
-        case 6: top=WALL;nx=lerp(POCK-OFF-SH,PARKX,e);ny=lerp(pressY,PARKY,Math.min(1,e*1.6));ms='seated';nt=u>.5?'operator: Success':'';break;
-        case 7: top=WALL;nx=lerp(PARKX,endPrintX,e);ny=lerp(PARKY,resumeY,e);ms='seated';tt='reheat, M109 S240';break;
-        case 8: top=lerp(WALL,CAP,u);nx=zig(P[0].d+u*P[8].d);ny=top-1;ms='seated';tt='nozzle 240 °C';break;
-        default: top=CAP;nx=lerp(zig(P[0].d+P[8].d),PARKX+40,e);ny=lerp(CAP-1,PARKY,e);ms='seated';nt='magnet sealed inside';
-      }
-      part.setAttribute('y',top);part.setAttribute('height',BED-top);
-      const vTop=Math.max(top,WALL);
-      if(top<FLOOR){voidR.setAttribute('y',vTop);voidR.setAttribute('height',FLOOR-vTop);}else{voidR.setAttribute('height',0);}
-      // sealed cap drawn over void by drawing part again? cap region is above WALL so void (WALL..FLOOR) stays: section view shows the cavity
-      head.setAttribute('transform',`translate(${nx},${ny})`);
-      if(ms==='none'){mag.style.display='none';}
-      else{
-        mag.style.display='';let mx,myy,op=1;
-        if(ms==='disp'){mx=nx+OFF-25;myy=lerp(ny-70,ny-TIPZ,ease(my));op=clamp(my*2,0,1);}
-        else if(ms==='held'){mx=nx+OFF-25;myy=ny-TIPZ;}
-        else {mx=POCK-25;myy=FLOOR-15;op=(i>=8&&top<WALL)?0.75:1;}
-        mag.setAttribute('transform',`translate(${mx},${myy})`);mag.style.opacity=op;
-      }
-      note.textContent=nt;temp.textContent=tt;
-      if(i!==lastI){gl.textContent=P[i].g;lis.forEach((l,k)=>l.classList.toggle('on',k===i));lastI=i;}
-    }
-    runner(draw,tl.T,document.getElementById('cyc-play'),document.getElementById('cyc-scrub'));
-  })();
-})();
-</script>
-
+<script src="project.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script src="sim-data.js"></script>
 <script type="module" src="sim.js"></script>
-
-
-<nav class="sc-foot" aria-label="More projects"><div class="sc-in"><a href="../../traffic-management/site/index.html"><span>← Previous</span><b>Look-Ahead Signals</b></a><a href="../../ros-lab/site/index.html"><span>Next →</span><b>ROS 2 Mobile Robots</b></a><a class="sc-all" href="../../../index.html">All projects</a></div></nav>
 </body>
 </html>
