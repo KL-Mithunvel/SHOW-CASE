@@ -76,7 +76,7 @@ h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
 @media (min-width: 40rem) { .pwrap { padding-inline: 1.5rem; } }
 
 /* Labels: mono, small, upper-case. Used for eyebrows, captions and table heads. */
-.eyebrow, .cap, th { font: 500 0.75rem/1.4 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.eyebrow, .cap, .lab, th { font: 500 0.75rem/1.4 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .eyebrow { color: var(--accent); }
 
 /* ------------------------------------------------------------ top bar */
@@ -97,7 +97,7 @@ h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
 .hero .lead { font-size: 1.15rem; line-height: 1.55; max-width: 52ch; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }
 .stat { padding: 0.85rem 1rem; background: var(--chip); border: 1px solid var(--border); border-radius: var(--radius); display: grid; gap: 0.15rem; }
-.stat b { font: 600 1.35rem/1.2 var(--font-mono); font-variant-numeric: tabular-nums; }
+.stat b { font: 600 1.2rem/1.25 var(--font-mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .stat span { font-size: 0.85rem; color: var(--muted); }
 .hero-media { margin-top: 0.75rem; }
 
@@ -114,6 +114,14 @@ figure img, figure video { display: block; width: 100%; height: auto; border: 1p
 .scroll { overflow-x: auto; max-width: 100%; }
 .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
 @media (max-width: 52rem) { .pair { grid-template-columns: 1fr; } }
+
+/* Small layout helpers */
+.stack { display: grid; gap: 1.1rem; }
+.mt { margin-top: 1.75rem; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; align-items: start; }
+@media (max-width: 52rem) { .trio { grid-template-columns: 1fr; } }
+.note { font-size: 0.85rem; color: var(--muted); max-width: 80ch; }
+.pair.mt, .trio.mt, .facts.mt { margin-top: 1.75rem; }
 
 /* Gallery: a grid of figures. Click an image (a.zoom) to open it in the shared lightbox. */
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem 1.25rem; }

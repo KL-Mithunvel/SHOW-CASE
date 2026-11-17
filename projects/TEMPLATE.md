@@ -35,7 +35,7 @@ Every page under `projects/<id>/site/index.html` uses one shared template (decid
 ```
 
 ## Components in base.css
-`.stats/.stat`, `.panel`, `figure/figcaption`, `.gallery` (+ `.wide`) with `a.zoom` for the lightbox, `.pair`, `.scroll` (wrap wide tables and diagrams), `dl.rows`, `ol.rules`, `ol.timeline`, `table` (`td.num` for numbers), `.facts`, `.callout`, `.chips/.chip`, `.btn/.tabs`, `pre/code`, labels (`.eyebrow`, `.cap`).
+`.stats/.stat`, `.stack`, `.trio`, `.mt`, `.note`, `.panel`, `figure/figcaption`, `.gallery` (+ `.wide`) with `a.zoom` for the lightbox, `.pair`, `.scroll` (wrap wide tables and diagrams), `dl.rows`, `ol.rules`, `ol.timeline`, `table` (`td.num` for numbers), `.facts`, `.callout`, `.chips/.chip`, `.btn/.tabs`, `pre/code`, labels (`.eyebrow`, `.cap`).
 
 ## Converting a page
 1. Copy the head and bar from the reference page; set `data-project`, title, description.
