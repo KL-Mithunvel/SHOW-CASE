@@ -5,7 +5,7 @@
 - [ ] Owner: open `design-lab/index.html`, choose a look, press "Copy settings" and send the JSON. Then Claude bakes it into `DEFAULTS` in `assets/js/design-data.js`, moves the chosen icon set into `assets/`, and removes the unused options (or keeps the lab).
 - [ ] If the owner wants truly different icon drawings (not just styles), draw a second set for the icons they pick (`tools/make_pixel_icons.py`).
 - [ ] Check the rebuilt pages in browsers other than Chrome and at 125% / 150% Windows scaling; test the "Copy settings" button.
-- [ ] Review the landing page (`index.html` + `about.html`, rebuilt 2026-11-14 on Tania Rascia's `/blog/` layout) in a browser: desktop, phone width, light/dark toggle, topic filter. Never viewed yet.
+- [ ] Review the landing page (`index.html`, rebuilt 2026-11-14 on Tania Rascia's `/blog/` layout; since 2026-11-17 it holds the profile section above Projects, and `about.html` only redirects) in a browser: desktop, phone width, light/dark toggle, accent colour carrying to the project pages, sidebar section links and scroll highlight, topic filter. Never viewed yet.
 - [ ] Confirm the project dates on the landing page (taken from each repo's first commit; see `CLAUDE-LOG.md` 2026-11-14).
 - [ ] Landing page follow-ups: add a contact email (owner to say which), add short muted video previews on entries, add a "back to portfolio" link on each project page, confirm which project repos are public before adding "Source" links.
 - [ ] Build the combined showcase site from `projects/` (one page per project). Landing page done 2026-11-14 (see Done).
@@ -14,6 +14,7 @@
 
 
 ## Done
+- [x] Rebuild all eight project pages on one shared template (owner's decisions 2026-11-17: one accent from the landing page, local copies may diverge from the artifacts, template first then one page per commit) — template + SLEEPY 36db4c7, HERC-26 243a665, Traffic 7288701, Enigma b555ca6, ROS 9069876, 2-DOF arm 8d969dc, Magnet 7ad8c85, Tile 65cdabd; old overlay and `tools/apply_shared_theme.py` removed, `check_site.py` enforces the template. Rules in `projects/TEMPLATE.md`. Not yet pushed or merged to `prod`.
 - [x] Write the combined landing page at the repo root: `index.html`, `assets/css/site.css`, `assets/js/site.js`, 7 pixel icons in `assets/img/pixel/`, generator `tools/make_pixel_icons.py`. Style from Tania Rascia (pixel look, cards) and Brittany Chiang (sticky left nav); six featured projects. Not yet committed; not yet viewed in a browser.
 - [x] Write the HERC-26 showcase page, publish it as the artifact "HERC-26 Rover" and save it to `projects/herc-26/site/index.html`; provenance in `projects/SOURCES.md`. Not yet committed.
 - [x] Re-sync the 2-DOF arm site from `PLC-2-DOF-manipulator` commit 49f2362: 6 HMI screenshots and page edits. Not yet committed.
@@ -33,7 +34,7 @@
 
 ## Not Started
 - [ ] Later: bring back parts of Brittany Chiang's site (owner's decision 2026-11-14): fixed side navigation with active-section highlight, timeline-style experience. Do not add until the owner asks.
-- [ ] Later: compare the eight separately made showcase pages (Enigma, Traffic, Magnet, Tile index + 3D plant, 2-DOF arm, ROS lab, HERC-26) and make them consistent across projects: fonts, colours and dark/light theme, header, nav and footer, section and caption style, how images, videos and galleries are shown, mobile layout. Start by listing the differences, then pick one shared look and decide whether to share one CSS file. Do this before building the combined landing page.
+- [x] (done, see Done above) Later: compare the eight separately made showcase pages (Enigma, Traffic, Magnet, Tile index + 3D plant, 2-DOF arm, ROS lab, HERC-26) and make them consistent across projects: fonts, colours and dark/light theme, header, nav and footer, section and caption style, how images, videos and galleries are shown, mobile layout. Start by listing the differences, then pick one shared look and decide whether to share one CSS file. Do this before building the combined landing page.
 - [ ] Later: add "HERC" and "Time in Team Movis" (owner's wording; exact projects and source repos to be confirmed) as further projects on the showcase page.
 - [ ] Pin dependencies that silently break: record the pin, the reason, and a verification command (machine-vision Development Rule 7).
 - [ ] Record failed experiments and attempts with their numbers (machine-vision Development Rule 8).

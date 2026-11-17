@@ -2,25 +2,11 @@
   'use strict';
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const root = document.documentElement;
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage blocked: fine */ } },
   };
-
-  /* ---------- theme: system → light → dark ---------- */
-  const root = document.documentElement;
-  const themeBtn = $('#themeBtn');
-  const applyTheme = t => {
-    if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
-    themeBtn.textContent = t === 'light' ? 'Light' : t === 'dark' ? 'Dark' : 'Auto';
-    themeBtn.setAttribute('aria-label', 'Colour theme: ' + themeBtn.textContent + '. Click to change.');
-  };
-  let theme = store.get('theme') || 'system';
-  applyTheme(theme);
-  themeBtn.addEventListener('click', () => {
-    theme = theme === 'system' ? 'light' : theme === 'light' ? 'dark' : 'system';
-    store.set('theme', theme); applyTheme(theme);
-  });
 
   /* ---------- media slots: show a placeholder until the file exists ---------- */
   for (const slot of $$('.slot')) {
@@ -46,22 +32,6 @@
     fetch(a.dataset.probe, { method: 'HEAD' }).then(r => { if (r.ok) a.hidden = false; }).catch(() => {});
   }
 
-  /* ---------- lightbox ---------- */
-  const lb = $('#lightbox'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
-  const openLb = (src, alt, cap) => {
-    lbImg.src = src; lbImg.alt = alt || ''; lbCap.textContent = cap || '';
-    if (typeof lb.showModal === 'function') lb.showModal(); else window.open(src, '_blank');
-  };
-  document.addEventListener('click', e => {
-    const b = e.target.closest('button.zoom');
-    if (!b) return;
-    const img = $('img', b); if (!img || !img.naturalWidth) return;
-    const cap = b.closest('figure') && $('figcaption', b.closest('figure'));
-    openLb(img.currentSrc || img.src, img.alt, cap ? cap.textContent : img.alt);
-  });
-  $('#lbClose').addEventListener('click', () => lb.close());
-  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
-
   /* ---------- 3D plant: load on demand ---------- */
   $('#plantStart').addEventListener('click', () => {
     const f = document.createElement('iframe');
@@ -86,7 +56,7 @@
     for (let i = 0; i < 14; i++) {
       const c = document.createElement('i');
       const on = i >= from && i <= to;
-      c.style.background = on ? (soft ? 'color-mix(in srgb, var(--ink) 45%, var(--rule))' : 'var(--ink)') : 'var(--rule)';
+      c.style.background = on ? (soft ? 'color-mix(in srgb, var(--text) 45%, var(--border))' : 'var(--text)') : 'var(--border)';
       el.appendChild(c);
     }
   };
@@ -114,8 +84,9 @@
     for (const b of $$('button', tabs)) b.setAttribute('aria-selected', String(b.dataset.id === s.id));
     panel.innerHTML = '';
     const fig = document.createElement('figure');
-    fig.innerHTML = '<button class="zoom" type="button"><img class="shot" alt=""></button><figcaption></figcaption>';
+    fig.innerHTML = '<a class="zoom"><img class="shot" alt=""></a><figcaption></figcaption>';
     const img = $('img', fig); img.src = 'media/screens/' + s.img + '.webp'; img.alt = s.alt;
+    $('a', fig).href = img.getAttribute('src');
     $('figcaption', fig).textContent = 'Synthetic demo data — screens taken with no hardware attached.';
     const p = document.createElement('div'); p.className = 'prose';
     const h = document.createElement('h3'); h.textContent = s.name;
@@ -206,9 +177,10 @@
   for (const [cat, file, name, dir] of G) {
     const f = document.createElement('figure');
     f.dataset.cat = cat;
-    f.innerHTML = '<button class="zoom" type="button"><img class="shot" loading="lazy" alt=""></button><figcaption></figcaption>';
+    f.innerHTML = '<a class="zoom"><img class="shot" loading="lazy" alt=""></a><figcaption></figcaption>';
     const img = $('img', f);
     img.src = 'media/' + (dir || 'screens') + '/' + file + '.webp';
+    $('a', f).href = img.getAttribute('src');
     img.alt = cat + ': ' + name;
     if (dir) img.classList.add('fig-light');
     $('figcaption', f).textContent = name;
@@ -234,11 +206,11 @@
   const readColors = () => {
     const cs = getComputedStyle(root);
     const v = n => cs.getPropertyValue(n).trim();
-    C = { paper: v('--sheet'), ink: v('--ink'), muted: v('--muted'), rule: v('--rule'), belt: v('--belt'), beltSoft: v('--belt-soft'),
+    C = { paper: v('--chip'), ink: v('--text'), muted: v('--muted'), rule: v('--border'), belt: v('--accent'), beltSoft: v('--accent-soft'),
           clay: v('--clay'), A: v('--g-a'), B: v('--g-b'), C: v('--g-c'), R: v('--g-r'), H: v('--g-h') };
   };
   readColors();
-  new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme', 'style'] });   // theme or accent changed
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors);
 
   const fit = () => {

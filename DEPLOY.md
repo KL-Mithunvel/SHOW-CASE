@@ -8,7 +8,7 @@ Live URL: https://kl-mithunvel.github.io/SHOW-CASE/ — static site, no build st
 - `machine-vision` — personal copy, never merged (see `.CLAUDE/CLAUDE.md`).
 
 ## What gets published
-Only `index.html`, `about.html`, `assets/` and `projects/` (copied into `_site/` by the deploy workflow). `design-lab/`, `tools/`, `.CLAUDE/`, docs and `TODO.md` stay out. `showcase-private/` is gitignored and never leaves the machine.
+Only `index.html`, `about.html` (a redirect to `index.html#about`; the profile section now lives in `index.html`), `assets/` and `projects/` (copied into `_site/` by the deploy workflow). `design-lab/`, `tools/`, `.CLAUDE/`, docs and `TODO.md` stay out. `showcase-private/` is gitignored and never leaves the machine.
 `assets/js/site.js` loads `design-lab/` icons only if a non-classic icon style is set. The default is `classic`, which lives in `assets/img/pixel/`. If you ever change the default, move that icon set into `assets/` first.
 
 ## Release procedure

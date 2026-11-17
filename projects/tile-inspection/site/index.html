@@ -1,46 +1,39 @@
-<!doctype html><html lang="en" data-sc="tile"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>Tile Inspection Line</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<!doctype html>
+<html lang="en" data-project="tile">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tile Inspection Line · K L Mithunvel</title>
 <meta name="description" content="Automated tile inspection, grading and sorting system — machine vision, impact-acoustic testing, fail-closed fusion and a Cartesian pick-and-place gantry. B.Tech. Mechatronics and Automation capstone, VIT Chennai, 2026.">
 <meta property="og:title" content="Automated Tile Inspection, Grading and Sorting System">
 <meta property="og:description" content="Camera + impact-acoustic inspection, fail-closed grade fusion and a pick-and-place gantry for a clay tile works. VIT Chennai capstone, 2026.">
 <meta property="og:image" content="media/photos/full_rig.jpg">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="../../../assets/img/pixel/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
-<link rel="stylesheet" href="assets/css/site.css">
-<link rel="stylesheet" href="../../_shared/showcase.css">
-<script src="../../_shared/showcase.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../_shared/base.css">
+<link rel="stylesheet" href="project.css">
+<script src="../../_shared/base.js"></script>
 </head>
 <body>
-<nav class="sc-bar" aria-label="Portfolio"><div class="sc-in"><a class="sc-back" href="../../../index.html">← All projects</a><span class="sc-me">K L Mithunvel</span><span class="sc-sp"></span></div></nav>
+<a class="skip" href="#main">Skip to content</a>
 
-
-
-<header class="topbar">
-  <div class="wrap">
-    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Tile Inspection Line</a>
-    <nav class="nav" aria-label="Sections">
-      <a href="#problem">Problem</a>
-      <a href="#line">The line</a>
-      <a href="#plant">3D plant</a>
-      <a href="#stations">Stations</a>
-      <a href="#software">Software</a>
-      <a href="#results">Results</a>
-      <a href="#models">Models</a>
-      <a href="#build">Build log</a>
-      <a href="#certificate">Certificate</a>
-      <a href="#team">Team</a>
-    </nav>
-    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Theme</button>
+<nav class="pbar" aria-label="Portfolio">
+  <div class="pwrap">
+    <a class="back" href="../../../index.html">← All projects</a>
+    <span class="name">K L Mithunvel</span>
+    <span class="sp"></span>
+    <button class="pbtn theme" type="button">Dark</button>
   </div>
-</header>
+</nav>
 
-<main id="top">
+<div class="pwrap">
+<main id="main">
 
 <!-- ============================== HERO ============================== -->
-<div class="hero">
-  <div class="wrap">
+<header class="hero">
     <div class="hero-grid">
       <div>
         <div class="label rise">B.Tech. Mechatronics and Automation · Capstone · VIT Chennai · 2026</div>
@@ -71,25 +64,24 @@
     </div>
 
     <div class="stats">
-      <div><b class="num">53,040</b><span>tiles in the plant records we analysed (two production days)</span></div>
-      <div><b class="num">92</b><span>tile passes on real belt footage, 88 checked against a human eye</span></div>
-      <div><b class="num">1,062</b><span>automated tests passing, every fail-closed rule covered</span></div>
-      <div><b class="num">₹60.4k</b><span>prototype bill of materials, commodity parts (supplier list prices)</span></div>
+      <div class="stat"><b class="num">53,040</b><span>tiles in the plant records we analysed (two production days)</span></div>
+      <div class="stat"><b class="num">92</b><span>tile passes on real belt footage, 88 checked against a human eye</span></div>
+      <div class="stat"><b class="num">1,062</b><span>automated tests passing, every fail-closed rule covered</span></div>
+      <div class="stat"><b class="num">₹60.4k</b><span>prototype bill of materials, commodity parts (supplier list prices)</span></div>
     </div>
-  </div>
-</div>
+</header>
 
 <!-- ============================== PROBLEM ============================== -->
-<section id="problem">
-  <div class="wrap">
+<section class="block" id="problem">
+  <div>
     <div class="sec-head">
-      <div class="label">01 · The problem</div>
+      <p class="eyebrow">01 · The problem</p>
       <h2>Nine people sort 20,160 tiles a day by hand.</h2>
       <p>SMTW grades fired clay roofing tiles by eye and by tapping them. It works, but it is tiring, nobody records why a tile was downgraded, and the defect never gets traced back to a kiln batch.</p>
     </div>
     <div class="two">
       <div class="prose">
-        <div class="facts">
+        <div class="keyfacts">
           <div><b class="num">₹0.575</b><span>manual sorting cost per tile (₹11,583 a day)</span></div>
           <div><b class="num">2.17 %</b><span>of 53,040 tiles were broken</span></div>
           <div><b class="num">18.6 %</b><span>fell into the two lowest grades (Grade 4 + 5)</span></div>
@@ -119,7 +111,7 @@
           <figcaption>SMTW sorting sheets, two production days, 53,040 tiles.</figcaption>
         </div>
         <figure class="slot">
-          <div class="media"><button class="zoom" type="button"><img class="shot" src="media/photos/smtw_manual_sorting.jpg" alt="Workers at Sree Murugan Tile Works stacking clay tiles and moving them on hand carts under the sorting shed" loading="lazy"></button></div>
+          <div class="media"><a class="zoom" href="media/photos/smtw_manual_sorting.jpg"><img class="shot" src="media/photos/smtw_manual_sorting.jpg" alt="Workers at Sree Murugan Tile Works stacking clay tiles and moving them on hand carts under the sorting shed" loading="lazy"></a></div>
           <div class="ph" style="--ar:16/9"><span class="k">Photo slot</span><b>Manual sorting at SMTW</b><code>media/photos/smtw_manual_sorting.jpg</code></div>
           <figcaption>The sorting shed at SMTW: every tile is handled, graded and stacked by hand.</figcaption>
         </figure>
@@ -129,22 +121,22 @@
 </section>
 
 <!-- ============================== THE LINE ============================== -->
-<section id="line">
-  <div class="wrap">
+<section class="block" id="line">
+  <div>
     <div class="sec-head">
-      <div class="label">02 · The line</div>
+      <p class="eyebrow">02 · The line</p>
       <h2>Four stations, one tile at a time, every decision logged.</h2>
       <p>Each station is its own computer. It processes its own raw data and publishes only a compact result over MQTT on an isolated network, so the line keeps working with no master PC attached.</p>
     </div>
 
     <div class="rig">
       <figure>
-        <button class="zoom" type="button"><img loading="lazy" class="shot" src="media/photos/full_rig.jpg" alt="The built prototype: green conveyor belt with a clay tile under the overhead webcam arch, the solenoid striker and microphone mid-belt, and the aluminium-extrusion Cartesian gantry with orange printed carriages at the far end" fetchpriority="high"></button>
+        <a class="zoom" href="media/photos/full_rig.jpg"><img loading="lazy" class="shot" src="media/photos/full_rig.jpg" alt="The built prototype: green conveyor belt with a clay tile under the overhead webcam arch, the solenoid striker and microphone mid-belt, and the aluminium-extrusion Cartesian gantry with orange printed carriages at the far end" fetchpriority="high"></a>
         <figcaption>The built line on the bench: belt, camera arch, striker with microphone, and the pick-and-place gantry.</figcaption>
       </figure>
       <figure>
         <div class="annot">
-          <button class="zoom" type="button"><img class="shot" src="media/photos/top_view.jpg" alt="Top view of the line with the camera, striker, microphone, controllers and gantry marked 1 to 6" loading="lazy"></button>
+          <a class="zoom" href="media/photos/top_view.jpg"><img class="shot" src="media/photos/top_view.jpg" alt="Top view of the line with the camera, striker, microphone, controllers and gantry marked 1 to 6" loading="lazy"></a>
           <span class="pin" style="left:26%;top:47%">1</span>
           <span class="pin" style="left:58%;top:47%">2</span>
           <span class="pin" style="left:55%;top:23%">3</span>
@@ -177,7 +169,7 @@
         <figcaption>Real belt footage from the camera station. The green line is the trigger: each tile is counted exactly once as it crosses.</figcaption>
       </figure>
       <figure>
-        <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_architecture.webp" alt="System architecture: camera, acoustic and decision nodes on a Raspberry Pi 5, Arduino Nano for striker and belt, Arduino UNO Q for the gantry, linked by an isolated D-Link router" loading="lazy"></button>
+        <a class="zoom" href="media/figures/fig_architecture.webp"><img class="shot fig-light" src="media/figures/fig_architecture.webp" alt="System architecture: camera, acoustic and decision nodes on a Raspberry Pi 5, Arduino Nano for striker and belt, Arduino UNO Q for the gantry, linked by an isolated D-Link router" loading="lazy"></a>
         <figcaption>System architecture: nodes, control network and physical line.</figcaption>
       </figure>
     </div>
@@ -185,10 +177,10 @@
 </section>
 
 <!-- ============================== PLANT 3D ============================== -->
-<section id="plant">
-  <div class="wrap">
+<section class="block" id="plant">
+  <div>
     <div class="sec-head">
-      <div class="label">03 · Master node</div>
+      <p class="eyebrow">03 · Master node</p>
       <h2>Walk around the line in 3D.</h2>
       <p>This is the master PC's Plant 3D view from the project, built in Three.js. Here it runs a synthetic demo line inside your browser: tiles ride the belt coloured by grade, the striker drops, the gantry picks each tile into its bin, and a camera fault is staged about every 50 seconds. The line-control buttons work.</p>
     </div>
@@ -208,10 +200,10 @@
 </section>
 
 <!-- ============================== STATIONS ============================== -->
-<section id="stations">
-  <div class="wrap">
+<section class="block" id="stations">
+  <div>
     <div class="sec-head">
-      <div class="label">04 · Stations</div>
+      <p class="eyebrow">04 · Stations</p>
       <h2>Following one tile down the belt.</h2>
     </div>
 
@@ -230,16 +222,16 @@
       </div>
       <div class="media-stack">
         <figure>
-          <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_real_frame.webp" alt="A raw 1080p webcam frame of a broken tile on the green belt, and the pipeline view with belt region, tile contour, box and trigger line" loading="lazy"></button>
+          <a class="zoom" href="media/figures/fig_real_frame.webp"><img class="shot fig-light" src="media/figures/fig_real_frame.webp" alt="A raw 1080p webcam frame of a broken tile on the green belt, and the pipeline view with belt region, tile contour, box and trigger line" loading="lazy"></a>
           <figcaption>Raw frame and the pipeline's view: belt region (cyan), tile contour (green), box (orange), trigger line (red).</figcaption>
         </figure>
         <div class="media-pair">
           <figure>
-            <button class="zoom" type="button"><img class="shot" src="media/screens/camera_dashboard.webp" alt="Camera dashboard replaying a belt recording, with the last captured tile, crack and corner readings and a recent tiles table" loading="lazy" style="aspect-ratio:4/3;object-fit:cover;object-position:top"></button>
+            <a class="zoom" href="media/screens/camera_dashboard.webp"><img class="shot" src="media/screens/camera_dashboard.webp" alt="Camera dashboard replaying a belt recording, with the last captured tile, crack and corner readings and a recent tiles table" loading="lazy" style="aspect-ratio:4/3;object-fit:cover;object-position:top"></a>
             <figcaption>Camera dashboard on recorded belt footage.</figcaption>
           </figure>
           <figure>
-            <button class="zoom" type="button"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the belt: the webcam hangs from the extrusion arch above a clay tile on the green belt" loading="lazy" style="object-position:50% 30%"></button>
+            <a class="zoom" href="media/photos/camera_station.jpg"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the belt: the webcam hangs from the extrusion arch above a clay tile on the green belt" loading="lazy" style="object-position:50% 30%"></a>
             <figcaption>The webcam on its arch, looking down at a tile.</figcaption>
           </figure>
         </div>
@@ -262,7 +254,7 @@
       <div class="media-stack">
         <div class="media-pair">
           <figure>
-            <button class="zoom" type="button"><img class="shot crop" src="media/photos/acoustic_station.jpg" alt="The striker: a JF-1578B push-pull solenoid with a red mallet head on a printed blue mount over the belt, with the microphone beside it" loading="lazy" style="aspect-ratio:3/4;object-position:50% 60%"></button>
+            <a class="zoom" href="media/photos/acoustic_station.jpg"><img class="shot crop" src="media/photos/acoustic_station.jpg" alt="The striker: a JF-1578B push-pull solenoid with a red mallet head on a printed blue mount over the belt, with the microphone beside it" loading="lazy" style="aspect-ratio:3/4;object-position:50% 60%"></a>
             <figcaption>JF-1578B solenoid (12 V, 50 N, 15 mm stroke) with its mallet head, and the microphone beside the belt.</figcaption>
           </figure>
           <figure class="slot">
@@ -272,7 +264,7 @@
           </figure>
         </div>
         <figure>
-          <button class="zoom" type="button"><img class="shot" src="media/screens/acoustic_analysis_05-analyze.webp" alt="Acoustic-Analysis desktop app, Analyze screen with waveform and spectrum" loading="lazy"></button>
+          <a class="zoom" href="media/screens/acoustic_analysis_05-analyze.webp"><img class="shot" src="media/screens/acoustic_analysis_05-analyze.webp" alt="Acoustic-Analysis desktop app, Analyze screen with waveform and spectrum" loading="lazy"></a>
           <figcaption>Acoustic-Analysis desktop app, Analyze screen (generated signals).</figcaption>
         </figure>
       </div>
@@ -306,11 +298,11 @@
       </div>
       <div class="media-stack">
         <figure>
-          <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_decision_flow.webp" alt="Per-tile decision flow with fail-closed branches" loading="lazy"></button>
+          <a class="zoom" href="media/figures/fig_decision_flow.webp"><img class="shot fig-light" src="media/figures/fig_decision_flow.webp" alt="Per-tile decision flow with fail-closed branches" loading="lazy"></a>
           <figcaption>Per-tile decision flow with its fail-closed branches.</figcaption>
         </figure>
         <figure>
-          <button class="zoom" type="button"><img class="shot" src="media/screens/station_run.webp" alt="Pi station run view: health chips, last tile's final grade and bin, tally and recent tiles" loading="lazy"></button>
+          <a class="zoom" href="media/screens/station_run.webp"><img class="shot" src="media/screens/station_run.webp" alt="Pi station run view: health chips, last tile's final grade and bin, tally and recent tiles" loading="lazy"></a>
           <figcaption>Station run view beside the line: health chips, last tile's grade and bin, every tile's votes (demonstration line).</figcaption>
         </figure>
       </div>
@@ -362,12 +354,12 @@
       </div>
       <div class="media-stack">
         <figure>
-          <button class="zoom" type="button"><img class="shot" src="media/screens/pickplace_twin_running_jobs.webp" alt="Pick-and-place digital twin running sorting jobs, showing the job step, command sent and machine reply" loading="lazy"></button>
+          <a class="zoom" href="media/screens/pickplace_twin_running_jobs.webp"><img class="shot" src="media/screens/pickplace_twin_running_jobs.webp" alt="Pick-and-place digital twin running sorting jobs, showing the job step, command sent and machine reply" loading="lazy"></a>
           <figcaption>Digital twin running real sequencer jobs against the simulated MCU.</figcaption>
         </figure>
         <div class="media-pair">
           <figure>
-            <button class="zoom" type="button"><img class="shot crop" src="media/photos/gantry.jpg" alt="The gantry: NEMA 17 steppers, lead screws and printed orange carriages on an aluminium-extrusion frame over the belt" loading="lazy"></button>
+            <a class="zoom" href="media/photos/gantry.jpg"><img class="shot crop" src="media/photos/gantry.jpg" alt="The gantry: NEMA 17 steppers, lead screws and printed orange carriages on an aluminium-extrusion frame over the belt" loading="lazy"></a>
             <figcaption>NEMA 17 axes on lead screws; the Y beam is driven by two motors.</figcaption>
           </figure>
           <figure class="slot">
@@ -382,10 +374,10 @@
 </section>
 
 <!-- ============================== SOFTWARE ============================== -->
-<section id="software">
-  <div class="wrap">
+<section class="block" id="software">
+  <div>
     <div class="sec-head">
-      <div class="label">05 · Operator and engineering software</div>
+      <p class="eyebrow">05 · Operator and engineering software</p>
       <h2>Every node has a screen, and the master explains its own alarms.</h2>
       <p>The master PC is optional: it watches the line, keeps its own copy of every tile, and can send soft controls. Rule-based detectors find anomalies; a small local language model (llama3.2:3b, so no data leaves the control network) explains them in plain words. On synthetic data with seven planted faults, all seven were found with no false alarms.</p>
     </div>
@@ -395,10 +387,10 @@
 </section>
 
 <!-- ============================== RESULTS ============================== -->
-<section id="results">
-  <div class="wrap">
+<section class="block" id="results">
+  <div>
     <div class="sec-head">
-      <div class="label">06 · What we measured</div>
+      <p class="eyebrow">06 · What we measured</p>
       <h2>88 belt tiles, checked against a human eye.</h2>
       <p>Each square is one real tile from the belt, grouped by what a person said and coloured by what the pipeline decided. Large damage is caught; hairline cracks are not, and the blur panel shows why.</p>
     </div>
@@ -455,7 +447,7 @@
         </div>
       </div>
       <figure>
-        <button class="zoom" type="button"><img class="shot fig-light" src="media/figures/fig_tile_gallery.webp" alt="Real tiles from the belt with the human verdict and the pipeline grade" loading="lazy"></button>
+        <a class="zoom" href="media/figures/fig_tile_gallery.webp"><img class="shot fig-light" src="media/figures/fig_tile_gallery.webp" alt="Real tiles from the belt with the human verdict and the pipeline grade" loading="lazy"></a>
         <figcaption>Real tiles from the belt, with the human verdict and the pipeline's grade.</figcaption>
       </figure>
     </div>
@@ -463,10 +455,10 @@
 </section>
 
 <!-- ============================== MODELS ============================== -->
-<section id="models">
-  <div class="wrap">
+<section class="block" id="models">
+  <div>
     <div class="sec-head">
-      <div class="label">07 · Camera and sound models</div>
+      <p class="eyebrow">07 · Camera and sound models</p>
       <h2>What the learned models can and cannot do yet.</h2>
       <p>Alongside the measured rules, we trained image classifiers for SMTW's own grades and analysed real tap recordings from the striker rig. Both are kept out of the final grade until they earn their place on the line's own data.</p>
     </div>
@@ -490,11 +482,11 @@
         </div>
         <div class="media-stack">
           <figure>
-            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/camera_confusion_matrices.webp" alt="Confusion matrices for six tile-grade models on the 76-image validation split" loading="lazy"></button>
+            <a class="zoom" href="media/models/camera_confusion_matrices.webp"><img class="shot fig-light" src="media/models/camera_confusion_matrices.webp" alt="Confusion matrices for six tile-grade models on the 76-image validation split" loading="lazy"></a>
             <figcaption>Confusion matrices on the common 76-image validation split (counts; green = full precision, orange = INT8 that failed). Drawn from <code>camera_models/cam_edge/results/accuracy.json</code>.</figcaption>
           </figure>
           <figure>
-            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/camera_recall_by_grade.webp" alt="Recall per grade for four models" loading="lazy"></button>
+            <a class="zoom" href="media/models/camera_recall_by_grade.webp"><img class="shot fig-light" src="media/models/camera_recall_by_grade.webp" alt="Recall per grade for four models" loading="lazy"></a>
             <figcaption>Recall per grade. Grade 4 is where models disagree most.</figcaption>
           </figure>
         </div>
@@ -515,25 +507,25 @@
         </div>
         <div class="media-stack">
           <figure>
-            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_05_good_vs_cracked_before_after.webp" alt="Spectrograms of a good and a cracked tile, as recorded and with the striker removed, with their spectra" loading="lazy"></button>
+            <a class="zoom" href="media/models/acoustic_05_good_vs_cracked_before_after.webp"><img class="shot fig-light" src="media/models/acoustic_05_good_vs_cracked_before_after.webp" alt="Spectrograms of a good and a cracked tile, as recorded and with the striker removed, with their spectra" loading="lazy"></a>
             <figcaption>Good tile S0020 against cracked tile S0024, as recorded and with the average striker sound subtracted. The cracked one shows a faint steady line near 4.4 kHz; one tile of each kind, so not proof.</figcaption>
           </figure>
           <div class="media-pair">
             <figure>
-              <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_02_average_spectra.webp" alt="Average spectra of tile strikes against the striker alone" loading="lazy"></button>
+              <a class="zoom" href="media/models/acoustic_02_average_spectra.webp"><img class="shot fig-light" src="media/models/acoustic_02_average_spectra.webp" alt="Average spectra of tile strikes against the striker alone" loading="lazy"></a>
               <figcaption>Average spectrum 5–250 ms after the strike: tiles against the striker alone.</figcaption>
             </figure>
             <figure>
-              <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_04_decay.webp" alt="Energy decay curves for tiles and the striker alone" loading="lazy"></button>
+              <a class="zoom" href="media/models/acoustic_04_decay.webp"><img class="shot fig-light" src="media/models/acoustic_04_decay.webp" alt="Energy decay curves for tiles and the striker alone" loading="lazy"></a>
               <figcaption>How fast the sound fades (mean ± 1 sd).</figcaption>
             </figure>
           </div>
           <figure>
-            <button class="zoom" type="button"><img class="shot fig-light" src="media/models/acoustic_03_feature_spread.webp" alt="Feature spread for good and cracked tiles" loading="lazy"></button>
+            <a class="zoom" href="media/models/acoustic_03_feature_spread.webp"><img class="shot fig-light" src="media/models/acoustic_03_feature_spread.webp" alt="Feature spread for good and cracked tiles" loading="lazy"></a>
             <figcaption>Band levels and spectral centroid for every labelled strike: the groups overlap.</figcaption>
           </figure>
           <figure>
-            <button class="zoom" type="button"><img class="shot" src="media/screens/acoustic_app_21-label-tool-labelled.webp" alt="Acoustic-Analysis labelling tool with real station strikes, tile picture, camera verdict and sound plots" loading="lazy"></button>
+            <a class="zoom" href="media/screens/acoustic_app_21-label-tool-labelled.webp"><img class="shot" src="media/screens/acoustic_app_21-label-tool-labelled.webp" alt="Acoustic-Analysis labelling tool with real station strikes, tile picture, camera verdict and sound plots" loading="lazy"></a>
             <figcaption>Labelling tool on the real strikes: tile picture, camera verdict and the three sound plots against striker-alone and typical-tile curves.</figcaption>
           </figure>
         </div>
@@ -543,10 +535,10 @@
 </section>
 
 <!-- ============================== FAULTS ============================== -->
-<section id="faults">
-  <div class="wrap">
+<section class="block" id="faults">
+  <div>
     <div class="sec-head">
-      <div class="label">08 · Faults found and fixed</div>
+      <p class="eyebrow">08 · Faults found and fixed</p>
       <h2>What broke, and how we found out.</h2>
       <p>The report keeps every failed attempt in the text. A few of the thirteen:</p>
     </div>
@@ -562,10 +554,10 @@
 </section>
 
 <!-- ============================== GALLERY ============================== -->
-<section id="gallery">
-  <div class="wrap">
+<section class="block" id="gallery">
+  <div>
     <div class="sec-head">
-      <div class="label">09 · Screens</div>
+      <p class="eyebrow">09 · Screens</p>
       <h2>Every interface, as it ran.</h2>
       <p>Bench and demonstration runs, not plant data. Click any screen to enlarge.</p>
     </div>
@@ -575,10 +567,10 @@
 </section>
 
 <!-- ============================== BUILD LOG ============================== -->
-<section id="build">
-  <div class="wrap">
+<section class="block" id="build">
+  <div>
     <div class="sec-head">
-      <div class="label">10 · Build log</div>
+      <p class="eyebrow">10 · Build log</p>
       <h2>From the bench.</h2>
       <p>Photos and clips of the physical prototype. Click any photo to enlarge.</p>
     </div>
@@ -588,15 +580,15 @@
     </figure>
     <div class="build">
       <figure>
-        <button class="zoom" type="button"><img class="shot crop" src="media/photos/top_view_2.jpg" alt="Top view of the line from the gantry end, showing both controller boxes and the wiring" loading="lazy"></button>
+        <a class="zoom" href="media/photos/top_view_2.jpg"><img class="shot crop" src="media/photos/top_view_2.jpg" alt="Top view of the line from the gantry end, showing both controller boxes and the wiring" loading="lazy"></a>
         <figcaption>From above, gantry end: both controller boxes and the wiring.</figcaption>
       </figure>
       <figure>
-        <button class="zoom" type="button"><img class="shot crop" src="media/photos/striker_closeup.jpg" alt="Close-up of the JF-1578B solenoid striker on its blue printed mount" loading="lazy"></button>
+        <a class="zoom" href="media/photos/striker_closeup.jpg"><img class="shot crop" src="media/photos/striker_closeup.jpg" alt="Close-up of the JF-1578B solenoid striker on its blue printed mount" loading="lazy"></a>
         <figcaption>Striker close-up: solenoid on its printed mount.</figcaption>
       </figure>
       <figure>
-        <button class="zoom" type="button"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the green belt past the webcam arch towards the striker and gantry" loading="lazy" style="object-position:50% 40%"></button>
+        <a class="zoom" href="media/photos/camera_station.jpg"><img class="shot crop" src="media/photos/camera_station.jpg" alt="Looking down the green belt past the webcam arch towards the striker and gantry" loading="lazy" style="object-position:50% 40%"></a>
         <figcaption>Down the belt: camera arch, then striker, then gantry.</figcaption>
       </figure>
       <figure class="slot">
@@ -616,24 +608,24 @@
       </figure>
     </div>
     <figure class="schematic">
-      <button class="zoom" type="button"><img class="shot fig-light" src="media/photos/electrical_schematic.png" alt="KiCad schematic: four AS5600 encoders, Arduino UNO Q and Nano, four TMC2208 stepper drivers, load cell, solenoid driver, TCA9548A I2C mux, MD10A DC motor driver for the belt, Raspberry Pi 5 with camera and mic" loading="lazy"></button>
+      <a class="zoom" href="media/photos/electrical_schematic.png"><img class="shot fig-light" src="media/photos/electrical_schematic.png" alt="KiCad schematic: four AS5600 encoders, Arduino UNO Q and Nano, four TMC2208 stepper drivers, load cell, solenoid driver, TCA9548A I2C mux, MD10A DC motor driver for the belt, Raspberry Pi 5 with camera and mic" loading="lazy"></a>
       <figcaption>Electrical schematic (KiCad): AS5600 encoders on a TCA9548A mux, four TMC2208 stepper drivers, UNO Q and Nano, solenoid driver, MD10A belt motor driver, Raspberry Pi 5 with camera and mic.</figcaption>
     </figure>
   </div>
 </section>
 
 <!-- ============================== CERTIFICATE ============================== -->
-<section id="certificate">
-  <div class="wrap">
+<section class="block" id="certificate">
+  <div>
     <div class="sec-head">
-      <div class="label">11 · Industry certificate</div>
+      <p class="eyebrow">11 · Industry certificate</p>
       <h2>Certified by the tile works that set the problem.</h2>
       <p>Sree Murugan Tile Works, Pavoorchatram, issued this certificate on 20 October 2026 for the team's work on their inspection and handling requirements.</p>
     </div>
     <div class="cert">
       <div class="cert-pages">
-        <button class="zoom" type="button"><img class="shot" src="media/certificate/smtw_certificate_p1.webp" alt="Certificate from Sree Murugan Tile Works, page 1: the team, the project, and contributions 1 to 6" loading="lazy"></button>
-        <button class="zoom" type="button"><img class="shot" src="media/certificate/smtw_certificate_p2.webp" alt="Certificate from Sree Murugan Tile Works, page 2: contributions 7 to 10 and the authorised signatory" loading="lazy"></button>
+        <a class="zoom" href="media/certificate/smtw_certificate_p1.webp"><img class="shot" src="media/certificate/smtw_certificate_p1.webp" alt="Certificate from Sree Murugan Tile Works, page 1: the team, the project, and contributions 1 to 6" loading="lazy"></a>
+        <a class="zoom" href="media/certificate/smtw_certificate_p2.webp"><img class="shot" src="media/certificate/smtw_certificate_p2.webp" alt="Certificate from Sree Murugan Tile Works, page 2: contributions 7 to 10 and the authorised signatory" loading="lazy"></a>
       </div>
       <div class="prose">
         <h3>What it recognises</h3>
@@ -657,10 +649,10 @@
 </section>
 
 <!-- ============================== TEAM ============================== -->
-<section id="team">
-  <div class="wrap">
+<section class="block" id="team">
+  <div>
     <div class="sec-head">
-      <div class="label">12 · Team</div>
+      <p class="eyebrow">12 · Team</p>
       <h2>Who built it.</h2>
     </div>
     <div class="team">
@@ -683,25 +675,18 @@
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>Automated Tile Inspection, Grading and Sorting System · VIT Chennai · October 2026</span>
-    <nav aria-label="Links">
+<footer class="pfoot">
+  <p>Automated Tile Inspection, Grading and Sorting System · VIT Chennai · October 2026</p>
+  <nav class="foot-links" aria-label="Links">
       <a href="https://github.com/KL-Mithunvel/Tile_Sorting" target="_blank" rel="noopener">Tile_Sorting repo ↗</a>
       <a href="https://github.com/KL-Mithunvel/Acoustic-Analysis" target="_blank" rel="noopener">Acoustic-Analysis repo ↗</a>
       <a href="plant3d.html" target="_blank" rel="noopener">Plant 3D ↗</a>
       <a href="https://drive.google.com/file/d/1Qz3MCA6ww3IPbiVUL4zZYcLBm-AJY_2X/view?usp=drive_link" target="_blank" rel="noopener">Final report (PDF) ↗</a>
     </nav>
-  </div>
+  <p class="claim">Not claimed: the 3D plant view runs a synthetic demo line in your browser, not data from the real line.</p>
 </footer>
+</div>
 
-<dialog class="lb" id="lightbox" aria-label="Enlarged image">
-  <button type="button" id="lbClose">Close</button>
-  <figure><img loading="lazy" id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
-</dialog>
-
-<script src="assets/js/site.js"></script>
-
-
-<nav class="sc-foot" aria-label="More projects"><div class="sc-in"><a href="../../ros-lab/site/index.html"><span>← Previous</span><b>ROS 2 Mobile Robots</b></a><a href="../../plc-2dof-arm/site/index.html"><span>Next →</span><b>PLC 2-DOF Robotic Arm</b></a><a class="sc-all" href="../../../index.html">All projects</a></div></nav>
-</body></html>
+<script src="project.js"></script>
+</body>
+</html>

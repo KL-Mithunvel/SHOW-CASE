@@ -13,7 +13,7 @@
   root.classList.add("js");
   if (!D) return;                                  // design-data.js missing: leave the plain page as is
 
-  var STORE_KEY = "portfolio-ui";                  // visitor choices: { theme, accent }
+  var STORE_KEY = "portfolio-ui";                  // visitor choices: { theme, accent, colours }
   var ICON_DIR = "design-lab/assets/icons/";
   var SPRITES_HREF = "design-lab/assets/sprites.css";
   var DARK_INK = "#1d1e24";
@@ -55,7 +55,11 @@
   function saveVisitor() {
     if (fromLab) return;                           // the lab previews; it must not touch saved choices
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({ theme: settings.theme, accent: settings.accent }));
+      // "colours" lets the project pages (projects/_shared/base.js) use the same accent without loading design-data.js.
+      var entry = D.ACCENTS[settings.accent] || D.ACCENTS.teal;
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        theme: settings.theme, accent: settings.accent, colours: { light: entry.light, dark: entry.dark }
+      }));
     } catch (e) { /* storage blocked: the choice still applies for this visit */ }
   }
 
@@ -91,6 +95,83 @@
     document.head.appendChild(link);
   }
 
+  // ---- recolour the PNG icons -------------------------------------------
+  // The icons are drawn with teal as their brand colour. Every teal pixel (hue 150-195, clearly
+  // saturated) is moved to the accent's hue; greys, ambers, reds and so on stay as drawn.
+  // Needs the page served over http(s): on file:// the browser blocks reading pixels, and the
+  // icons simply keep their original colours.
+  var TEAL_HUE = 174;
+  var tinted = {};                                 // "url|#rrggbb" -> data URL
+
+  function hexToHsl(hex) {
+    var n = parseInt(hex.slice(1), 16);
+    return rgbToHsl((n >> 16) & 255, (n >> 8) & 255, n & 255);
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, h = 0, s = 0, d = max - min;
+    if (d) {
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
+      else if (max === g) h = ((b - r) / d + 2) * 60;
+      else h = ((r - g) / d + 4) * 60;
+    }
+    return [h, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    var c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2, r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; } else if (h < 120) { r = x; g = c; } else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; } else if (h < 300) { r = x; b = c; } else { r = c; b = x; }
+    return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+  }
+
+  function needsTint(hex) {
+    var hue = hexToHsl(hex)[0];
+    return Math.abs(hue - TEAL_HUE) > 4;
+  }
+
+  function tintUrl(url, hex, done) {
+    var key = url + "|" + hex;
+    if (tinted[key]) return done(tinted[key]);
+    var src = new Image();
+    src.onload = function () {
+      try {
+        var canvas = document.createElement("canvas");
+        canvas.width = src.naturalWidth;
+        canvas.height = src.naturalHeight;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(src, 0, 0);
+        var image = ctx.getImageData(0, 0, canvas.width, canvas.height), px = image.data;
+        var target = hexToHsl(hex), satScale = Math.min(1.25, target[1] / 0.65);
+        for (var i = 0; i < px.length; i += 4) {
+          if (!px[i + 3]) continue;
+          var hsl = rgbToHsl(px[i], px[i + 1], px[i + 2]);
+          if (hsl[0] < 150 || hsl[0] > 195 || hsl[1] < 0.25) continue;
+          var rgb = hslToRgb(target[0], Math.min(1, hsl[1] * satScale), hsl[2]);
+          px[i] = rgb[0]; px[i + 1] = rgb[1]; px[i + 2] = rgb[2];
+        }
+        ctx.putImageData(image, 0, 0);
+        tinted[key] = canvas.toDataURL("image/png");
+        done(tinted[key]);
+      } catch (e) { /* pixels not readable (file://): keep the original colours */ }
+    };
+    src.src = url;
+  }
+
+  // Show `url` on `target` (an <img> or the favicon <link>), recoloured to the current accent.
+  function showTinted(target, attr, url) {
+    var hex = accentColour();
+    target.setAttribute(attr, url);
+    if (!needsTint(hex)) return;
+    var want = url + "|" + hex;
+    target.setAttribute("data-want", want);
+    tintUrl(url, hex, function (data) {
+      if (target.getAttribute("data-want") === want) target.setAttribute(attr, data);
+    });
+  }
+
   // ---- apply the settings to the page -----------------------------------
   function applyIcons() {
     var asCss = settings.icons.render === "css";
@@ -100,7 +181,7 @@
       var name = img.getAttribute("data-icon");
       var style = settings.icons.overrides[name] || settings.icons.base;
       if (!img.hasAttribute("data-orig")) img.setAttribute("data-orig", img.getAttribute("src"));
-      img.src = style === "classic" ? img.getAttribute("data-orig") : ICON_DIR + style + "/" + name + ".png";
+      showTinted(img, "src", style === "classic" ? img.getAttribute("data-orig") : ICON_DIR + style + "/" + name + ".png");
 
       var next = img.nextElementSibling;
       var sprite = next && next.classList.contains("sprite") ? next : null;
@@ -119,6 +200,13 @@
         img.hidden = false;
       }
     });
+  }
+
+  function applyFavicon() {
+    var link = $('link[rel="icon"]');
+    if (!link) return;
+    if (!link.hasAttribute("data-orig")) link.setAttribute("data-orig", link.getAttribute("href"));
+    showTinted(link, "href", link.getAttribute("data-orig"));
   }
 
   function applyArt() {
@@ -163,6 +251,7 @@
     root.style.setProperty("--icon-size", size + "px");
 
     applyIcons();
+    applyFavicon();
     applyArt();
     refreshControls();
   }
@@ -303,7 +392,31 @@
     topics.hidden = false;                         // JavaScript works, so show the chips
   }
 
+  // ---- section links (profile / projects) --------------------------------
+  // The sidebar links jump to a section; the one being read gets aria-current as you scroll.
+  function setUpSectionLinks() {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+    var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+    if (!links.length || sections.indexOf(null) !== -1) return;
+
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var line = window.innerHeight * 0.35, current = 0;
+      sections.forEach(function (sec, i) { if (sec.getBoundingClientRect().top <= line) current = i; });
+      var atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (atEnd) current = sections.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+      });
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   buildControls();
   setUpFilter();
+  setUpSectionLinks();
   apply();
 })();

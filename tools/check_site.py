@@ -65,6 +65,25 @@ for f in files:
         if not target.exists():
             errors.append(f"{f.relative_to(ROOT)}: broken link {ref}")
 
+# 4. every project page uses the shared template (projects/TEMPLATE.md)
+shared_js = (ROOT / "projects" / "_shared" / "base.js").read_text(encoding="utf-8")
+listed = set(re.findall(r'id: "(\w+)"', shared_js))
+for page in sorted((ROOT / "projects").glob("*/site/index.html")):
+    rel = page.relative_to(ROOT)
+    text = page.read_text(encoding="utf-8", errors="replace")
+    pid = re.search(r'<html[^>]*data-project="(\w+)"', text)
+    if not pid:
+        errors.append(f"{rel}: not on the shared template (no data-project on <html>)")
+        continue
+    if pid.group(1) not in listed:
+        errors.append(f"{rel}: data-project=\"{pid.group(1)}\" is not in PROJECTS in projects/_shared/base.js")
+    for needle, what in [('_shared/base.css', "base.css"), ('_shared/base.js', "base.js"), ('<main id="main">', 'main#main'),
+                         ('class="pbar"', "top bar"), ('class="pfoot"', "footer"), ('lang="en"', 'lang="en"')]:
+        if needle not in text:
+            errors.append(f"{rel}: missing {what}")
+    if len(re.findall(r"<h1[ >]", text)) != 1:
+        errors.append(f"{rel}: needs exactly one <h1>")
+
 print(f"checked {len(files)} published files")
 if errors:
     print(f"{len(errors)} problem(s):")
