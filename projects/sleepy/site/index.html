@@ -151,6 +151,11 @@ ol.rules li::before { counter-increment: r; content: counter(r); position: absol
 .pipe span.hot { border-color: var(--acc); background: var(--acc-soft); }
 .pipe i { font-style: normal; color: var(--muted); }
 
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 28px 24px; }
+.shots figure { gap: 8px; }
+.shots a { display: block; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: #0f111a; }
+.shots img { display: block; width: 100%; height: auto; }
+.shots a:hover, .shots a:focus-visible { border-color: var(--acc); }
 .obs { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0 32px; border-top: 1px solid var(--ink); }
 .obs div { padding: 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; align-content: start; }
 .obs b { font: 600 1.2rem/1.15 var(--f-display); }
@@ -202,6 +207,32 @@ footer { margin-top: 72px; padding-block: 28px 44px; border-top: 1px solid var(-
     <dt>Connector</dt>
     <dd>A narrow MCP endpoint so the Claude phone app can read today's list and add or tick tasks. Five tools, OAuth 2.1, nothing else reachable.</dd>
   </dl>
+</section>
+
+<section id="screens">
+  <div class="sec-head">
+    <p class="eyebrow">The real app</p>
+    <h2>What it looks like</h2>
+    <p>Screenshots of the running app, taken against a made-up demo corpus (a fictional student and freelancer). None of my own notes or plans appear. Click an image for full size.</p>
+  </div>
+  <div class="shots">
+    <figure>
+      <a href="img/01-today.png" target="_blank" rel="noopener"><img src="img/01-today.png" alt="The Today screen: morning briefing, news feed and the day's task list" loading="lazy" width="2880" height="1800"></a>
+      <figcaption>Today. A morning briefing, a news feed matched to project topics, and the day's task list.</figcaption>
+    </figure>
+    <figure>
+      <a href="img/02-projects.png" target="_blank" rel="noopener"><img src="img/02-projects.png" alt="The Projects screen with a thesis project open, showing tasks with priority and due dates" loading="lazy" width="2880" height="1800"></a>
+      <figcaption>Projects. Browse the Markdown tree and read or edit a file. Tasks show priority and due date.</figcaption>
+    </figure>
+    <figure>
+      <a href="img/03-logs.png" target="_blank" rel="noopener"><img src="img/03-logs.png" alt="The Logs screen showing expandable daily log entries" loading="lazy" width="2880" height="1400"></a>
+      <figcaption>Logs. The reflective part of each day's file, one entry per day.</figcaption>
+    </figure>
+    <figure>
+      <a href="img/04-admin-ai-usage.png" target="_blank" rel="noopener"><img src="img/04-admin-ai-usage.png" alt="The Admin AI Usage tab with call, token and latency totals" loading="lazy" width="2880" height="1800"></a>
+      <figcaption>Admin. Every model call is logged, so cost and latency are visible by model and by day.</figcaption>
+    </figure>
+  </div>
 </section>
 
 <section id="build">
@@ -392,7 +423,7 @@ footer { margin-top: 72px; padding-block: 28px 44px; border-top: 1px solid var(-
     <h2>What this page does not show</h2>
   </div>
   <div class="obs">
-    <div><b>No screenshots</b><p>The real screens show my own notes and plans, so this page uses diagrams and a made-up demo instead.</p></div>
+    <div><b>Demo data only</b><p>The screenshots use a made-up corpus, since the real screens show my own notes and plans. The layout and behaviour are the real app.</p></div>
     <div><b>One user</b><p>Built for one person with two fixed accounts. Multi-user was out of scope from day one.</p></div>
     <div><b>Connector not yet in use</b><p>The MCP endpoint is deployed but not yet added to the Claude app.</p></div>
     <div><b>Plans that changed</b><p>Proxmox, Keycloak and three chat integrations were planned or built and then dropped. The docs record why.</p></div>
