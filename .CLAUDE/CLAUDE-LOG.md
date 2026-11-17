@@ -1,12 +1,13 @@
 # Claude Log
 
-## 2026-11-17 — One shared template for the project pages (step 1: template + SLEEPY)
+## 2026-11-17 — One shared template for the project pages (template + SLEEPY, then the other pages)
 - Owner's request: every project page has its own theme and template; rebuild them all on one. Decisions (asked, answered): one accent for all pages (the landing page's), local copies may diverge from the claude.ai artifacts, template first then one page per commit.
 - Added `projects/_shared/base.css` (tokens identical to `assets/css/site.css`, Inter + JetBrains Mono, one 68rem column, shared components) and `base.js` (theme + accent from `portfolio-ui`, section rail/drawer, one `<dialog>` lightbox, previous/next links from a `PROJECTS` list). Rules and page skeleton in `projects/TEMPLATE.md`.
 - Converted SLEEPY (`projects/sleepy/site/`): markup now uses the template; its own parts are in `project.css` / `project.js` (script moved out unchanged). Content unchanged; added a "Not claimed" footer line and a lightbox for the screenshots.
 - Checked: `tools/check_site.py` passes; `node --check` OK on both scripts. After the owner allowed a local server + headless Chrome: viewed SLEEPY in dark and light (light forced with a temp server that adds `data-theme="light"`; Chrome's colour-scheme flag was ignored), at 1440 px, 1920 px (section rail shows) and in a 390 px iframe (a plain 390 px headless window is cropped by Chrome's minimum width, so it looks clipped; it is not).
 - Fixed after viewing: top bar wrapped on phones (back link no-wrap, name hidden under 40rem); row lines in `dl.rows` / `ol.rules` stopped short of the full-width rule (`max-width` on the cell cut the border; now right padding).
 - Not exercised: clicking the lightbox, theme button and Sections drawer (static screenshots only); the other 7 pages.
+- Owner then said "commit this and convert the other pages". Commits so far: template + SLEEPY (36db4c7), HERC-26 (243a665), Look-Ahead Signals (this commit). Each conversion = markup onto template classes + `project.css`/`project.js` + base64 images moved to `img/` (HERC 1.2 MB -> 31 KB page, 11 images; Traffic 321 KB -> 35 KB page, 5 images). One-off conversion scripts lived outside the repo (temp dir), not kept. Viewed each in light/dark/phone; fixed along the way: stat text overflow, gantt on phones, gallery caption gap (`align-items:start` in base.css), a specificity clash that kept Traffic's decorative signal light visible on phones. Stale colour wording fixed (HERC said "orange"). Traffic: removed its own sticky section nav (base.js builds the section list).
 - Not done: the other 7 pages are still on the old overlay (`showcase.{css,js}`), which stays until they are converted. Nothing committed.
 
 

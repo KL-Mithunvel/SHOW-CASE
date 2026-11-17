@@ -1,0 +1,116 @@
+/* Look-Ahead Signals only: the parts that are not in the shared template (projects/_shared/base.css).
+   Hero signal light, call-to-action buttons, step lists, cards, the results panel, charts, findings, terminal blocks.
+   Green and red appear only as result state (--good / --bad), never as decoration. */
+
+:root {
+  --good: var(--ok);
+  --bar-neutral: color-mix(in srgb, var(--muted) 70%, var(--bg));
+}
+
+/* section rhythm: headings sit a little off the content below */
+.block h2 { margin-bottom: 1rem; }
+.block > div > .eyebrow { display: block; margin-bottom: 0.6rem; }
+.mt-l { margin-top: 2.75rem; }
+.gallery + h3, h3 + .gallery { margin-top: 0.75rem; }
+.col-stack { display: grid; gap: 1.5rem; align-content: start; }
+h3 { margin-bottom: 0.4rem; }
+
+/* hero */
+.hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem 3.5rem; align-items: center; }
+.hero-grid > div:first-child { display: grid; gap: 1.1rem; min-width: 0; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead { color: var(--muted); max-width: 40em; }
+.signal { width: 92px; background: var(--text); border-radius: 14px; padding: 12px; display: grid; gap: 10px; justify-self: center; }
+.signal i { display: block; aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--bg) 18%, var(--text)); }
+.signal i:nth-child(1) { animation: s-red 9s infinite; }
+.signal i:nth-child(2) { animation: s-yellow 9s infinite; }
+.signal i:nth-child(3) { animation: s-green 9s infinite; }
+@keyframes s-red { 0%, 44% { background: #e5503a; } 45%, 100% { background: color-mix(in srgb, var(--bg) 18%, var(--text)); } }
+@keyframes s-green { 0%, 49% { background: color-mix(in srgb, var(--bg) 18%, var(--text)); } 50%, 88% { background: #35c47c; } 89%, 100% { background: color-mix(in srgb, var(--bg) 18%, var(--text)); } }
+@keyframes s-yellow { 0%, 44%, 90%, 100% { background: color-mix(in srgb, var(--bg) 18%, var(--text)); } 45%, 49%, 90%, 99% { background: #f2b53a; } }
+@media (prefers-reduced-motion: reduce) { .signal i { animation: none; } .signal i:nth-child(3) { background: #35c47c; } }
+@media (max-width: 40rem) { .hero-grid { grid-template-columns: 1fr; } .signal { display: none; } }
+.cta { display: inline-block; font: 500 0.9rem var(--font-mono); padding: 0.7rem 1.2rem; background: var(--accent); color: var(--accent-ink); text-decoration: none; border: 1px solid var(--accent); border-radius: 6px; margin: 0 0.6rem 0.6rem 0; }
+.cta.ghost { background: transparent; color: var(--text); border-color: var(--muted); }
+.cta:hover { filter: brightness(1.08); }
+.stat b { color: var(--accent); }
+
+/* prose bits */
+.steps { display: grid; margin-top: 1.1rem; border-top: 1px solid var(--border); }
+.steps > div { display: grid; grid-template-columns: 150px 1fr; gap: 0.5rem 1.5rem; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
+.steps .k { font: 500 0.85rem var(--font-mono); color: var(--accent); }
+.steps .v { min-width: 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; margin-top: 1.5rem; }
+.card { background: var(--chip); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; min-width: 0; }
+.card p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+.card h3 { font-size: 1.1rem; }
+ul.plain { padding-left: 1.2em; margin: 0 0 1em; }
+ul.plain li { margin-bottom: 0.4em; }
+.callout { background: var(--accent-soft); padding: 0.9rem 1.1rem; margin: 1.5rem 0; max-width: none; }
+
+/* results panel */
+.block .tabs { margin: 1.4rem 0 1.1rem; }
+.tabs button { font: 500 0.85rem var(--font-mono); padding: 0.45rem 0.9rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.tabs button:hover { border-color: var(--accent); }
+.tabs button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.panel { padding: clamp(1rem, 3vw, 1.75rem); }
+#note { font-size: 0.9rem; color: var(--muted); margin: 4px 0 1.1rem; min-height: 2.8em; max-width: 80ch; }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 64px 1fr 76px; gap: 12px; align-items: center; }
+.bar-row .d { font: 400 0.85rem var(--font-mono); color: var(--muted); }
+.bar-track { position: relative; height: 26px; border-left: 1px solid var(--muted); }
+.bar-track::before { content: ""; position: absolute; left: var(--zero); top: -4px; bottom: -4px; border-left: 1px dashed var(--muted); }
+.bar { position: absolute; top: 3px; bottom: 3px; background: var(--good); }
+.bar.worse { background: var(--bad); }
+.bar-row .v { font: 400 0.85rem var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+.axis { display: grid; grid-template-columns: 64px 1fr 76px; gap: 12px; margin-top: 6px; font: 400 0.72rem var(--font-mono); color: var(--muted); }
+.axis div { display: flex; justify-content: space-between; }
+.tablewrap { overflow-x: auto; margin-top: 1.6rem; }
+.panel table { font-size: 0.9rem; min-width: 560px; }
+.panel th, .panel td { padding: 0.5rem 0.65rem; text-align: right; font-variant-numeric: tabular-nums; }
+.panel th:first-child, .panel td:first-child { text-align: left; }
+.panel th { font-weight: 500; }
+td.win { color: var(--good); font-weight: 600; }
+td.lose { color: var(--bad); font-weight: 600; }
+.legend { display: flex; gap: 1.1rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); margin-top: 1rem; }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+@media (max-width: 40rem) { .bar-row, .axis { grid-template-columns: 48px 1fr 62px; gap: 8px; } .steps > div { grid-template-columns: 1fr; } }
+
+/* findings */
+.finding { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.4rem 1.25rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); }
+.finding:first-of-type { border-top: 1px solid var(--border); margin-top: 1.1rem; }
+.finding .tag { font: 500 0.75rem var(--font-mono); letter-spacing: 0.08em; color: var(--muted); padding-top: 0.35rem; text-transform: uppercase; }
+.finding h3 { margin-bottom: 0.35rem; }
+.finding p { margin-bottom: 0.6em; color: var(--muted); }
+.finding p:last-child { margin-bottom: 0; }
+@media (max-width: 40rem) { .finding { grid-template-columns: 1fr; } }
+
+/* video */
+.videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 1.75rem; margin-top: 0.75rem; }
+.videos video { background: #000; }
+
+/* team */
+.team { border: 1px solid var(--border); background: var(--chip); border-radius: var(--radius); padding: 1.1rem 1.25rem; margin: 1.5rem 0; }
+.team p { font-size: 0.95rem; color: var(--muted); margin: 0.6rem 0 0; }
+.names { list-style: none; padding: 0; margin: 0.6rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem 0.65rem; }
+.names li { font-weight: 600; padding: 0.15rem 0.75rem; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); }
+
+/* charts (drawn by project.js) */
+.charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
+.chartbox h3 { font-size: 1.1rem; }
+.chartbox p.note { margin: 4px 0 0.65rem; }
+.chart { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .axis-line { stroke: var(--muted); stroke-width: 1; }
+.chart .ln { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot { stroke: var(--chip); stroke-width: 1.5; }
+.chart .endlabel { font-weight: 500; font-size: 11px; }
+.swatches { display: flex; gap: 6px 16px; flex-wrap: wrap; font-size: 0.8rem; color: var(--muted); margin-top: 8px; }
+.swatches i { display: inline-block; width: 14px; height: 3px; margin-right: 6px; vertical-align: 3px; }
+
+/* terminal output */
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr)); gap: 1.4rem; margin-top: 1.6rem; }
+.termbox { min-width: 0; }
+.termbox .cmd { font: 400 0.8rem var(--font-mono); color: var(--accent); margin-bottom: 6px; overflow-wrap: anywhere; }
+pre.term { background: #0c1520; color: #d6e2ef; font-size: 0.74rem; line-height: 1.5; padding: 14px 16px; border-color: var(--border); }

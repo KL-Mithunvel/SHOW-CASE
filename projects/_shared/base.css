@@ -124,7 +124,7 @@ figure img, figure video { display: block; width: 100%; height: auto; border: 1p
 .pair.mt, .trio.mt, .facts.mt { margin-top: 1.75rem; }
 
 /* Gallery: a grid of figures. Click an image (a.zoom) to open it in the shared lightbox. */
-.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem 1.25rem; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem 1.25rem; align-items: start; }
 .gallery.wide { grid-template-columns: repeat(auto-fit, minmax(min(100%, 27rem), 1fr)); }
 a.zoom { display: block; cursor: zoom-in; }
 dialog.lightbox { max-width: min(96vw, 1400px); max-height: 94vh; padding: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); }
