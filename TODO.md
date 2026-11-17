@@ -1,6 +1,7 @@
 # TODO
 
 ## In Progress
+- [ ] Rebuild all project pages on one shared template (owner's decisions 2026-11-17: one accent for all pages from the landing page; local copies may diverge from the claude.ai artifacts; template first, then one page per commit). Template: `projects/_shared/base.{css,js}`, rules in `projects/TEMPLATE.md`. SLEEPY is converted and is the reference page — not yet looked at in a browser, and not committed. **Owner: approve the template on SLEEPY first.** Then convert, one commit each: HERC-26, Look-Ahead Signals (Traffic), MyOwnEnigma, ROS lab, 2-DOF arm, Magnet, Tile (last; keep its 3D plant). For Traffic, Enigma, ROS and HERC, move base64 media to files. Finally: update `CONSISTENCY.md`, make `tools/check_site.py` check each page for the template, retire `projects/_shared/showcase.{css,js}` and `tools/apply_shared_theme.py`.
 - [ ] Owner: review the new SLEEPY page (`projects/sleepy/site/index.html`); decide whether to add real screenshots (would need a demo corpus, e.g. the repo's attack sandbox) Also say whether any other project (e.g. Traffic, Magnet) should carry the new "Software & AI" topic; only SLEEPY has it now.
 - [ ] Owner: open `design-lab/index.html`, choose a look, press "Copy settings" and send the JSON. Then Claude bakes it into `DEFAULTS` in `assets/js/design-data.js`, moves the chosen icon set into `assets/`, and removes the unused options (or keeps the lab).
 - [ ] If the owner wants truly different icon drawings (not just styles), draw a second set for the icons they pick (`tools/make_pixel_icons.py`).
