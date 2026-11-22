@@ -1,6 +1,7 @@
 # TODO
 
 ## In Progress
+- [ ] Owner: look at the new texture/motion/nav changes on all 9 pages in a browser (not viewed by Claude, see `CLAUDE-LOG.md` 2026-11-22); then tune or roll back. Also decide whether the older copies in `MyOwnEnigma/showcase` should get the Subhrojyoti Sen credit.
 - [ ] Owner: review the new SLEEPY page (`projects/sleepy/site/index.html`); decide whether to add real screenshots (would need a demo corpus, e.g. the repo's attack sandbox) Also say whether any other project (e.g. Traffic, Magnet) should carry the new "Software & AI" topic; only SLEEPY has it now.
 - [ ] Owner: open `design-lab/index.html`, choose a look, press "Copy settings" and send the JSON. Then Claude bakes it into `DEFAULTS` in `assets/js/design-data.js`, moves the chosen icon set into `assets/`, and removes the unused options (or keeps the lab).
 - [ ] If the owner wants truly different icon drawings (not just styles), draw a second set for the icons they pick (`tools/make_pixel_icons.py`).

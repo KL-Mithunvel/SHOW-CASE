@@ -107,7 +107,7 @@
       <div class="stage"><span class="tag">Hardware</span><h3>Lampboard</h3><p>26 LEDs on two CD74HC4067 multiplexers.</p></div>
     </div>
     <figure class="flow" aria-label="Flow chart of enigma_core: the letter goes through the plugboard, three rotors, the reflector, back through the three rotors and the plugboard to the lamp">
-      <div class="fc-title"><b>enigma_core</b>, one letter, 15 clocks (150 ns at 100 MHz)</div>
+      <div class="fc-title"><span><b>enigma_core</b>, one letter, 15 clocks (150 ns at 100 MHz)</span><button class="pbtn fc-replay" type="button" aria-label="Replay the signal animation">Replay</button></div>
       <div class="fc-label">Forward, right to left</div>
       <div class="fc-row"><div class="fc-box io"><b>Key</b><code>from key_scanner</code><span>stepping happens here</span></div><span class="fc-arrow" aria-hidden="true">→</span><div class="fc-box "><b>Plugboard</b><code>S_PLUG_IN</code><span>1 clock</span></div><span class="fc-arrow" aria-hidden="true">→</span><div class="fc-box rot"><b>Right rotor</b><code>S_R_FWD</code><span>2 clocks</span></div><span class="fc-arrow" aria-hidden="true">→</span><div class="fc-box rot"><b>Middle rotor</b><code>S_M_FWD</code><span>2 clocks</span></div><span class="fc-arrow" aria-hidden="true">→</span><div class="fc-box rot"><b>Left rotor</b><code>S_L_FWD</code><span>2 clocks</span></div><span class="fc-arrow" aria-hidden="true">→</span><div class="fc-box refl"><b>Reflector</b><code>S_REFLECT</code><span>1 clock</span></div></div>
       <div class="fc-turn" aria-hidden="true">↓ the reflector sends it back</div>
@@ -239,6 +239,7 @@
 
 <footer class="pfoot">
   <p><strong>Original prototype</strong>: Mithunvel KL, Kiran T, Madhumitha V, Josika P. Mechatronics and Automation, Vellore Institute of Technology, Chennai.</p>
+  <p><strong>Design work</strong>: Subhrojyoti Sen.</p>
   <p>Source: <a href="https://github.com/KL-Mithunvel/MyOwnEnigma" rel="noopener">github.com/KL-Mithunvel/MyOwnEnigma</a></p>
   <pre>python tools/run_sim.py --all      # testbenches
 python tools/mutation_check.py     # bugs injected on purpose

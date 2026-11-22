@@ -7,6 +7,8 @@
      3. Builds the section list (rail on wide screens, drawer behind a "Sections" button on narrow ones) from the page's <h2>s.
      4. Opens any a.zoom link in one shared <dialog> lightbox.
      5. Builds the previous / next project links from PROJECTS below.
+   6. Motion: marks the top bar once the page scrolls, draws the reading-progress line, and eases each section's content in as it
+      scrolls into view (skipped entirely when the visitor prefers reduced motion; the CSS then shows everything at once).
    To add a project: add a line to PROJECTS (landing-page order) and nothing else. */
 (function () {
   "use strict";
@@ -35,6 +37,8 @@
     if (t) return t === "dark";
     return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
   }
+  var motionOk = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) && "IntersectionObserver" in window;
+  if (motionOk) root.classList.add("rv-ready");   // set before first paint so sections do not flash; undone below if anything fails
   var saved = read().theme;
   if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
 
@@ -76,6 +80,7 @@
     buildNext();
     buildNav();
     buildLightbox();
+    try { buildMotion(); } catch (e) { root.classList.remove("rv-ready"); }   // never leave content hidden
   });
 
   /* ---------- 5. previous / next project links ---------- */
@@ -137,11 +142,14 @@
       ol.appendChild(li);
       it.a = a;
     });
+    var ind = document.createElement("span");   // the sliding marker beside the current section
+    ind.className = "pnav-ind";
+    ind.setAttribute("aria-hidden", "true");
+    nav.appendChild(ind);
     document.body.appendChild(nav);
 
     var shade = document.createElement("div");
     shade.className = "pshade";
-    shade.hidden = true;
     document.body.appendChild(shade);
 
     var bar = document.querySelector(".pbar .pwrap"), btn = document.createElement("button");
@@ -160,7 +168,6 @@
 
     function open(on) {
       root.classList.toggle("pnav-open", on);
-      shade.hidden = !on;
       btn.setAttribute("aria-expanded", String(on));
       if (on) nav.focus({ preventScroll: true });
       else if (document.activeElement && nav.contains(document.activeElement)) btn.focus();
@@ -181,7 +188,7 @@
     }
     layout();
     window.addEventListener("resize", layout);
-    window.addEventListener("load", layout);
+    window.addEventListener("load", function () { layout(); spy(); });
 
     var ticking = false;
     function spy() {   // highlight the section being read
@@ -189,6 +196,11 @@
       var line = Math.min(160, window.innerHeight * 0.3), cur = null;
       items.forEach(function (it) { if (it.el.getBoundingClientRect().top <= line) cur = it; });
       items.forEach(function (it) { if (it === cur) it.a.setAttribute("aria-current", "true"); else it.a.removeAttribute("aria-current"); });
+      if (cur) {
+        ind.style.height = cur.a.offsetHeight + "px";
+        ind.style.transform = "translate(" + cur.a.offsetLeft + "px," + cur.a.offsetTop + "px)";
+        ind.classList.add("on");
+      } else ind.classList.remove("on");
       if (cur && root.classList.contains("prail")) {
         var r = cur.a.getBoundingClientRect(), n = nav.getBoundingClientRect();
         if (r.top < n.top + 40 || r.bottom > n.bottom - 10) nav.scrollTop += r.top - n.top - n.height / 3;
@@ -196,6 +208,34 @@
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
     spy();
+  }
+
+  /* ---------- 6. motion ---------- */
+  function buildMotion() {
+    var bar = document.querySelector(".pbar"), ticking = false;
+    function tick() {
+      ticking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight, y = window.scrollY || 0;
+      root.style.setProperty("--p", max > 0 ? Math.min(1, Math.max(0, y / max)).toFixed(4) : "0");
+      if (bar) bar.classList.toggle("scrolled", y > 8);
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+    window.addEventListener("resize", tick);
+    tick();
+
+    if (!root.classList.contains("rv-ready")) return;
+    var items = document.querySelectorAll(".block > *");
+    var io = new IntersectionObserver(function (entries) {
+      var n = 0;
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.transitionDelay = Math.min(n++, 4) * 70 + "ms";   // items arriving together ripple in
+        e.target.classList.add("in");
+        (function (t) { setTimeout(function () { t.style.transitionDelay = ""; }, 1500); })(e.target);
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
   }
 
   /* ---------- 4. lightbox ---------- */

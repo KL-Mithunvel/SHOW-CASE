@@ -1,5 +1,13 @@
 # Claude Log
 
+## 2026-11-22 — Less generic look: texture, motion, nav transitions (shared template, all pages)
+- Owner's friend called the pages generic. Owner asked (scope: shared template, all pages; animation: signal path + section reveals + load animations): smoother flow animation, subtle design elements, an alignment/spacing pass, nav transitions, and deliberate use of empty space.
+- `_shared/base.css`: hairline + accent tick + section number above each section heading; faint dot grid in the empty right of the hero (fades before the text column); corner tick on image figures; load animation (top bar drops in, hero and stat tiles rise in turn); scroll reveal; top-bar reading-progress line and soft edge on scroll; section drawer eased (0.38s), shade fades, list items glide in; sliding marker beside the current section. All motion is under `prefers-reduced-motion: no-preference`, so reduced-motion visitors get the static page.
+- `_shared/base.js`: `.rv-ready` set in `<head>` only if IntersectionObserver works and motion is allowed (removed again on any error, so content is never left hidden); `buildMotion()` does the progress line and reveals; nav marker positioned in `spy()`; shade uses a class, not `hidden`.
+- MyOwnEnigma: signal path trace now lights step by step (`hop`); lamps warm up fast and fade slowly; flow chart runs a light through every box when scrolled into view, with a Replay button (in `index.html` and `template.html`); bars grow on arrival; spacing values moved to a rem scale, reflector row aligned.
+- Added the design credit: Subhrojyoti Sen (name only; the owner also gave a registration number, left off the public page).
+- Checked: `tools/check_site.py` passes; `node --check` OK. NOT checked in a browser: the local-server command was refused this session, so none of the animation, spacing or nav changes have been looked at. Needs an eyeball pass, especially the hero dots, the nav marker position and the reveal on the other 7 pages.
+
 ## 2026-11-17 — One shared template for the project pages (template + SLEEPY, then the other pages)
 - Owner's request: every project page has its own theme and template; rebuild them all on one. Decisions (asked, answered): one accent for all pages (the landing page's), local copies may diverge from the claude.ai artifacts, template first then one page per commit.
 - Added `projects/_shared/base.css` (tokens identical to `assets/css/site.css`, Inter + JetBrains Mono, one 68rem column, shared components) and `base.js` (theme + accent from `portfolio-ui`, section rail/drawer, one `<dialog>` lightbox, previous/next links from a `PROJECTS` list). Rules and page skeleton in `projects/TEMPLATE.md`.

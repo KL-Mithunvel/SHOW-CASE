@@ -138,13 +138,29 @@
     const ol = $("trace"); ol.textContent = "";
     trace.forEach((c, i) => {
       const li = document.createElement("li");
-      if (i >= 6) li.className = "back";
+      li.className = i >= 6 ? "back hop" : "hop";
+      li.style.setProperty("--i", i);
       const s = document.createElement("strong"); s.textContent = A[c];
       const e = document.createElement("em"); e.textContent = LABELS[i];
       li.append(s, e); ol.append(li);
     });
     $("trace-note").textContent = `The rotors stepped to ${A[machine.pos[0]]}${A[machine.pos[1]]}${A[machine.pos[2]]} before the letter flowed. ${A[trace[0]]} became ${A[trace[trace.length - 1]]}; it can never be the same letter.`;
   }
+
+  // flow chart: when it scrolls into view (or on Replay) a light runs through every box in signal order
+  (function () {
+    const flow = document.querySelector(".flow");
+    if (!flow) return;
+    let k = 0;
+    flow.querySelectorAll(".fc-row").forEach((row) => row.querySelectorAll(".fc-box, .fc-arrow").forEach((el) => el.style.setProperty("--k", k++)));
+    const play = () => { flow.classList.remove("play"); void flow.offsetWidth; flow.classList.add("play"); };
+    const btn = flow.querySelector(".fc-replay");
+    if (btn) btn.addEventListener("click", play);
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { setTimeout(play, 350); io.disconnect(); } }, { threshold: 0.35 });
+      io.observe(flow);
+    }
+  })();
 
   function press(letter, hold) {
     if (!valid) return;
