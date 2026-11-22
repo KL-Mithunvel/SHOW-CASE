@@ -306,28 +306,34 @@ def arm(style):
     return c
 
 
-def ros(style):
+def ros(style):                                                 # a small ROS mobile robot: wheels, stacked plates, lidar on top
     c = Canvas(style)
-    nodes = {"a": (6, 7), "b": (26, 7), "c": (6, 25), "d": (26, 25), "mid": (16, 16)}
-    for key in ("a", "b", "c", "d"):
-        c.paint(line(nodes[key], nodes["mid"], 1.6), "steel", bevel=False, outline=False)
-    c.paint(line(nodes["a"], nodes["b"], 1.6), "steel", bevel=False, outline=False)
-    for key in ("a", "b", "c", "d"):
-        c.paint(ellipse(*nodes[key], 4, 4), "teal")
-    c.paint(ellipse(*nodes["mid"], 5.5, 5.5), "amber")
-    c.dot(14, 14, "white")
-    c.dot(5, 5, "white")
-    c.dot(25, 5, "white")
+    c.paint(rrect(2, 21, 6, 9, 2), "dark")                      # wheels
+    c.paint(rrect(24, 21, 6, 9, 2), "dark")
+    c.paint(rrect(5, 23, 22, 6, 2), "steel_d")                  # base plate
+    c.paint(rect(8, 11, 2, 12), "steel")                        # posts
+    c.paint(rect(22, 11, 2, 12), "steel")
+    c.paint(rrect(6, 17, 20, 3, 1), "teal")                     # middle plate (computer)
+    c.paint(rrect(6, 11, 20, 3, 1), "teal")                     # top plate
+    c.paint(rrect(12, 5, 8, 6, 2), "amber")                     # lidar
+    c.dot(14, 7, "white")
+    c.dot(11, 26, "amber")                                      # status lights
+    c.dot(16, 26, "green")
+    c.dot(21, 26, "red")
     return c
 
 
-def magnet(style):
+def printer(style):
     c = Canvas(style)
-    body = (rect(5, 5, 7, 12) | rect(20, 5, 7, 12)
-            | {p for p in (ellipse(16, 17, 11, 11) - ellipse(16, 17, 4, 4)) if p[1] >= 17})
-    c.paint(body, "red")
-    c.paint(rect(5, 5, 7, 6), "steel")                          # silver pole tips
-    c.paint(rect(20, 5, 7, 6), "steel")
+    c.paint(rrect(2, 26, 28, 4, 1), "steel_d")                  # base
+    c.paint(rect(4, 5, 3, 21), "steel")                         # left post
+    c.paint(rect(25, 5, 3, 21), "steel")                        # right post
+    c.paint(rrect(3, 3, 26, 4, 1), "steel")                     # top frame
+    c.paint(rect(7, 11, 18, 3), "dark")                         # gantry beam
+    c.paint(rrect(12, 12, 8, 7, 1), "teal")                     # print head
+    c.paint(poly([(14, 19), (18, 19), (16, 23)]), "amber")      # nozzle
+    c.paint(rect(10, 22, 12, 4), "amber", bevel=False)          # part being printed
+    c.dot(15, 14, "white")
     return c
 
 
@@ -356,11 +362,33 @@ def projects(style):
 
 def about(style):
     c = Canvas(style)
-    c.paint(rrect(4, 20, 24, 14, 7), "teal")                    # shoulders
-    c.paint(rect(13, 15, 6, 6), "peach")                        # neck
-    c.paint(ellipse(16, 10, 6.5, 7), "peach")                   # head
-    c.dot(13, 10, "dark")
-    c.dot(19, 10, "dark")
+    c.paint(rrect(3, 22, 26, 14, 6), "blue")                    # shirt
+    c.paint(rect(13, 17, 6, 6), "peach")                        # neck
+    c.paint(rect(13, 20, 6, 2), "wood_l", bevel=False, outline=False)   # shadow under the chin
+    c.paint(poly([(12, 22), (20, 22), (16, 27)]), "white", bevel=False)  # collar
+    c.paint(ellipse(8.5, 12, 1.8, 2.6), "peach")                # ears
+    c.paint(ellipse(23.5, 12, 1.8, 2.6), "peach")
+    c.paint(ellipse(16, 12, 7, 8), "peach")                     # face
+    c.paint(ellipse(16, 6.5, 8.2, 4.6) | rect(8, 6, 2, 6) | rect(22, 6, 2, 6), "brown", bevel=False)   # hair
+    c.paint(poly([(10, 9), (22, 9), (22, 6), (10, 6)]), "brown", bevel=False, outline=False)           # fringe
+    c.dot(13, 4, "wood_l")
+    c.dot(14, 4, "wood_l")
+    c.dot(19, 5, "wood_l")
+    c.paint(rect(10, 9, 5, 1), "dark", bevel=False, outline=False)         # eyebrows
+    c.paint(rect(17, 9, 5, 1), "dark", bevel=False, outline=False)
+    c.paint(rect(10, 10, 5, 4), "dark", bevel=False, outline=False)        # glasses frames
+    c.paint(rect(17, 10, 5, 4), "dark", bevel=False, outline=False)
+    c.paint(rect(15, 11, 2, 1), "dark", bevel=False, outline=False)
+    c.paint(rect(11, 11, 3, 2), "glass", bevel=False, outline=False)
+    c.paint(rect(18, 11, 3, 2), "glass", bevel=False, outline=False)
+    c.dot(12, 12, "dark")
+    c.dot(19, 12, "dark")
+    c.dot(16, 14, "wood_l")                                     # nose
+    c.paint(rect(14, 17, 4, 1), "red", bevel=False, outline=False)         # smile
+    c.dot(13, 16, "red")
+    c.dot(18, 16, "red")
+    c.dot(10, 15, "red")                                        # cheeks
+    c.dot(21, 15, "red")
     return c
 
 
@@ -459,7 +487,7 @@ def sleepy(style):
 
 ICONS = {
     "tile": tile, "rover": rover, "traffic": traffic, "enigma": enigma,
-    "arm": arm, "ros": ros, "magnet": magnet, "logo": logo,
+    "arm": arm, "ros": ros, "printer": printer, "logo": logo,
     "projects": projects, "about": about, "robotics": robotics,
     "vision": vision, "embedded": embedded, "control": control,
     "simulation": simulation, "cad": cad, "software": software, "sleepy": sleepy,

@@ -7,12 +7,14 @@
      3. Builds the section list (rail on wide screens, drawer behind a "Sections" button on narrow ones) from the page's <h2>s.
      4. Opens any a.zoom link in one shared <dialog> lightbox.
      5. Builds the previous / next project links from PROJECTS below.
+   7. Loads the clock mascot from assets/js/mascot.js (she says there are more projects and links back to the list).
    6. Motion: marks the top bar once the page scrolls, draws the reading-progress line, and eases each section's content in as it
       scrolls into view (skipped entirely when the visitor prefers reduced motion; the CSS then shows everything at once).
    To add a project: add a line to PROJECTS (landing-page order) and nothing else. */
 (function () {
   "use strict";
   var KEY = "portfolio-ui";
+  var SELF = document.currentScript && document.currentScript.src;   // where this file was loaded from, to find ../../assets/js/mascot.js
   var root = document.documentElement;
 
   var PROJECTS = [   // landing-page order; id matches <html data-project="...">, dir is the folder under projects/
@@ -80,6 +82,7 @@
     buildNext();
     buildNav();
     buildLightbox();
+    if (SELF) { var m = document.createElement("script"); m.src = new URL("../../assets/js/mascot.js", SELF).href; m.defer = true; document.head.appendChild(m); }   // the clock mascot (assets/js/mascot.js)
     try { buildNumbers(); } catch (e) { /* numbers are decoration */ }
     try { buildMotion(); } catch (e) { root.classList.remove("rv-ready"); }   // never leave content hidden
   });

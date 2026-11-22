@@ -9,7 +9,7 @@
   var D = window.PortfolioDesign;
   var LAB_KEY = "portfolio-design-lab";
   var ICON_DIR = "assets/icons/";
-  var PREVIEW_ICONS = ["tile", "rover", "arm", "robotics", "vision", "magnet"];   // fits one row per card
+  var PREVIEW_ICONS = ["tile", "rover", "arm", "robotics", "vision", "printer"];   // fits one row per card
 
   var controls = document.getElementById("controls");
   var frame = document.getElementById("frame");
