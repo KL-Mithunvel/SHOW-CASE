@@ -897,8 +897,9 @@
       lastY = window.scrollY; lastT = now;
       scrolling = true;
       if (speed > 3500 && now - lastWhoa > 20000 && !ducked) { lastWhoa = now; mood("surprised", 1200); speak("Whoa! Slow down!", 1800); }
-      if (!ducked && !busy && coverage() > 0.02) {
+      if (!ducked && coverage() > 0.02) {   // even mid phone-check: content comes first
         ducked = true; halt();
+        root.classList.remove("phone"); gaze = null;
         root.classList.add("holo-out");
         clearTimeout(duckT);
         duckT = setTimeout(function () { if (ducked && scrolling) { root.classList.add("gone"); root.classList.remove("holo-out"); } }, 420);
