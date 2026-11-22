@@ -496,17 +496,20 @@
           '<path d="M90 56 C98 66 98 82 92 96 M170 52 C180 62 182 78 176 92 M126 74 C140 80 152 80 162 76" fill="none" stroke="#8e1a14" stroke-width="2" stroke-linecap="round"/>' +
           '<path d="M58 86 C54 98 60 108 72 106 C74 100 70 94 66 90 Z" fill="#b3221a" stroke="#2a1a10" stroke-width="2"/>' +
           bleg(96, 94, "", false) + bleg(160, 92, "b", false) +
-          '<path d="M28 48 C12 40 6 24 16 12 C18 24 26 34 38 40 Z" fill="#f3e6c8" stroke="#2a1a10" stroke-width="2"/><path d="M16 12 C12 16 12 20 14 22 L18 18 Z" fill="#3a3a3a"/>' +
-          '<path d="M52 44 C64 32 66 18 58 8 C60 22 54 32 44 40 Z" fill="#e8d9b8" stroke="#2a1a10" stroke-width="2"/><path d="M58 8 C62 12 62 16 60 18 L56 14 Z" fill="#3a3a3a"/>' +
-          '<path d="M16 58 C2 54 -2 64 8 68 C12 66 14 62 16 58 Z M66 56 C78 50 84 58 76 64 C72 62 68 60 66 56 Z" fill="#b3221a" stroke="#2a1a10" stroke-width="2"/>' +
-          '<path d="M18 56 C20 44 34 40 50 44 C64 48 70 62 66 76 C62 92 52 104 40 108 C28 110 20 104 18 94 C14 84 14 68 18 56 Z" fill="#c8261d" stroke="#2a1a10" stroke-width="2.6"/>' +
-          '<path d="M26 50 C34 46 44 46 52 50" fill="none" stroke="#e8564a" stroke-width="2.4" stroke-linecap="round"/>' +
-          '<ellipse cx="36" cy="100" rx="17" ry="11" fill="#d9584a" stroke="#2a1a10" stroke-width="2.2"/>' +
-          '<ellipse cx="29" cy="100" rx="3" ry="4" fill="#2a1a10"/><ellipse cx="43" cy="100" rx="3" ry="4" fill="#2a1a10"/>' +
-          '<path d="M30 108 a6 6 0 0 0 12 0" fill="none" stroke="#d9a441" stroke-width="2.8"/>' +
-          '<ellipse cx="46" cy="66" rx="5" ry="4.4" fill="#fff" stroke="#2a1a10" stroke-width="1.6"/><circle cx="44.5" cy="66.5" r="2.6" fill="#2a1a10"/>' +
-          '<path d="M38 59 L54 61" stroke="#2a1a10" stroke-width="2.6" stroke-linecap="round"/>' +
-          '<path d="M24 80 C28 84 32 86 38 86" fill="none" stroke="#8e1a14" stroke-width="1.8" stroke-linecap="round"/>',
+          /* head turned toward the viewer: symmetric horns, ears, two eyes, two nostrils */
+          '<path d="M26 50 C14 46 6 34 10 22 C14 32 20 38 30 42 Z M56 50 C68 46 76 34 72 22 C68 32 62 38 52 42 Z" fill="#f3e6c8" stroke="#2a1a10" stroke-width="2"/>' +
+          '<path d="M10 22 C8 26 9 29 11 30 L14 26 Z M72 22 C74 26 73 29 71 30 L68 26 Z" fill="#3a3a3a"/>' +
+          '<path d="M22 58 C8 54 4 64 14 68 C18 66 20 62 22 58 Z M60 58 C74 54 78 64 68 68 C64 66 62 62 60 58 Z" fill="#b3221a" stroke="#2a1a10" stroke-width="2"/>' +
+          '<path d="M20 54 C22 42 32 38 41 38 C50 38 60 42 62 54 C64 70 60 92 54 104 C50 110 32 110 28 104 C22 92 18 70 20 54 Z" fill="#c8261d" stroke="#2a1a10" stroke-width="2.6"/>' +
+          '<path d="M30 46 C36 43 46 43 52 46" fill="none" stroke="#e8564a" stroke-width="2.4" stroke-linecap="round"/>' +
+          '<path d="M34 72 C38 76 44 76 48 72" fill="none" stroke="#8e1a14" stroke-width="1.6" stroke-linecap="round"/>' +
+          '<ellipse cx="31" cy="64" rx="5" ry="5.5" fill="#fff" stroke="#2a1a10" stroke-width="1.6"/><ellipse cx="51" cy="64" rx="5" ry="5.5" fill="#fff" stroke="#2a1a10" stroke-width="1.6"/>' +
+          '<circle cx="30" cy="65" r="2.6" fill="#2a1a10"/><circle cx="50" cy="65" r="2.6" fill="#2a1a10"/>' +
+          '<circle cx="29.2" cy="63.8" r=".9" fill="#fff"/><circle cx="49.2" cy="63.8" r=".9" fill="#fff"/>' +
+          '<path d="M25 56 L36 59.5 M57 56 L46 59.5" stroke="#2a1a10" stroke-width="2.6" stroke-linecap="round"/>' +
+          '<ellipse cx="41" cy="97" rx="17" ry="11" fill="#d9584a" stroke="#2a1a10" stroke-width="2.2"/>' +
+          '<ellipse cx="35" cy="97" rx="3" ry="4" fill="#2a1a10"/><ellipse cx="47" cy="97" rx="3" ry="4" fill="#2a1a10"/>' +
+          '<path d="M35 105 a6 6 0 0 0 12 0" fill="none" stroke="#d9a441" stroke-width="2.8"/>',
         front: ''
       },
       /* demon chopper: long, low, scorched black frame, raked extended fork, ape-hanger bars, V-twin with glowing
@@ -542,7 +545,7 @@
       }
     };
     function alloy(cx, cy, r) {   // racing wheel: low-profile tyre, five-spoke rim, brake caliper
-      var g = '<g class="v-wheel"><circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="#111318"/>' +
+      var g = '<g class="v-wheel" style="' + axle(cx, cy) + '"><circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="#111318"/>' +
         '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.78).toFixed(1) + '" fill="#c9d1de" stroke="#2a2f3a" stroke-width="1.6"/>';
       for (var k = 0; k < 5; k++) {
         var a = k * Math.PI * 2 / 5;
@@ -552,7 +555,7 @@
         '<path d="M' + (cx - r * 0.55) + ' ' + (cy - r * 0.45) + ' a' + (r * 0.7) + ' ' + (r * 0.7) + ' 0 0 1 ' + (r * 0.5) + ' ' + (-r * 0.22) + '" fill="none" stroke="#ffd23f" stroke-width="4" stroke-linecap="round"/>';
     }
     function fireWheel(cx, cy, r) {   // a dark tyre with fire wrapped all the way round; the whole ring turns
-      var g = '<g class="v-wheel"><g class="v-fire">';
+      var g = '<g class="v-wheel" style="' + axle(cx, cy) + '"><g class="v-fire">';
       for (var k = 0; k < 10; k++) {
         var deg = k * 36;
         g += '<g transform="rotate(' + deg + ' ' + cx + ' ' + cy + ')">' + flame(cx, cy - r + 4, 0.55, k % 2 ? "b" : "") + '</g>';
@@ -570,6 +573,7 @@
       var i = 'M0 0 C-7 -6 -6 -16 0 -26 C2 -16 8 -14 6 -6 C8 -2 6 2 0 2 Z';
       return '<g transform="translate(' + fx + ' ' + fy + ') scale(' + s + ')"><g class="v-flame ' + cls + '"><path d="' + o + '" fill="#ff5a1f" stroke="#a8231c" stroke-width="1.6"/><path d="' + i + '" fill="#ffd23f"/></g></g>';
     }
+    function axle(cx, cy) { return 'transform-box:view-box;transform-origin:' + cx + 'px ' + cy + 'px'; }   // spin about the hub
     function chain(x1, y1, x2, y2, n) {
       var g = '';
       for (var k = 0; k <= n; k++) {
