@@ -7,21 +7,25 @@
      3. Builds the section list (rail on wide screens, drawer behind a "Sections" button on narrow ones) from the page's <h2>s.
      4. Opens any a.zoom link in one shared <dialog> lightbox.
      5. Builds the previous / next project links from PROJECTS below.
+   7. Loads the clock mascot from assets/js/mascot.js (she says there are more projects and links back to the list).
+   6. Motion: marks the top bar once the page scrolls, draws the reading-progress line, and eases each section's content in as it
+      scrolls into view (skipped entirely when the visitor prefers reduced motion; the CSS then shows everything at once).
    To add a project: add a line to PROJECTS (landing-page order) and nothing else. */
 (function () {
   "use strict";
   var KEY = "portfolio-ui";
+  var SELF = document.currentScript && document.currentScript.src;   // where this file was loaded from, to find ../../assets/js/mascot.js
   var root = document.documentElement;
 
   var PROJECTS = [   // landing-page order; id matches <html data-project="...">, dir is the folder under projects/
-    { id: "magnet",  dir: "magnet-inserter",    name: "Magnet-Embed Print Assistant" },
-    { id: "ros",     dir: "ros-lab",            name: "ROS 2 Mobile Robots" },
-    { id: "tile",    dir: "tile-inspection",    name: "Tile Inspection Line" },
-    { id: "arm",     dir: "plc-2dof-arm",       name: "PLC 2-DOF Robotic Arm" },
-    { id: "sleepy",  dir: "sleepy",             name: "SLEEPY Assistant" },
-    { id: "herc",    dir: "herc-26",            name: "HERC-26 Rover" },
-    { id: "enigma",  dir: "myownenigma",        name: "MyOwnEnigma" },
-    { id: "traffic", dir: "traffic-management", name: "Look-Ahead Signals" }
+    { id: "magnet",  dir: "magnet-inserter",    name: "Automated Magnet Insertion for 3D Printers" },
+    { id: "ros",     dir: "ros-lab",            name: "Autonomous Mobile Robots with ROS 2" },
+    { id: "tile",    dir: "tile-inspection",    name: "Automated Clay Tile Inspection and Sorting" },
+    { id: "arm",     dir: "plc-2dof-arm",       name: "PLC-Controlled 2-DOF Pick-and-Place Arm" },
+    { id: "sleepy",  dir: "sleepy",             name: "SLEEPY: Self-Hosted AI Project Assistant" },
+    { id: "herc",    dir: "herc-26",            name: "HERC-26 Rover Control and Data-Logging Software" },
+    { id: "enigma",  dir: "myownenigma",        name: "Enigma Cipher Machine on an FPGA" },
+    { id: "traffic", dir: "traffic-management", name: "Look-Ahead Traffic Signal Control" }
   ];
   var DEFAULT_ACCENT = { light: "#0b7a6f", dark: "#35d0c0" };   // same as DEFAULTS in assets/js/design-data.js
 
@@ -35,6 +39,8 @@
     if (t) return t === "dark";
     return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
   }
+  var motionOk = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) && "IntersectionObserver" in window;
+  if (motionOk) root.classList.add("rv-ready");   // set before first paint so sections do not flash; undone below if anything fails
   var saved = read().theme;
   if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
 
@@ -76,6 +82,9 @@
     buildNext();
     buildNav();
     buildLightbox();
+    if (SELF) { var m = document.createElement("script"); m.src = new URL("../../assets/js/mascot.js", SELF).href; m.defer = true; document.head.appendChild(m); }   // the clock mascot (assets/js/mascot.js)
+    try { buildNumbers(); } catch (e) { /* numbers are decoration */ }
+    try { buildMotion(); } catch (e) { root.classList.remove("rv-ready"); }   // never leave content hidden
   });
 
   /* ---------- 5. previous / next project links ---------- */
@@ -137,11 +146,14 @@
       ol.appendChild(li);
       it.a = a;
     });
+    var ind = document.createElement("span");   // the sliding marker beside the current section
+    ind.className = "pnav-ind";
+    ind.setAttribute("aria-hidden", "true");
+    nav.appendChild(ind);
     document.body.appendChild(nav);
 
     var shade = document.createElement("div");
     shade.className = "pshade";
-    shade.hidden = true;
     document.body.appendChild(shade);
 
     var bar = document.querySelector(".pbar .pwrap"), btn = document.createElement("button");
@@ -160,8 +172,8 @@
 
     function open(on) {
       root.classList.toggle("pnav-open", on);
-      shade.hidden = !on;
       btn.setAttribute("aria-expanded", String(on));
+      place(true);
       if (on) nav.focus({ preventScroll: true });
       else if (document.activeElement && nav.contains(document.activeElement)) btn.focus();
     }
@@ -181,14 +193,28 @@
     }
     layout();
     window.addEventListener("resize", layout);
-    window.addEventListener("load", layout);
+    window.addEventListener("load", function () { layout(); spy(); place(true); });
+    window.addEventListener("resize", function () { place(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
 
+    var curItem = null;
+    function place(instant) {   // put the marker beside the current link; instant = no slide (first placement, layout changes)
+      if (!curItem) { ind.classList.remove("on"); return; }
+      var a = curItem.a;
+      if (instant) ind.style.transition = "none";
+      ind.style.height = a.offsetHeight + "px";
+      ind.style.transform = "translate(" + a.offsetLeft + "px," + a.offsetTop + "px)";
+      if (instant) { void ind.offsetWidth; ind.style.transition = ""; }
+      ind.classList.add("on");
+    }
     var ticking = false;
     function spy() {   // highlight the section being read
       ticking = false;
       var line = Math.min(160, window.innerHeight * 0.3), cur = null;
       items.forEach(function (it) { if (it.el.getBoundingClientRect().top <= line) cur = it; });
       items.forEach(function (it) { if (it === cur) it.a.setAttribute("aria-current", "true"); else it.a.removeAttribute("aria-current"); });
+      curItem = cur;
+      place(!ind.classList.contains("on"));   // first appearance: put it in position, do not fly in from the corner
       if (cur && root.classList.contains("prail")) {
         var r = cur.a.getBoundingClientRect(), n = nav.getBoundingClientRect();
         if (r.top < n.top + 40 || r.bottom > n.bottom - 10) nav.scrollTop += r.top - n.top - n.height / 3;
@@ -196,6 +222,46 @@
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
     spy();
+  }
+
+  /* ---------- 6a. section numbers ---------- */
+  function buildNumbers() {
+    var n = 0;
+    Array.prototype.forEach.call(document.querySelectorAll("main .block"), function (sec) {
+      var h = sec.querySelector("h2");
+      if (!h) return;
+      var label = String(++n).padStart(2, "0"), eb = sec.querySelector(".eyebrow");
+      if (eb && !/^\d\d\s*·/.test(eb.textContent)) eb.insertBefore(document.createTextNode(label + " · "), eb.firstChild);
+      else if (!eb) h.setAttribute("data-n", label);
+    });
+  }
+
+  /* ---------- 6. motion ---------- */
+  function buildMotion() {
+    var bar = document.querySelector(".pbar"), ticking = false;
+    function tick() {
+      ticking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight, y = window.scrollY || 0;
+      root.style.setProperty("--p", max > 0 ? Math.min(1, Math.max(0, y / max)).toFixed(4) : "0");
+      if (bar) bar.classList.toggle("scrolled", y > 8);
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+    window.addEventListener("resize", tick);
+    tick();
+
+    if (!root.classList.contains("rv-ready")) return;
+    var items = document.querySelectorAll(".block > *");
+    var io = new IntersectionObserver(function (entries) {
+      var n = 0;
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.transitionDelay = Math.min(n++, 4) * 70 + "ms";   // items arriving together ripple in
+        e.target.classList.add("in");
+        (function (t) { setTimeout(function () { t.style.transitionDelay = ""; }, 1500); })(e.target);
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+    Array.prototype.forEach.call(items, function (el) { io.observe(el); });
   }
 
   /* ---------- 4. lightbox ---------- */

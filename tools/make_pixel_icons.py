@@ -30,6 +30,8 @@ LAB_ICONS_DIR = REPO / "design-lab" / "assets" / "icons"
 LAB_SPRITES = REPO / "design-lab" / "assets" / "sprites.css"
 
 GRID = 32            # art pixels per side
+FINE = 64            # finer grid for the icons that need detail (person, ROS robot); same 128 px output
+_grid = GRID         # the grid the shape helpers measure against (set by Canvas)
 SCALE = 4            # each art pixel is written as SCALE x SCALE image pixels
 DEFAULT_STYLE = "classic"
 
@@ -50,6 +52,12 @@ COLOURS = {
     "peach": "#f1c7a1",
     "gold": "#d9a441",
     "glass": "#bfe3ff",
+    "hair": "#3b2416",
+    "hair_l": "#6e4a2e",
+    "lip": "#a8463a",
+    "blush": "#f0a48c",
+    "purple": "#7b4dd6",
+    "purple_l": "#a98bf0",
 }
 
 
@@ -118,8 +126,8 @@ STYLES = {
 
 # ---------------------------------------------------------------- shape masks
 def centres():
-    for y in range(GRID):
-        for x in range(GRID):
+    for y in range(_grid):
+        for x in range(_grid):
             yield x, y, x + 0.5, y + 0.5
 
 
@@ -174,7 +182,10 @@ def line(p0, p1, thick):
 
 # ---------------------------------------------------------------- canvas
 class Canvas:
-    def __init__(self, style):
+    def __init__(self, style, grid=GRID):
+        global _grid
+        _grid = grid
+        self.grid = grid
         self.style = style
         self.px = {}
 
@@ -213,12 +224,13 @@ class Canvas:
 
     def to_png(self):
         pixels = self.final_pixels()
-        size = GRID * SCALE
+        size = GRID * SCALE                     # always 128 px; a fine canvas uses smaller blocks
+        k = size // self.grid
         raw = bytearray()
         for y in range(size):
             raw.append(0)                       # PNG filter type: none
             for x in range(size):
-                rgb = pixels.get((x // SCALE, y // SCALE))
+                rgb = pixels.get((x // k, y // k))
                 raw.extend(rgb + (255,) if rgb else (0, 0, 0, 0))
 
         def chunk(tag, data):
@@ -232,8 +244,11 @@ class Canvas:
     def to_box_shadow(self):
         """The drawing as a CSS box-shadow list: one 1px square per art pixel."""
         parts = []
+        f = self.grid // GRID                   # a fine canvas is sampled down to the 32 px sprite
         for (x, y), rgb in sorted(self.final_pixels().items(), key=lambda kv: (kv[0][1], kv[0][0])):
-            parts.append(f"{x}px {y}px #{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}")
+            if x % f or y % f:
+                continue
+            parts.append(f"{x // f}px {y // f}px #{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}")
         return ",".join(parts)
 
 
@@ -306,28 +321,45 @@ def arm(style):
     return c
 
 
-def ros(style):
-    c = Canvas(style)
-    nodes = {"a": (6, 7), "b": (26, 7), "c": (6, 25), "d": (26, 25), "mid": (16, 16)}
-    for key in ("a", "b", "c", "d"):
-        c.paint(line(nodes[key], nodes["mid"], 1.6), "steel", bevel=False, outline=False)
-    c.paint(line(nodes["a"], nodes["b"], 1.6), "steel", bevel=False, outline=False)
-    for key in ("a", "b", "c", "d"):
-        c.paint(ellipse(*nodes[key], 4, 4), "teal")
-    c.paint(ellipse(*nodes["mid"], 5.5, 5.5), "amber")
-    c.dot(14, 14, "white")
-    c.dot(5, 5, "white")
-    c.dot(25, 5, "white")
+def ros(style):                                                 # Acrux-style ROS 2 mobile robot, drawn on the fine grid
+    c = Canvas(style, FINE)
+    c.paint(line((44, 26), (47, 11), 2), "steel", bevel=False)                    # Wi-Fi antenna
+    c.paint(ellipse(47.5, 10, 2.4, 2.4), "amber")
+    c.paint(rrect(25, 14, 16, 12, 4), "dark")                                    # lidar puck
+    c.paint(rect(26, 19, 14, 3), "red", bevel=False, outline=False)              # lidar window
+    c.dot(28, 19, "white")
+    c.paint(rrect(7, 24, 50, 8, 3), "purple_l")                                  # top deck
+    c.paint(ellipse(51, 23, 4, 4), "red")                                        # e-stop
+    c.dot(50, 21, "white")
+    c.paint(rrect(4, 30, 56, 18, 5), "purple")                                   # chassis
+    c.paint(line((22, 37), (46, 37), 2.4), "purple_l", bevel=False, outline=False)
+    c.paint(rrect(2, 33, 10, 9, 2), "dark")                                      # depth camera on the front
+    c.paint(ellipse(5, 37.5, 1.8, 1.8), "glass", bevel=False, outline=False)
+    c.paint(ellipse(9, 37.5, 1.8, 1.8), "glass", bevel=False, outline=False)
+    c.dot(22, 43, "green")                                                        # status lights
+    c.dot(25, 43, "amber")
+    c.dot(28, 43, "blue")
+    for cx in (15, 49):                                                           # wheels with hubs and tread
+        c.paint(ellipse(cx, 50, 8, 8), "dark")
+        c.paint(ellipse(cx, 50, 3.6, 3.6), "steel")
+        c.dot(cx - 1, 48, "white")
+        for dx, dy in ((0, -7), (7, 0), (0, 7), (-7, 0)):
+            c.dot(cx + dx, 50 + dy, "steel_d")
+    c.paint(rect(4, 59, 56, 2), "steel_d", bevel=False, outline=False)          # floor line
     return c
 
 
-def magnet(style):
+def printer(style):
     c = Canvas(style)
-    body = (rect(5, 5, 7, 12) | rect(20, 5, 7, 12)
-            | {p for p in (ellipse(16, 17, 11, 11) - ellipse(16, 17, 4, 4)) if p[1] >= 17})
-    c.paint(body, "red")
-    c.paint(rect(5, 5, 7, 6), "steel")                          # silver pole tips
-    c.paint(rect(20, 5, 7, 6), "steel")
+    c.paint(rrect(2, 26, 28, 4, 1), "steel_d")                  # base
+    c.paint(rect(4, 5, 3, 21), "steel")                         # left post
+    c.paint(rect(25, 5, 3, 21), "steel")                        # right post
+    c.paint(rrect(3, 3, 26, 4, 1), "steel")                     # top frame
+    c.paint(rect(7, 11, 18, 3), "dark")                         # gantry beam
+    c.paint(rrect(12, 12, 8, 7, 1), "teal")                     # print head
+    c.paint(poly([(14, 19), (18, 19), (16, 23)]), "amber")      # nozzle
+    c.paint(rect(10, 22, 12, 4), "amber", bevel=False)          # part being printed
+    c.dot(15, 14, "white")
     return c
 
 
@@ -354,13 +386,46 @@ def projects(style):
     return c
 
 
-def about(style):
-    c = Canvas(style)
-    c.paint(rrect(4, 20, 24, 14, 7), "teal")                    # shoulders
-    c.paint(rect(13, 15, 6, 6), "peach")                        # neck
-    c.paint(ellipse(16, 10, 6.5, 7), "peach")                   # head
-    c.dot(13, 10, "dark")
-    c.dot(19, 10, "dark")
+def about(style):                                               # portrait on the fine grid: hair, glasses, eyes, collar
+    c = Canvas(style, FINE)
+    c.paint(rrect(5, 44, 54, 22, 12), "blue")                                    # shirt
+    c.paint(line((32, 47), (32, 64), 1.4), "blue", bevel=False)                  # placket
+    c.dot(32, 52, "white")
+    c.dot(32, 58, "white")
+    c.paint(rect(26, 33, 12, 13), "peach")                                       # neck
+    c.paint(rect(26, 40, 12, 3), "wood_l", bevel=False, outline=False)          # shadow under the chin
+    c.paint(poly([(21, 44), (32, 47), (27, 54)]), "white")                       # collar points
+    c.paint(poly([(43, 44), (32, 47), (37, 54)]), "white")
+    c.paint(ellipse(16.5, 26, 3.4, 5), "peach")                                  # ears
+    c.paint(ellipse(47.5, 26, 3.4, 5), "peach")
+    c.dot(16, 26, "wood_l")
+    c.dot(47, 26, "wood_l")
+    c.paint(ellipse(32, 25, 15, 17), "peach")                                    # face
+    c.paint(ellipse(32, 13.5, 17, 9.5) | rect(15, 12, 4, 12) | rect(45, 12, 4, 12), "hair")   # hair
+    c.paint(poly([(16, 19), (24, 12), (34, 14), (42, 11), (48, 18), (48, 11), (32, 4), (16, 10)]), "hair",
+            bevel=False, outline=False)                                          # fringe
+    c.paint(line((22, 8), (30, 6), 1.5), "hair_l", bevel=False, outline=False)  # highlights
+    c.paint(line((34, 7), (42, 10), 1.5), "hair_l", bevel=False, outline=False)
+    c.paint(line((25, 13), (31, 11), 1.2), "hair_l", bevel=False, outline=False)
+    c.paint(line((20, 19.5), (28, 18.5), 2), "hair", bevel=False, outline=False)   # eyebrows
+    c.paint(line((36, 18.5), (44, 19.5), 2), "hair", bevel=False, outline=False)
+    c.paint(rrect(19, 21, 12, 9, 2), "dark", bevel=False, outline=False)        # glasses frames
+    c.paint(rrect(33, 21, 12, 9, 2), "dark", bevel=False, outline=False)
+    c.paint(rrect(21, 23, 8, 5, 1), "glass", bevel=False, outline=False)        # lenses
+    c.paint(rrect(35, 23, 8, 5, 1), "glass", bevel=False, outline=False)
+    c.paint(rect(31, 23, 2, 2), "dark", bevel=False, outline=False)             # bridge
+    c.paint(line((19, 23), (16, 22), 1.4), "dark", bevel=False, outline=False)  # arms of the glasses
+    c.paint(line((45, 23), (48, 22), 1.4), "dark", bevel=False, outline=False)
+    c.paint(rect(23, 24, 3, 3), "dark", bevel=False, outline=False)             # eyes
+    c.paint(rect(37, 24, 3, 3), "dark", bevel=False, outline=False)
+    c.dot(24, 24, "white")
+    c.dot(38, 24, "white")
+    c.paint(line((32, 28), (31, 33), 1.4), "wood_l", bevel=False, outline=False)   # nose
+    c.dot(30, 33, "wood_l")
+    c.paint(rect(21, 32, 3, 2), "blush", bevel=False, outline=False)            # cheeks
+    c.paint(rect(40, 32, 3, 2), "blush", bevel=False, outline=False)
+    c.paint(line((26, 35.5), (31, 37.5), 1.6), "lip", bevel=False, outline=False)   # smile
+    c.paint(line((31, 37.5), (38, 35.5), 1.6), "lip", bevel=False, outline=False)
     return c
 
 
@@ -459,7 +524,7 @@ def sleepy(style):
 
 ICONS = {
     "tile": tile, "rover": rover, "traffic": traffic, "enigma": enigma,
-    "arm": arm, "ros": ros, "magnet": magnet, "logo": logo,
+    "arm": arm, "ros": ros, "printer": printer, "logo": logo,
     "projects": projects, "about": about, "robotics": robotics,
     "vision": vision, "embedded": embedded, "control": control,
     "simulation": simulation, "cad": cad, "software": software, "sleepy": sleepy,

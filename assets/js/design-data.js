@@ -9,7 +9,7 @@ window.PortfolioDesign = (function () {
   "use strict";
 
   var ICON_NAMES = [
-    "tile", "rover", "traffic", "enigma", "arm", "ros", "magnet", "logo",
+    "tile", "rover", "traffic", "enigma", "arm", "ros", "printer", "logo",
     "projects", "about", "robotics", "vision", "embedded", "control", "simulation", "cad", "software", "sleepy"
   ];
 
