@@ -80,6 +80,7 @@
     buildNext();
     buildNav();
     buildLightbox();
+    try { buildNumbers(); } catch (e) { /* numbers are decoration */ }
     try { buildMotion(); } catch (e) { root.classList.remove("rv-ready"); }   // never leave content hidden
   });
 
@@ -169,6 +170,7 @@
     function open(on) {
       root.classList.toggle("pnav-open", on);
       btn.setAttribute("aria-expanded", String(on));
+      place(true);
       if (on) nav.focus({ preventScroll: true });
       else if (document.activeElement && nav.contains(document.activeElement)) btn.focus();
     }
@@ -188,19 +190,28 @@
     }
     layout();
     window.addEventListener("resize", layout);
-    window.addEventListener("load", function () { layout(); spy(); });
+    window.addEventListener("load", function () { layout(); spy(); place(true); });
+    window.addEventListener("resize", function () { place(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(true); });
 
+    var curItem = null;
+    function place(instant) {   // put the marker beside the current link; instant = no slide (first placement, layout changes)
+      if (!curItem) { ind.classList.remove("on"); return; }
+      var a = curItem.a;
+      if (instant) ind.style.transition = "none";
+      ind.style.height = a.offsetHeight + "px";
+      ind.style.transform = "translate(" + a.offsetLeft + "px," + a.offsetTop + "px)";
+      if (instant) { void ind.offsetWidth; ind.style.transition = ""; }
+      ind.classList.add("on");
+    }
     var ticking = false;
     function spy() {   // highlight the section being read
       ticking = false;
       var line = Math.min(160, window.innerHeight * 0.3), cur = null;
       items.forEach(function (it) { if (it.el.getBoundingClientRect().top <= line) cur = it; });
       items.forEach(function (it) { if (it === cur) it.a.setAttribute("aria-current", "true"); else it.a.removeAttribute("aria-current"); });
-      if (cur) {
-        ind.style.height = cur.a.offsetHeight + "px";
-        ind.style.transform = "translate(" + cur.a.offsetLeft + "px," + cur.a.offsetTop + "px)";
-        ind.classList.add("on");
-      } else ind.classList.remove("on");
+      curItem = cur;
+      place(!ind.classList.contains("on"));   // first appearance: put it in position, do not fly in from the corner
       if (cur && root.classList.contains("prail")) {
         var r = cur.a.getBoundingClientRect(), n = nav.getBoundingClientRect();
         if (r.top < n.top + 40 || r.bottom > n.bottom - 10) nav.scrollTop += r.top - n.top - n.height / 3;
@@ -208,6 +219,18 @@
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
     spy();
+  }
+
+  /* ---------- 6a. section numbers ---------- */
+  function buildNumbers() {
+    var n = 0;
+    Array.prototype.forEach.call(document.querySelectorAll("main .block"), function (sec) {
+      var h = sec.querySelector("h2");
+      if (!h) return;
+      var label = String(++n).padStart(2, "0"), eb = sec.querySelector(".eyebrow");
+      if (eb && !/^\d\d\s*·/.test(eb.textContent)) eb.insertBefore(document.createTextNode(label + " · "), eb.firstChild);
+      else if (!eb) h.setAttribute("data-n", label);
+    });
   }
 
   /* ---------- 6. motion ---------- */

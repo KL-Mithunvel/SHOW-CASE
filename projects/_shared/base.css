@@ -103,7 +103,7 @@ h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
 .hero-media { margin-top: 0.75rem; }
 
 /* ------------------------------------------------------------ sections */
-.block { position: relative; margin-top: 1.75rem; padding-block: 2.25rem 0.5rem; border-top: 1px solid var(--border); counter-increment: sec; }
+.block { position: relative; margin-top: 1.75rem; padding-block: 2.25rem 0.5rem; border-top: 1px solid var(--border); }
 .sec-head { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; max-width: 70ch; }
 
 /* ------------------------------------------------------------ panels, figures, media */
@@ -180,8 +180,10 @@ td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-
 .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
 /* ------------------------------------------------------------ footer */
-.pfoot { margin-top: 4.5rem; padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--border); display: grid; gap: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+.pfoot { margin-top: 3.5rem; padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--border); display: grid; gap: 0.5rem; color: var(--muted); font-size: 0.9rem; }
 .pfoot .claim { color: var(--text); }
+.pfoot p + p { margin-top: 0; }
+.pfoot .claim { margin-top: 0.5rem; }
 .pnext { border-top: 1px solid var(--border); }
 .pnext .pwrap { display: grid; grid-template-columns: 1fr 1fr; }
 .pnext a { display: flex; flex-direction: column; gap: 0.15rem; padding: 1.25rem 0 1.75rem; text-decoration: none; color: var(--text); min-width: 0; }
@@ -225,16 +227,18 @@ td.num, th.num { text-align: right; font-family: var(--font-mono); font-variant-
   -webkit-mask-image: radial-gradient(ellipse 80% 90% at 100% 0, #000 0, transparent 72%); mask-image: radial-gradient(ellipse 80% 90% at 100% 0, #000 0, transparent 72%); opacity: 0.55; }
 @media (max-width: 40rem) { .hero::before { left: 45%; opacity: 0.4; } }
 
-/* Sections: a short accent tick on the hairline, and the section number in the label slot above the heading.
-   The numbers match the section list (the nav counts the same <h2>s). */
+/* Sections: a short accent tick on the hairline. base.js numbers each section: the number goes in front of the section's eyebrow
+   when it has one, otherwise above the heading (h2[data-n]). The numbers match the section list. */
 .block::before { content: ""; position: absolute; top: -1px; left: 0; width: 2.5rem; height: 2px; background: var(--accent); }
-.block > h2:first-of-type::before, .sec-head > h2::before { content: counter(sec, decimal-leading-zero); display: block; margin-bottom: 0.55rem;
+.block > h2:first-of-type { margin-bottom: 1.1rem; }
+.block > h2:first-of-type + .sub, .block > h2:first-of-type + .note { margin-top: -0.5rem; }   /* an intro line stays close to its heading */
+.block h2[data-n]::before { content: attr(data-n); display: block; margin-bottom: 0.55rem;
   font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.08em; color: var(--accent); }
 
 /* Figures: two corner ticks, like registration marks on a drawing. Only on figures that hold an image. */
 figure:has(> a.zoom), figure:has(> img) { position: relative; }
-figure:has(> a.zoom)::after, figure:has(> img)::after { content: ""; position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; pointer-events: none;
-  border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); opacity: 0.7; }
+figure:has(> a.zoom)::after, figure:has(> img)::after { content: ""; position: absolute; top: -1px; right: -1px; width: 16px; height: 16px; pointer-events: none;
+  border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); border-top-right-radius: 8px; opacity: 0.8; }
 
 /* ------------------------------------------------------------ motion */
 a, .btn, .pbtn, .chip, .stat, .panel { transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.25s ease; }

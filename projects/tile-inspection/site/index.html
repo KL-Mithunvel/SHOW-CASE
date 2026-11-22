@@ -75,7 +75,7 @@
 <section class="block" id="problem">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">01 · The problem</p>
+      <p class="eyebrow">The problem</p>
       <h2>Nine people sort 20,160 tiles a day by hand.</h2>
       <p>SMTW grades fired clay roofing tiles by eye and by tapping them. It works, but it is tiring, nobody records why a tile was downgraded, and the defect never gets traced back to a kiln batch.</p>
     </div>
@@ -124,7 +124,7 @@
 <section class="block" id="line">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">02 · The line</p>
+      <p class="eyebrow">The line</p>
       <h2>Four stations, one tile at a time, every decision logged.</h2>
       <p>Each station is its own computer. It processes its own raw data and publishes only a compact result over MQTT on an isolated network, so the line keeps working with no master PC attached.</p>
     </div>
@@ -180,7 +180,7 @@
 <section class="block" id="plant">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">03 · Master node</p>
+      <p class="eyebrow">Master node</p>
       <h2>Walk around the line in 3D.</h2>
       <p>This is the master PC's Plant 3D view from the project, built in Three.js. Here it runs a synthetic demo line inside your browser: tiles ride the belt coloured by grade, the striker drops, the gantry picks each tile into its bin, and a camera fault is staged about every 50 seconds. The line-control buttons work.</p>
     </div>
@@ -203,7 +203,7 @@
 <section class="block" id="stations">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">04 · Stations</p>
+      <p class="eyebrow">Stations</p>
       <h2>Following one tile down the belt.</h2>
     </div>
 
@@ -377,7 +377,7 @@
 <section class="block" id="software">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">05 · Operator and engineering software</p>
+      <p class="eyebrow">Operator and engineering software</p>
       <h2>Every node has a screen, and the master explains its own alarms.</h2>
       <p>The master PC is optional: it watches the line, keeps its own copy of every tile, and can send soft controls. Rule-based detectors find anomalies; a small local language model (llama3.2:3b, so no data leaves the control network) explains them in plain words. On synthetic data with seven planted faults, all seven were found with no false alarms.</p>
     </div>
@@ -390,7 +390,7 @@
 <section class="block" id="results">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">06 · What we measured</p>
+      <p class="eyebrow">What we measured</p>
       <h2>88 belt tiles, checked against a human eye.</h2>
       <p>Each square is one real tile from the belt, grouped by what a person said and coloured by what the pipeline decided. Large damage is caught; hairline cracks are not, and the blur panel shows why.</p>
     </div>
@@ -458,7 +458,7 @@
 <section class="block" id="models">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">07 · Camera and sound models</p>
+      <p class="eyebrow">Camera and sound models</p>
       <h2>What the learned models can and cannot do yet.</h2>
       <p>Alongside the measured rules, we trained image classifiers for SMTW's own grades and analysed real tap recordings from the striker rig. Both are kept out of the final grade until they earn their place on the line's own data.</p>
     </div>
@@ -538,7 +538,7 @@
 <section class="block" id="faults">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">08 · Faults found and fixed</p>
+      <p class="eyebrow">Faults found and fixed</p>
       <h2>What broke, and how we found out.</h2>
       <p>The report keeps every failed attempt in the text. A few of the thirteen:</p>
     </div>
@@ -557,7 +557,7 @@
 <section class="block" id="gallery">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">09 · Screens</p>
+      <p class="eyebrow">Screens</p>
       <h2>Every interface, as it ran.</h2>
       <p>Bench and demonstration runs, not plant data. Click any screen to enlarge.</p>
     </div>
@@ -570,7 +570,7 @@
 <section class="block" id="build">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">10 · Build log</p>
+      <p class="eyebrow">Build log</p>
       <h2>From the bench.</h2>
       <p>Photos and clips of the physical prototype. Click any photo to enlarge.</p>
     </div>
@@ -618,7 +618,7 @@
 <section class="block" id="certificate">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">11 · Industry certificate</p>
+      <p class="eyebrow">Industry certificate</p>
       <h2>Certified by the tile works that set the problem.</h2>
       <p>Sree Murugan Tile Works, Pavoorchatram, issued this certificate on 20 October 2026 for the team's work on their inspection and handling requirements.</p>
     </div>
@@ -652,7 +652,7 @@
 <section class="block" id="team">
   <div>
     <div class="sec-head">
-      <p class="eyebrow">12 · Team</p>
+      <p class="eyebrow">Team</p>
       <h2>Who built it.</h2>
     </div>
     <div class="team">
