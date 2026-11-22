@@ -19,14 +19,21 @@
      - Eyes follow the cursor. Click: hop and spin, then do what she said. Three quick clicks: a little mischief.
      - Hover her and she stops to listen. The small x hides her for the visit (sessionStorage).
      - prefers-reduced-motion: no entrance and no wandering; she sits still in the corner.
-     - Preview any entrance: add ?tick=crash (or car, bull, firebike) to the page address. */
+     - Faces: happy, joy, sly, dizzy, surprised, curious, sleepy, yawn, love, wink, sad, think; each tied to something
+       real (hover, the cursor coming close, going idle, a fast scroll, a project hovered, arriving, closing her).
+     - Now and then she checks a phone, then reacts to it.
+     - Content map: every line of text, image, video, canvas and control on the page is measured in page coordinates,
+       so for any scroll position she knows what is under any spot. She only settles on empty space (side margins,
+       gaps between sections). If scrolling would bring content under her she switches off and reappears in a free
+       spot when the scrolling stops. If nothing is free (phones) she peeks in small from the screen edge.
+     - Preview any entrance: add ?tick=crash (or car, bull, firebike, poof) to the page address. */
 (function () {
   "use strict";
   if (window.__tick) return;
   window.__tick = true;
 
   var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  var forced = (location.search.match(/[?&]tick=(crash|car|bull|firebike)/) || [])[1] || null;
+  var forced = (location.search.match(/[?&]tick=(crash|car|bull|firebike|poof)/) || [])[1] || null;
   function store(kind, key, val) {
     try { var s = window[kind]; if (val === undefined) return s.getItem(key); s.setItem(key, val); } catch (e) { return null; }
     return null;
@@ -113,8 +120,25 @@
       ".t-cheek{fill:#ff5a2a;opacity:.55}",
       ".t-joy,.t-smirk,.t-dizzy,.t-stars{display:none}",
       ".tkm.joy .t-eye,.tkm.joy .t-smile{display:none}.tkm.joy .t-joy{display:inline}",
-      ".tkm.sly .t-smile{display:none}.tkm.sly .t-smirk{display:inline}.tkm.sly .t-pupil{transform:scale(.7)}",
+      ".tkm.sly .t-smile{display:none}.tkm.sly .t-smirk{display:inline}",
       ".tkm.dizzy .t-eye{display:none}.tkm.dizzy .t-dizzy,.tkm.dizzy .t-stars{display:inline}",
+      ".t-lids,.t-hearts,.t-wink,.t-o,.t-yawn,.t-flat,.t-grin,.t-frown,.t-phone,.t-arm-phone{display:none}",
+      ".tkm.joy .t-grin{display:inline}",
+      ".t-eye{transform-box:fill-box;transform-origin:50% 50%;transition:transform .2s ease}",
+      ".t-brow-l,.t-brow-r{transition:transform .2s ease}",
+      ".tkm.surprised .t-eye{transform:scale(1.16)}.tkm.surprised .t-brow-l,.tkm.surprised .t-brow-r{transform:translateY(-6px)}",
+      ".tkm.surprised .t-smile{display:none}.tkm.surprised .t-o{display:inline}",
+      ".tkm.curious .t-brow-r{transform:translateY(-6px) rotate(-10deg)}.tkm.curious .t-smile{display:none}.tkm.curious .t-flat{display:inline}",
+      ".tkm.curious .tkm-lean{transform:rotate(9deg)}",
+      ".tkm.sleepy .t-lids,.tkm.yawn .t-lids{display:inline}.tkm.sleepy .t-smile,.tkm.yawn .t-smile{display:none}",
+      ".tkm.sleepy .t-flat,.tkm.yawn .t-yawn{display:inline}",
+      ".tkm.love .t-eye,.tkm.love .t-smile{display:none}.tkm.love .t-hearts,.tkm.love .t-grin{display:inline}",
+      ".tkm.wink .t-eye-gl{display:none}.tkm.wink .t-wink{display:inline}",
+      ".tkm.sad .t-smile{display:none}.tkm.sad .t-frown{display:inline}",
+      ".tkm.sad .t-brow-l{transform:rotate(-16deg) translateY(2px)}.tkm.sad .t-brow-r{transform:rotate(16deg) translateY(2px)}",
+      ".tkm.think .t-smile{display:none}.tkm.think .t-flat{display:inline}.tkm.think .t-brow-l{transform:translateY(-5px)}",
+      ".tkm.phone .t-arm-r{display:none}.tkm.phone .t-arm-phone,.tkm.phone .t-phone{display:inline}",
+      ".tkm.say-edge .tkm-say{right:calc(60% + 4px)}",
       ".t-brow-l{transform-origin:46px 38px}.t-brow-r{transform-origin:74px 38px}",
       ".tkm.sly .t-brow-l{transform:rotate(20deg) translateY(3px)}.tkm.sly .t-brow-r{transform:rotate(-20deg) translateY(3px)}",
       ".t-hm,.t-hh{transform-origin:60px 62px}",
@@ -164,6 +188,10 @@
       ".tkm.seated .t-arm-r{animation:tkm-wave 2.2s ease-in-out infinite}",
       ".t-hm{animation:tkm-spin 12s steps(12) infinite}.t-hh{animation:tkm-spin 144s steps(12) infinite}",
       ".tkm.dizzy .t-stars{animation:tkm-spin 1s linear infinite}",
+      ".tkm.love .t-hearts{animation:tkm-pulse .45s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 50%}",
+      "@keyframes tkm-pulse{from{transform:scale(.9)}to{transform:scale(1.12)}}",
+      ".tkm.phone .t-screen{animation:tkm-glow 1.2s ease-in-out infinite alternate}",
+      "@keyframes tkm-glow{from{opacity:.75}to{opacity:1}}",
       ".tkm.dizzy .tkm-bob{animation:tkm-woozy .9s ease-in-out infinite alternate}",
       "@keyframes tkm-woozy{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}",
       "@keyframes tkm-spin{to{transform:rotate(360deg)}}",
@@ -214,13 +242,28 @@
       '<ellipse class="t-cheek" cx="33" cy="72" rx="6" ry="4"/><ellipse class="t-cheek" cx="87" cy="72" rx="6" ry="4"/>' +
       '<ellipse class="t-nose" cx="60" cy="68" rx="3.2" ry="2.4"/>' +
       '<path class="t-line t-brow-l" stroke-width="2" d="M36 38 Q46 31 55 37"/><path class="t-line t-brow-r" stroke-width="2" d="M65 37 Q74 31 84 38"/>' +
-      '<g class="t-eye"><ellipse class="t-white t-eye-l" cx="45" cy="52" rx="11" ry="14"/><circle class="t-pupil t-p" cx="45" cy="54" r="6.2"/><circle cx="43" cy="50.5" r="1.9" fill="#fff"/></g>' +
-      '<g class="t-eye"><ellipse class="t-white t-eye-r" cx="75" cy="52" rx="11" ry="14"/><circle class="t-pupil t-p" cx="75" cy="54" r="6.2"/><circle cx="73" cy="50.5" r="1.9" fill="#fff"/></g>' +
+      '<g class="t-eye t-eye-gl"><ellipse class="t-white t-eye-l" cx="45" cy="52" rx="11" ry="14"/><circle class="t-pupil t-p" cx="45" cy="54" r="6.2"/><circle cx="43" cy="50.5" r="1.9" fill="#fff"/></g>' +
+      '<g class="t-eye t-eye-gr"><ellipse class="t-white t-eye-r" cx="75" cy="52" rx="11" ry="14"/><circle class="t-pupil t-p" cx="75" cy="54" r="6.2"/><circle cx="73" cy="50.5" r="1.9" fill="#fff"/></g>' +
       '<g class="t-joy"><path class="t-line" stroke-width="3" d="M35 56 Q45 42 55 56"/><path class="t-line" stroke-width="3" d="M65 56 Q75 42 85 56"/></g>' +
       '<g class="t-dizzy"><path class="t-line" stroke-width="2.4" d="M45 52 m-7 0 a7 7 0 1 1 7 7 a4 4 0 1 1 4 -4"/><path class="t-line" stroke-width="2.4" d="M75 52 m-7 0 a7 7 0 1 1 7 7 a4 4 0 1 1 4 -4"/></g>' +
       '<g class="t-smile"><path class="t-mouth" d="M38 78 Q60 100 82 78 Q60 84 38 78 Z"/></g>' +
       '<g class="t-smirk"><path class="t-mouth" d="M38 80 Q58 96 84 74 Q62 84 38 80 Z"/><path class="t-line" stroke-width="2" d="M84 74 L88 70"/></g>' +
       '<g class="t-stars">' + star(36, 2) + star(84, 2) + star(60, -8) + '</g>' +
+      /* sleepy lids, heart eyes, a wink */
+      '<g class="t-lids"><path d="M34 53 C34 40 40 37.5 45 37.5 C50 37.5 56 40 56 53 Z M64 53 C64 40 70 37.5 75 37.5 C80 37.5 86 40 86 53 Z" fill="#ff7a1c" stroke="#2a1a10" stroke-width="1.8"/></g>' +
+      '<g class="t-hearts"><path d="M45 63 C32 54 32 43 39 42 C42 42 45 45 45 47 C45 45 48 42 51 42 C58 43 58 54 45 63 Z M75 63 C62 54 62 43 69 42 C72 42 75 45 75 47 C75 45 78 42 81 42 C88 43 88 54 75 63 Z" fill="#ff3b5c" stroke="#2a1a10" stroke-width="1.8"/></g>' +
+      '<g class="t-wink"><path class="t-line" stroke-width="3" d="M35 55 Q45 47 55 55"/></g>' +
+      /* mouths: O, yawn, flat, big grin, frown */
+      '<g class="t-o"><ellipse cx="60" cy="85" rx="6" ry="7.5" fill="#5a1a10" stroke="#2a1a10" stroke-width="2"/></g>' +
+      '<g class="t-yawn"><ellipse cx="60" cy="86" rx="9" ry="12" fill="#5a1a10" stroke="#2a1a10" stroke-width="2"/><ellipse cx="60" cy="93" rx="5" ry="3.4" fill="#e8533d"/></g>' +
+      '<g class="t-flat"><path class="t-line" stroke-width="2.6" d="M49 84 Q60 87 71 83"/></g>' +
+      '<g class="t-grin"><path d="M36 77 Q60 106 84 77 Q60 86 36 77 Z" fill="#5a1a10" stroke="#2a1a10" stroke-width="2.4" stroke-linejoin="round"/><path d="M42 80 Q60 86 78 80 L76 83 Q60 88 44 83 Z" fill="#fff"/><ellipse cx="60" cy="93" rx="8" ry="4" fill="#e8533d"/></g>' +
+      '<g class="t-frown"><path class="t-line" stroke-width="2.8" d="M46 89 Q60 79 74 89"/></g>' +
+      /* the phone, held low in the right glove */
+      '<g class="t-arm-phone">' + limb("M100 70 C112 78 110 92 96 98") + '</g>' +
+      '<g class="t-phone"><g transform="rotate(-12 86 96)"><rect x="78" y="82" width="17" height="28" rx="3" fill="#1b1e26" stroke="#0b0c10" stroke-width="1.6"/>' +
+      '<rect class="t-screen" x="80" y="85" width="13" height="20" rx="1.6" fill="#7fd3ff"/><path d="M82 90 L91 90 M82 94 L89 94 M82 98 L90 98" stroke="#1f6fa8" stroke-width="1.4"/></g>' +
+      '<circle class="t-white" cx="94" cy="98" r="7"/></g>' +
       '</svg>';
     function star(x, y) {
       return '<path d="M' + x + ' ' + (y - 7) + ' L' + (x + 2) + ' ' + (y - 2) + ' L' + (x + 7) + ' ' + y + ' L' + (x + 2) + ' ' + (y + 2) + ' L' + x + ' ' + (y + 7) +
@@ -253,7 +296,8 @@
     function place(nx, ny) {
       x = nx; if (ny !== undefined) y = ny;
       root.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
-      root.classList.toggle("say-l", x < 170);
+      root.classList.toggle("say-l", x < 170 && x >= 0);
+      root.classList.toggle("say-edge", x > vw() - W());
       root.classList.toggle("say-b", y < topY() + 70);
     }
     function grow(s, instant) {
@@ -304,9 +348,9 @@
     (function blinkLoop() { setTimeout(function () { if (!root.hidden) blink(); blinkLoop(); }, rand(2600, 5800)); })();
 
     /* ---------- moods and hops ---------- */
-    var moodTimer = 0;
+    var moodTimer = 0, FACES = ["joy", "sly", "dizzy", "surprised", "curious", "sleepy", "yawn", "love", "wink", "sad", "think"];
     function mood(name, ms) {
-      root.classList.remove("joy", "sly", "dizzy");
+      root.classList.remove.apply(root.classList, FACES);
       clearTimeout(moodTimer);
       if (name) { root.classList.add(name); if (ms) moodTimer = setTimeout(function () { root.classList.remove(name); }, ms); }
     }
@@ -317,41 +361,121 @@
       kind.split(" ").forEach(function (k) { hop.classList.add(k); });
     }
 
-    /* ---------- reading the page: how much of what is under a spot would she hide? ---------- */
-    var CONTENT = "p,li,dt,dd,h1,h2,h3,h4,a,button,input,select,textarea,label,img,video,canvas,figure,table,pre,code,blockquote," +
-                  ".stat,.panel,.card,.stage,.entry,.fc-box,.btn,.chip,.step,.lamps,.keys,.trace,svg";
-    function coverAt(left, top, s) {   // 0 = only empty background under her, 1 = all content
-      var w = W() * s, h = H() * s, cx = left + W() / 2, cy = top + H() * 0.55, hits = 0, n = 0;
-      for (var i = -1; i <= 1; i++) for (var j = -1; j <= 1; j++) {
-        var sx = cx + i * w * 0.36, sy = cy + j * h * 0.36;
-        if (sx < 0 || sy < 0 || sx > vw() || sy > vh()) continue;
-        n++;
-        var els = document.elementsFromPoint(sx, sy);
-        for (var k = 0; k < els.length; k++) {
-          var el = els[k];
-          if (el === root || root.contains(el) || (el.closest && el.closest(".tkm-veh,.tkm-prop"))) continue;
-          if (el.closest && el.closest(CONTENT)) hits++;
-          break;   // only the top-most element that is not her counts
-        }
+    /* ---------- content map: what is on the page, in page coordinates ----------
+       Text is measured line by line (Range.getClientRects), so the empty parts of cards and the gaps between
+       paragraphs stay free. Images, video, canvases, SVG drawings and controls count whole. Fixed things (top bar,
+       section rail) are added at look-up time because they do not scroll. */
+    var CELL = 16, grid = null, gw = 0, gh = 0, mapH = 0, mapW = 0;
+    var MEDIA = "img,video,canvas,svg,iframe,input,select,textarea,button,[role=button],.lamp,.key";
+    function mine(el) { return el === root || root.contains(el) || (el.closest && el.closest(".tkm-veh,.tkm-prop,.pbar,.pnav,.pshade")); }
+    var slideCache = null;
+    function slideOf(el) {   // sections ease up into place as they appear; measure where they will end, not where they are
+      var anc = el.closest && el.closest(".block > *");
+      if (!anc) return 0;
+      if (slideCache.has(anc)) return slideCache.get(anc);
+      var t = getComputedStyle(anc).transform, dy = 0;
+      if (t && t !== "none") { try { dy = new DOMMatrixReadOnly(t).m42; } catch (e) { dy = 0; } }
+      slideCache.set(anc, dy);
+      return dy;
+    }
+    function mark(r, pad, dy) {
+      if (r.width < 1 || r.height < 1) return;
+      var sx = window.scrollX, sy = window.scrollY - (dy || 0);
+      var x0 = Math.max(0, Math.floor((r.left + sx - pad) / CELL)), x1 = Math.min(gw - 1, Math.floor((r.right + sx + pad) / CELL));
+      var y0 = Math.max(0, Math.floor((r.top + sy - pad) / CELL)), y1 = Math.min(gh - 1, Math.floor((r.bottom + sy + pad) / CELL));
+      for (var yy = y0; yy <= y1; yy++) for (var xx = x0; xx <= x1; xx++) grid[yy * gw + xx] = 1;
+    }
+    function buildMap() {
+      mapW = document.documentElement.clientWidth;
+      mapH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, vh());
+      gw = Math.ceil(mapW / CELL) + 1; gh = Math.ceil(mapH / CELL) + 1;
+      grid = new Uint8Array(gw * gh);
+      slideCache = new Map();
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), node, range = document.createRange();
+      while ((node = walker.nextNode())) {
+        if (!/\S/.test(node.nodeValue)) continue;
+        var el = node.parentElement;
+        if (!el || mine(el)) continue;
+        var cs = getComputedStyle(el);
+        if (cs.position === "fixed" || cs.visibility === "hidden") continue;
+        range.selectNodeContents(node);
+        var rects = range.getClientRects();
+        var dy = slideOf(el);
+        for (var i = 0; i < rects.length; i++) mark(rects[i], 6, dy);
       }
-      return n ? hits / n : 1;
+      Array.prototype.forEach.call(document.querySelectorAll(MEDIA), function (el) {
+        if (mine(el) || el.closest("svg") !== el && el.tagName.toLowerCase() !== "svg" && el.closest("svg")) return;
+        var r = el.getBoundingClientRect();
+        if (r.width < 6 || r.height < 6) return;
+        mark(r, 6, slideOf(el));
+      });
+    }
+    function fixedHit(left, top, w, h) {   // overlap with things that do not scroll: top bar and the section rail
+      var hit = 0;
+      Array.prototype.forEach.call(document.querySelectorAll(".pbar, html.prail .pnav"), function (el) {
+        var r = el.getBoundingClientRect();
+        var ox = Math.max(0, Math.min(left + w, r.right) - Math.max(left, r.left)), oy = Math.max(0, Math.min(top + h, r.bottom) - Math.max(top, r.top));
+        hit = Math.max(hit, (ox * oy) / (w * h));
+      });
+      return hit;
+    }
+    function body(left, top, s) {   // her drawn body for a given root position and size (the root box scaled about its centre)
+      var w = W() * s, h = H() * s;
+      return { l: left + (W() - w) / 2, t: top + (H() - h) * 0.55, w: w, h: h };
+    }
+    function coverAt(left, top, s) {   // share of her body that would sit on content (0 = all empty)
+      if (!grid) buildMap();
+      var b = body(left, top, s), sx = window.scrollX, sy = window.scrollY;
+      var l = Math.max(0, b.l), r = Math.min(vw(), b.l + b.w), t = Math.max(0, b.t), bt = Math.min(vh(), b.t + b.h);
+      if (r <= l || bt <= t) return 0;                       // off screen: hides nothing
+      var x0 = Math.floor((l + sx) / CELL), x1 = Math.floor((r + sx - 1) / CELL), y0 = Math.floor((t + sy) / CELL), y1 = Math.floor((bt + sy - 1) / CELL);
+      var hits = 0, n = 0;
+      for (var yy = y0; yy <= y1; yy++) for (var xx = x0; xx <= x1; xx++) {
+        n++;
+        if (yy < 0 || yy >= gh || xx < 0 || xx >= gw || grid[yy * gw + xx]) hits++;
+      }
+      var visible = ((r - l) * (bt - t)) / (b.w * b.h);
+      return Math.max(n ? hits / n * visible : 0, fixedHit(b.l, b.t, b.w, b.h));
     }
     function coverage() { return coverAt(x, y, size); }
-    function findSpot() {   // sample spots, score them, pick one of the best few
-      var lo = 8, hi = vw() - W() - 8, top = topY(), bottom = floorY(), best = [];
-      var small = vw() <= 600;
-      for (var i = 0; i < 26; i++) {
-        var s = small ? rand(0.7, 1) : rand(0.72, 1.25);
-        var cx = rand(lo, hi), cy = rand(top, bottom);
-        var cost = coverAt(cx, cy, s) * 3;
-        if (px !== null) { var d = Math.hypot(cx + W() / 2 - px, cy + H() / 2 - py); if (d < 180) cost += (180 - d) / 180 * 1.5; }
+    function findSpot() {   // free spots only: margins, gaps between sections; otherwise peek from the edge
+      var small = vw() <= 600, top = topY(), bottom = floorY(), list = [];
+      function consider(cx, cy, s, lane) {
+        cx = clamp(cx, -W() * 0.6, vw() - W() * 0.4); cy = clamp(cy, top, bottom);
+        var cov = coverAt(cx, cy, s);
+        var cost = cov * 10;
+        if (px !== null) { var d = Math.hypot(cx + W() / 2 - px, cy + H() / 2 - py); if (d < 200) cost += (200 - d) / 200 * 1.2; }
         var away = Math.hypot(cx - x, cy - y);
-        if (away < 160) cost += 0.8;                   // go somewhere new
-        if (away > vw() * 0.8) cost += 0.3;            // but not always to the far corner
-        best.push({ x: cx, y: cy, s: s, cost: cost });
+        if (away < 120) cost += 0.6;
+        if (lane) cost -= 0.15;
+        list.push({ x: cx, y: cy, s: s, cost: cost, cov: cov });
       }
-      best.sort(function (a, b) { return a.cost - b.cost; });
-      return best[Math.floor(Math.random() * Math.min(3, best.length))];
+      var sizes = small ? [0.55, 0.7] : [0.7, 0.9, 1.1];
+      for (var i = 0; i < 30; i++) consider(rand(8, vw() - W() - 8), rand(top, bottom), pick(sizes), false);
+      for (var k = 0; k < 8; k++) {   // margin lanes: hug the left and right edges
+        var ly = rand(top, bottom);
+        sizes.forEach(function (sz) {
+          var inset = (W() - W() * sz) / 2;
+          consider(vw() - W() + inset - 6, ly, sz, true);
+          consider(6 - inset, ly, sz, true);
+        });
+      }
+      var free = list.filter(function (c) { return c.cov < 0.02; });
+      if (free.length) {
+        free.sort(function (a, b) { return a.cost - b.cost; });
+        return free[Math.floor(Math.random() * Math.min(3, free.length))];
+      }
+      return peekSpot();
+    }
+    function peekSpot() {   // nothing is free: only a sliver of her (about a third of her face) shows at a screen edge
+      var s = vw() <= 600 ? 0.55 : 0.7, best = null, show = W() * s * 0.3, inset = W() * (1 - s) / 2;
+      for (var i = 0; i < 16; i++) {
+        var right = i % 2 === 0, cy = rand(topY(), floorY());
+        var cx = right ? vw() - show - inset : show - W() * s - inset;
+        var c = coverAt(cx, cy, s);
+        if (!best || c < best.cov) best = { x: cx, y: cy, s: s, cov: c, peek: true };
+      }
+      return best;
     }
 
     /* ---------- gliding along a curved path (Web Animations; any action can halt it) ---------- */
@@ -370,7 +494,7 @@
     }
     function glideTo(tx, ty, s) {
       halt();
-      tx = clamp(tx, 8, vw() - W() - 8); ty = clamp(ty, topY(), floorY());
+      tx = clamp(tx, -W() * 0.6, vw() - W() * 0.4); ty = clamp(ty, topY(), floorY());
       var dx = tx - x, dy = ty - y, dist = Math.hypot(dx, dy);
       if (dist < 6) { grow(s); return Promise.resolve(); }
       var ms = clamp(dist / 230 * 1000, 900, 2800);
@@ -405,7 +529,7 @@
       await sleep(430);
       root.classList.add("gone");
       root.classList.remove("holo-out");
-      place(clamp(tx, 8, vw() - W() - 8), clamp(ty, topY(), floorY()));
+      place(clamp(tx, -W() * 0.6, vw() - W() * 0.4), clamp(ty, topY(), floorY()));
       grow(s, true);
       await sleep(rand(250, 700));
       root.classList.remove("gone");
@@ -709,31 +833,108 @@
     }
 
     /* ---------------------------------------------------------------- floating about the page */
-    var busy = false, hovered = false, alive = true, nudge = false;
-    async function dwell(ms) {   // wait, but leave early if nudged (scrolled onto content); never move while hovered
+    var busy = false, hovered = false, alive = true, nudge = false, scrolling = false, lastInput = Date.now(), napping = false;
+    var nextPhone = Date.now() + rand(14000, 26000), lastWhoa = 0, lastCurious = 0;
+    async function dwell(ms) {   // wait; leave early when nudged; never move while hovered or busy
       var end = Date.now() + ms;
-      while (alive && (Date.now() < end || hovered || busy || document.hidden || root.hidden) && !(nudge && !hovered && !busy)) await sleep(200);
+      while (alive && (Date.now() < end || hovered || busy || document.hidden || root.hidden || scrolling) && !(nudge && !hovered && !busy && !scrolling)) {
+        await sleep(200);
+        idleFaces();
+      }
       nudge = false;
+    }
+    function idleFaces() {   // going quiet makes her sleepy; she yawns now and then
+      var idle = Date.now() - lastInput;
+      if (idle > 15000 && !napping && !busy && !hovered) { napping = true; mood("sleepy"); if (Math.random() < 0.5) speak("*yawn* Still there?", 3000); }
+      if (napping && Math.random() < 0.01) { mood("yawn", 1400); setTimeout(function () { if (napping) mood("sleepy"); }, 1450); }
+    }
+    function wake() {
+      lastInput = Date.now();
+      if (napping) { napping = false; mood("surprised", 900); setTimeout(function () { if (!napping) mood(null); }, 950); speak("Oh! You're back.", 2200); }
+    }
+    async function checkPhone() {
+      busy = true;
+      root.classList.add("phone");
+      mood("think");
+      gaze = { x: 0.45, y: 1 }; relook();
+      if (Math.random() < 0.5) speak(pick(["Hold on, checking my phone.", "One sec... notifications.", "Checking the time. I'm a clock, I should know."]), 2600);
+      await sleep(rand(2400, 3600));
+      var r = pick([["joy", "Ha! Good one."], ["surprised", "Whoa, really?"], ["love", "Aww, cute."], ["sad", "Aw, no wifi."], ["wink", "Okay, back to work."]]);
+      root.classList.remove("phone");
+      gaze = null; relook();
+      mood(r[0], 1800); speak(r[1], 2400);
+      await sleep(1900);
+      busy = false;
+      nextPhone = Date.now() + rand(25000, 45000);
+    }
+    async function moveTo(spot, quick) {
+      if (spot.peek) { mood("curious", 1500); }
+      if (quick || Math.hypot(spot.x - x, spot.y - y) > vw() * 0.55 || Math.random() < 0.35) await teleport(spot.x, spot.y, spot.s);
+      else await glideTo(spot.x, spot.y, spot.s);
     }
     async function life() {
       while (alive) {
+        buildMap();
         var cov = coverage();
-        await dwell(cov > 0.34 ? rand(900, 1800) : rand(3000, 6500));   // covering something: move soon
+        await dwell(cov > 0.02 ? rand(300, 700) : rand(4000, 8500));   // covering something: move almost at once
         if (!alive) return;
-        var spot = findSpot();
         try {
-          if (Math.random() < 0.62) await glideTo(spot.x, spot.y, spot.s);
-          else await teleport(spot.x, spot.y, spot.s);
-          if (Math.random() < 0.35) speak(pick(SAY.chat), 3800);
-          else if (Math.random() < 0.2) bounce("boing");
+          if (Date.now() > nextPhone && coverage() < 0.02 && !napping) { await checkPhone(); continue; }
+          var spot = findSpot();
+          await moveTo(spot, cov > 0.02);
+          if (!napping && Math.random() < 0.2) mood("wink", 900);
+          if (!napping && Math.random() < 0.22) speak(pick(SAY.chat), 3600);
         } catch (e) { /* halted by a click: carry on */ }
       }
     }
-    var scrollT = 0;
+
+    /* scrolling: if content is about to slide under her, switch off and come back somewhere free when it stops */
+    var scrollStop = 0, duckT = 0, lastY = window.scrollY, lastT = Date.now(), ducked = false;
     window.addEventListener("scroll", function () {
-      clearTimeout(scrollT);
-      scrollT = setTimeout(function () { if (!root.hidden && coverage() > 0.34) nudge = true; }, 300);
+      if (root.hidden || root.classList.contains("seated") || root.classList.contains("ball")) return;
+      wake();
+      var now = Date.now(), speed = Math.abs(window.scrollY - lastY) / Math.max(1, now - lastT) * 1000;
+      lastY = window.scrollY; lastT = now;
+      scrolling = true;
+      if (speed > 3500 && now - lastWhoa > 20000 && !ducked) { lastWhoa = now; mood("surprised", 1200); speak("Whoa! Slow down!", 1800); }
+      if (!ducked && !busy && coverage() > 0.02) {
+        ducked = true; halt();
+        root.classList.add("holo-out");
+        clearTimeout(duckT);
+        duckT = setTimeout(function () { if (ducked && scrolling) { root.classList.add("gone"); root.classList.remove("holo-out"); } }, 420);
+      }
+      clearTimeout(scrollStop);
+      scrollStop = setTimeout(async function () {
+        scrolling = false;
+        clearTimeout(duckT);
+        buildMap();   // sections ease into place as they scroll in, so measure again before choosing
+        if (ducked) {
+          var spot = findSpot();
+          place(spot.x, spot.y); grow(spot.s, true);
+          root.classList.remove("gone", "holo-out");
+          root.classList.add("holo-in");
+          await sleep(620);
+          root.classList.remove("holo-in");
+          ducked = false;
+        } else if (coverage() > 0.02) nudge = true;
+      }, 260);
     }, { passive: true });
+    ["pointermove", "keydown", "pointerdown", "wheel", "touchstart"].forEach(function (t) { document.addEventListener(t, wake, { passive: true }); });
+    document.addEventListener("pointermove", function (e) {   // the cursor coming close makes her curious
+      if (hovered || busy || napping || root.hidden) return;
+      var r = root.getBoundingClientRect(), d = Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
+      if (d < 170 && d > 60 && Date.now() - lastCurious > 6000) { lastCurious = Date.now(); mood("curious", 1400); }
+    }, { passive: true });
+    var mapT = 0;
+    function remap() { clearTimeout(mapT); mapT = setTimeout(function () { buildMap(); if (coverage() > 0.02) nudge = true; }, 250); }
+    window.addEventListener("resize", remap);
+    window.addEventListener("load", remap);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remap);
+    setInterval(function () {   // pages that change height (images loading, panels opening) get re-measured
+      var h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      if (Math.abs(h - mapH) > 20 || document.documentElement.clientWidth !== mapW) remap();
+    }, 3000);
+    document.addEventListener("click", function (e) { if (!root.contains(e.target)) remap(); }, true);
 
     /* ---------------------------------------------------------------- clicks and hover */
     var clicks = [];
@@ -753,13 +954,21 @@
         setTimeout(function () { el.classList.remove("tkm-flash"); }, 2600);
       });
     });
-    root.querySelector(".tkm-x").addEventListener("click", function () {
+    root.querySelector(".tkm-x").addEventListener("click", async function () {
       alive = false; halt();
+      mood("sad"); speak("Okay... bye!", 1200);
+      await sleep(reduce ? 0 : 900);
+      root.classList.add("holo-out");
+      await sleep(reduce ? 0 : 430);
       root.hidden = true;
       extras.forEach(function (e) { e.remove(); });
       store("sessionStorage", "tkm-off", "1");
     });
-    btn.addEventListener("mouseenter", function () { hovered = true; halt(); if (!sayEl.classList.contains("show")) speak(SAY.hello, 4000); });
+    btn.addEventListener("mouseenter", function () {
+      hovered = true; halt(); napping = false;
+      mood("surprised", 500); setTimeout(function () { if (hovered) mood("joy", 1200); }, 520);
+      if (!sayEl.classList.contains("show")) speak(SAY.hello, 4000);
+    });
     btn.addEventListener("mouseleave", function () { hovered = false; });
     btn.addEventListener("focus", function () { hovered = true; halt(); speak(SAY.hello, 4000); });
     btn.addEventListener("blur", function () { hovered = false; });
@@ -769,7 +978,7 @@
         var entry = e.target.closest && e.target.closest("#projects .entry");
         if (entry === current) return;
         current = entry;
-        if (entry) speak(SAY.over, 2600); else quiet();
+        if (entry) { speak(SAY.over, 2600); if (!busy) mood("love", 1600); } else quiet();
       });
     }
     window.addEventListener("resize", function () { if (!root.classList.contains("seated")) place(clamp(x, 8, vw() - W() - 8), clamp(y, topY(), floorY())); });
