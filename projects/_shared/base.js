@@ -16,14 +16,14 @@
   var root = document.documentElement;
 
   var PROJECTS = [   // landing-page order; id matches <html data-project="...">, dir is the folder under projects/
-    { id: "magnet",  dir: "magnet-inserter",    name: "Magnet-Embed Print Assistant" },
-    { id: "ros",     dir: "ros-lab",            name: "ROS 2 Mobile Robots" },
-    { id: "tile",    dir: "tile-inspection",    name: "Tile Inspection Line" },
-    { id: "arm",     dir: "plc-2dof-arm",       name: "PLC 2-DOF Robotic Arm" },
-    { id: "sleepy",  dir: "sleepy",             name: "SLEEPY Assistant" },
-    { id: "herc",    dir: "herc-26",            name: "HERC-26 Rover" },
-    { id: "enigma",  dir: "myownenigma",        name: "MyOwnEnigma" },
-    { id: "traffic", dir: "traffic-management", name: "Look-Ahead Signals" }
+    { id: "magnet",  dir: "magnet-inserter",    name: "Automated Magnet Insertion for 3D Printers" },
+    { id: "ros",     dir: "ros-lab",            name: "Autonomous Mobile Robots with ROS 2" },
+    { id: "tile",    dir: "tile-inspection",    name: "Automated Clay Tile Inspection and Sorting" },
+    { id: "arm",     dir: "plc-2dof-arm",       name: "PLC-Controlled 2-DOF Pick-and-Place Arm" },
+    { id: "sleepy",  dir: "sleepy",             name: "SLEEPY: Self-Hosted AI Project Assistant" },
+    { id: "herc",    dir: "herc-26",            name: "HERC-26 Rover Control and Data-Logging Software" },
+    { id: "enigma",  dir: "myownenigma",        name: "Enigma Cipher Machine on an FPGA" },
+    { id: "traffic", dir: "traffic-management", name: "Look-Ahead Traffic Signal Control" }
   ];
   var DEFAULT_ACCENT = { light: "#0b7a6f", dark: "#35d0c0" };   // same as DEFAULTS in assets/js/design-data.js
 
