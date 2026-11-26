@@ -1,0 +1,65 @@
+# Made-up example data. Used by the tests and as a starting point for a new data folder.
+# Real data lives in showcase-private/cv/master.yaml.
+person:
+  name: Alex Example
+  email: alex@example.com
+  phone: "+49 000 000000"
+  github: github.com/alex-example
+  dob: 01.01.2000
+  nationality: Exampleland
+  address: 1 Sample Street, Testtown
+  photo: assets/photo.jpg
+
+headline: Mechatronics student
+
+summary: Mechatronics student who builds things that sense, think and move.
+
+education:
+  - id: uni
+    start: "2020"
+    end: "2024"
+    title: B.Sc. Mechatronics
+    org: Example University
+    bullets: ["GPA 1.7"]
+
+experience:
+  - id: vision-job
+    start: 01/2023
+    end: 03/2023
+    title: Intern, Machine Vision
+    org: Vision GmbH
+    tags: [vision]
+    bullets:
+      - Built a camera rig
+      - text: Wrote the PLC interface
+        tags: [plc]
+  - id: plc-job
+    start: 2022
+    end: 2022
+    title: Intern, Automation
+    org: Automation AG
+    tags: [plc]
+    bullets: [Programmed a conveyor]
+  - id: cafe
+    when: "2021"
+    title: Barista
+    org: Café Example
+
+projects:
+  - {id: p1, when: "2023", title: Defect detector, tags: [vision], bullets: [Finds scratches]}
+  - {id: p2, when: "2022", title: Sorting robot, tags: [plc]}
+  - {id: p3, when: "2021", title: Weather logger, tags: [embedded]}
+
+skills:
+  - {group: Vision, items: [OpenCV], tags: [vision]}
+  - {group: Automation, items: [PLC, HMI], tags: [plc]}
+  - {group: Programming, items: [Python]}
+
+certificates:
+  - {id: c1, when: 01/2023, text: Python certificate, org: Example Institute}
+
+languages:
+  - {name: English, level: C1}
+
+activities:
+  - {id: a1, when: "2019", text: Chess club}

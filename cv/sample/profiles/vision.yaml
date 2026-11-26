@@ -1,0 +1,11 @@
+# Example profile: a machine-vision job. Keeps items tagged `vision` plus untagged ones.
+title: Vision example
+headline: Applying for a machine-vision internship
+summary: I want to build inspection systems.
+availability: from 01.06.2025
+include_tags: [vision]
+sections: [personal, profile, education, experience, projects, skills, certificates, languages, activities]
+select:
+  projects: {limit: 1}
+show: {photo: false}
+sign_place: Testtown

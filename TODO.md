@@ -1,6 +1,7 @@
 # TODO
 
 ## In Progress
+- [ ] CV generator (`cv/`, data in `showcase-private/cv/`): owner to review the HÄNDLE CV (`showcase-private/cv/out/*.docx` / `.pdf`, preview artifact https://claude.ai/artifact/QNZHTp7ieNa6PWeDBVHWCw). Open points: newer CGPA than 7.61; sign place (set to Pavoorchatram). House number 710 confirmed 2026-11-27.
 - [ ] Owner: look at the new texture/motion/nav changes on all 9 pages in a browser (not viewed by Claude, see `CLAUDE-LOG.md` 2026-11-22); then tune or roll back. Also decide whether the older copies in `MyOwnEnigma/showcase` should get the Subhrojyoti Sen credit.
 - [ ] Owner: review the new SLEEPY page (`projects/sleepy/site/index.html`); decide whether to add real screenshots (would need a demo corpus, e.g. the repo's attack sandbox) Also say whether any other project (e.g. Traffic, Magnet) should carry the new "Software & AI" topic; only SLEEPY has it now.
 - [ ] Owner: open `design-lab/index.html`, choose a look, press "Copy settings" and send the JSON. Then Claude bakes it into `DEFAULTS` in `assets/js/design-data.js`, moves the chosen icon set into `assets/`, and removes the unused options (or keeps the lab).
@@ -15,6 +16,7 @@
 
 
 ## Done
+- [x] CV generator built 2026-11-26: `cv/build.py` + `cvgen/` (model, docx, html, photo), `config.yaml`, sample data, 16 pytest tests passing; real data in `showcase-private/cv/` (master.yaml, profiles/haendle-2027.yaml, photo). HÄNDLE CV builds to 2 pages (.docx, .pdf via Word, .html). Committed 2026-11-27 in both repos.
 - [x] Rebuild all eight project pages on one shared template (owner's decisions 2026-11-17: one accent from the landing page, local copies may diverge from the artifacts, template first then one page per commit) — template + SLEEPY 36db4c7, HERC-26 243a665, Traffic 7288701, Enigma b555ca6, ROS 9069876, 2-DOF arm 8d969dc, Magnet 7ad8c85, Tile 65cdabd; old overlay and `tools/apply_shared_theme.py` removed, `check_site.py` enforces the template. Rules in `projects/TEMPLATE.md`. Not yet pushed or merged to `prod`.
 - [x] Write the combined landing page at the repo root: `index.html`, `assets/css/site.css`, `assets/js/site.js`, 7 pixel icons in `assets/img/pixel/`, generator `tools/make_pixel_icons.py`. Style from Tania Rascia (pixel look, cards) and Brittany Chiang (sticky left nav); six featured projects. Not yet committed; not yet viewed in a browser.
 - [x] Write the HERC-26 showcase page, publish it as the artifact "HERC-26 Rover" and save it to `projects/herc-26/site/index.html`; provenance in `projects/SOURCES.md`. Not yet committed.
@@ -34,6 +36,8 @@
 - [x] ~~Merge `main` into `machine-vision`~~ — CANCELLED. The owner keeps the two branches as separate personal copies and never merges them. Added a "Branch Policy" section to `.CLAUDE/CLAUDE.md` so future AI sessions know.
 
 ## Not Started
+- [ ] CV generator: German-language version of a profile (Lebenslauf), and a matching cover-letter generator (visa needs a motivation letter).
+- [ ] Tick's speech bubble can leave the screen (reproduced 2026-11-22, landing page, desktop: bubble at x -137..82). Cause: the bubble is right-aligned to her box and only flips to left-aligned (`say-l`) when 0 <= x < 170, so when she sits partly off the left edge (left lane or left-edge peek, x < 0) it extends further left, off screen. Same risk at the top: `say-b` only flips it below her within 70 px of the top bar, and a 3-4 line bubble is taller than that. Fix: after showing the bubble, measure it and shift it back inside the viewport (both axes), instead of the fixed thresholds. Also: the bubble stays visible while she switches off/teleports (`gone`/`holo-out`), floating on its own; hide it then. File: `assets/js/mascot.js` (place(), speak()).
 - [ ] Later: bring back parts of Brittany Chiang's site (owner's decision 2026-11-14): fixed side navigation with active-section highlight, timeline-style experience. Do not add until the owner asks.
 - [x] (done, see Done above) Later: compare the eight separately made showcase pages (Enigma, Traffic, Magnet, Tile index + 3D plant, 2-DOF arm, ROS lab, HERC-26) and make them consistent across projects: fonts, colours and dark/light theme, header, nav and footer, section and caption style, how images, videos and galleries are shown, mobile layout. Start by listing the differences, then pick one shared look and decide whether to share one CSS file. Do this before building the combined landing page.
 - [ ] Later: add "HERC" and "Time in Team Movis" (owner's wording; exact projects and source repos to be confirmed) as further projects on the showcase page.

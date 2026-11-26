@@ -1,0 +1,258 @@
+<title>CV Template — Engineering Internship</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: two A4 sheets on a desk; left date column + right content column, German "Lebenslauf" conventions (photo box, personal details, place/date/signature). Deliberately single-theme: it is paper. */
+:root {
+  --desk: #dfe3e6;
+  --paper: #ffffff;
+  --ink: #1d2327;
+  --muted: #5b6770;
+  --rule: #c9d2d8;
+  --accent: #1f5566;      /* petrol blue: headings, rules, name */
+  --fill: #fff4c2;        /* placeholder highlight */
+  --fill-ink: #6b5200;
+  --display: "Archivo", "Segoe UI", Arial, sans-serif;
+  --body: "Source Sans 3", Calibri, "Segoe UI", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--desk); color: var(--ink); font-family: var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+}
+.bar {
+  max-width: 794px; margin: 0 auto 16px; display: flex; flex-wrap: wrap; gap: 8px 16px;
+  align-items: baseline; justify-content: space-between; color: var(--muted); font-size: 13px;
+}
+.bar strong { color: var(--ink); font-family: var(--display); font-weight: 600; font-size: 14px; }
+.ph { background: var(--fill); color: var(--fill-ink); padding: 0 3px; border-radius: 2px; }
+.sheets { display: grid; gap: 24px; justify-items: center; }
+.sheet {
+  width: 100%; max-width: 794px; aspect-ratio: 210 / 297; background: var(--paper);
+  box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(30,45,55,.12);
+  padding: 7.5% 8.5% 6%; display: flex; flex-direction: column; gap: 18px;
+  font-size: 13.2px; line-height: 1.42; position: relative;
+}
+.pageno { position: absolute; bottom: 3.2%; right: 8.5%; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.runhead { position: absolute; top: 3.2%; left: 8.5%; right: 8.5%; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+/* header */
+header.top { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; padding-bottom: 14px; border-bottom: 2px solid var(--accent); }
+h1 { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.05; margin: 0; color: var(--accent); letter-spacing: -.01em; text-wrap: balance; }
+.role { margin: 6px 0 10px; font-size: 14.5px; font-weight: 600; }
+.contact { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--muted); }
+.contact span b { color: var(--ink); font-weight: 600; }
+.photo {
+  width: 104px; aspect-ratio: 35 / 45; border: 1px dashed var(--rule); display: grid; place-items: center;
+  text-align: center; font-size: 10.5px; color: var(--muted); padding: 6px; background: #f6f8f9;
+}
+
+/* sections */
+section { display: grid; gap: 8px; }
+h2 {
+  font-family: var(--display); font-weight: 600; font-size: 12.5px; text-transform: uppercase;
+  letter-spacing: .09em; color: var(--accent); margin: 0; padding-bottom: 4px; border-bottom: 1px solid var(--rule);
+}
+.row { display: grid; grid-template-columns: 118px 1fr; gap: 14px; }
+.when { color: var(--muted); font-size: 12.3px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+.what { min-width: 0; }
+.what h3 { margin: 0; font-size: 13.6px; font-weight: 700; }
+.what .org { color: var(--muted); font-style: italic; }
+.what ul { margin: 4px 0 0; padding-left: 16px; }
+.what li { margin: 1px 0; }
+.kv { display: grid; grid-template-columns: 118px 1fr; gap: 3px 14px; }
+.kv dt { color: var(--muted); font-size: 12.3px; }
+.kv dd { margin: 0; min-width: 0; }
+p { margin: 0; }
+.skills { display: grid; grid-template-columns: 118px 1fr; gap: 5px 14px; }
+.skills dt { font-weight: 600; font-size: 12.5px; }
+.skills dd { margin: 0; }
+.lang { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px 18px; }
+.lang div { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--rule); padding-bottom: 2px; }
+.lang em { font-style: normal; color: var(--muted); font-variant-numeric: tabular-nums; }
+.spacer { flex: 1; }
+.sign { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; font-size: 12px; color: var(--muted); }
+.sign div { border-top: 1px solid var(--ink); padding-top: 4px; }
+.tag { font-size: 10.5px; color: var(--muted); border: 1px solid var(--rule); border-radius: 3px; padding: 0 4px; margin-left: 6px; white-space: nowrap; font-weight: 400; }
+
+@media (max-width: 640px) {
+  .sheet { aspect-ratio: auto; padding: 32px 18px 40px; font-size: 13px; }
+  header.top { grid-template-columns: 1fr; }
+  .photo { width: 80px; grid-row: 1; }
+  .row, .kv, .skills { grid-template-columns: 1fr; gap: 2px; }
+  .when { font-weight: 600; }
+  .runhead { position: static; }
+  h1 { font-size: 26px; }
+}
+</style>
+
+<div class="bar">
+  <span><strong>CV template v1</strong> · A4 · 2 pages · English (en-GB)</span>
+  <span><span class="ph">Highlighted</span> = placeholder to fill · <span class="tag">tag</span> = the generator keeps or drops the item per job</span>
+</div>
+
+<div class="sheets">
+
+<!-- PAGE 1 -->
+<article class="sheet" aria-label="Page 1">
+  <header class="top">
+    <div>
+      <h1><span class="ph">[First name] [Surname]</span></h1>
+      <p class="role">B.Tech Mechatronics &amp; Automation student · Applicant for a thesis internship in <span class="ph">[machine vision / automation]</span></p>
+      <div class="contact">
+        <span><b>E-mail</b> <span class="ph">[name@domain]</span></span>
+        <span><b>Phone</b> <span class="ph">[+91 …]</span></span>
+        <span><b>LinkedIn</b> <span class="ph">[linkedin.com/in/…]</span></span>
+        <span><b>GitHub</b> <span class="ph">[github.com/…]</span></span>
+      </div>
+    </div>
+    <div class="photo">Photo<br>35 × 45 mm<br>(optional, common in Germany)</div>
+  </header>
+
+  <section>
+    <h2>Personal details</h2>
+    <dl class="kv">
+      <dt>Date of birth</dt><dd><span class="ph">[DD.MM.YYYY]</span></dd>
+      <dt>Nationality</dt><dd><span class="ph">[Indian]</span></dd>
+      <dt>Address</dt><dd><span class="ph">[Street, Town, PIN, State, Country]</span></dd>
+      <dt>Availability</dt><dd><span class="ph">[01.01.2027 – 30.06.2027, full time, on site in Mühlacker]</span></dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Profile</h2>
+    <p><span class="ph">[Three lines, rewritten per job. Example: Final-year mechatronics student with hands-on work in sensors, PLC-based automation and image-based inspection. Previous internship in the heavy clay industry in Germany. Looking to build an online defect-detection system for production tooling.]</span></p>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="row">
+      <div class="when"><span class="ph">[MM/YYYY]</span> – <span class="ph">[MM/YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[B.Tech, Mechatronics and Automation]</span></h3>
+        <span class="org"><span class="ph">[University, City, Country]</span></span>
+        <ul>
+          <li>CGPA <span class="ph">[x.xx / 10]</span> · German grade equivalent <span class="ph">[optional]</span></li>
+          <li>Relevant courses: <span class="ph">[Sensors &amp; Instrumentation, Control Systems, Microcontrollers, AI, …]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="when"><span class="ph">[YYYY]</span> – <span class="ph">[YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[Senior Secondary (Class XII), CBSE]</span></h3>
+        <span class="org"><span class="ph">[School, Town]</span></span> · <span class="ph">[xx.x %]</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Practical experience</h2>
+    <div class="row">
+      <div class="when"><span class="ph">[MM/YYYY]</span> – <span class="ph">[MM/YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[Intern, Sales &amp; Process Engineering]</span></h3>
+        <span class="org"><span class="ph">[Company, City, Country]</span></span>
+        <ul>
+          <li><span class="ph">[Action verb + what you did + result, e.g. Analysed the hydraulic system of a roof tile press and wrote training documentation]</span></li>
+          <li><span class="ph">[Second achievement]</span></li>
+          <li><span class="ph">[Third achievement]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="when"><span class="ph">[MM/YYYY]</span> – present</div>
+      <div class="what">
+        <h3><span class="ph">[Team Lead / Safety Officer]</span></h3>
+        <span class="org"><span class="ph">[Student robotics team, University]</span></span>
+        <ul>
+          <li><span class="ph">[Led N members across electrical, mechanical and programming groups for competition X]</span></li>
+          <li><span class="ph">[Managed budget / safety process / procurement]</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="pageno">1 / 2</div>
+</article>
+
+<!-- PAGE 2 -->
+<article class="sheet" aria-label="Page 2">
+  <div class="runhead"><span><span class="ph">[First name Surname]</span> · Curriculum Vitae</span><span><span class="ph">[name@domain]</span></span></div>
+
+  <section>
+    <h2>Selected projects</h2>
+    <div class="row">
+      <div class="when"><span class="ph">[YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[Project 1: Image-based tile defect grading]</span><span class="tag">vision</span></h3>
+        <ul>
+          <li><span class="ph">[What the system does, in one line]</span></li>
+          <li><span class="ph">[Your part + tools: camera, dataset, model, accuracy or result]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="when"><span class="ph">[YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[Project 2: PLC-controlled 2-DOF manipulator]</span><span class="tag">plc</span></h3>
+        <ul>
+          <li><span class="ph">[What it does + PLC/HMI used + result]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="when"><span class="ph">[YYYY]</span></div>
+      <div class="what">
+        <h3><span class="ph">[Project 3: Autonomous rover, multi-sensor]</span><span class="tag">embedded</span></h3>
+        <ul>
+          <li><span class="ph">[Sensors, controllers, protocols, what you built]</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Technical skills</h2>
+    <dl class="skills">
+      <dt>Automation</dt><dd><span class="ph">[PLC (Omron …), HMI, sensors, pneumatics, Modbus]</span></dd>
+      <dt>Machine vision</dt><dd><span class="ph">[OpenCV, Roboflow, Intel RealSense, dataset labelling]</span></dd>
+      <dt>Programming</dt><dd><span class="ph">[Python, C++, MATLAB/Simulink]</span></dd>
+      <dt>CAD &amp; mechanical</dt><dd><span class="ph">[SolidWorks, Fusion 360, AutoCAD, 3D printing, CNC]</span></dd>
+      <dt>Electronics</dt><dd><span class="ph">[Raspberry Pi, Arduino, ESP32, I²C/UART, PCB design]</span></dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Certificates</h2>
+    <div class="row"><div class="when"><span class="ph">[MM/YYYY]</span></div><div class="what"><span class="ph">[Certificate]</span> · <span class="org"><span class="ph">[Issuer]</span></span></div></div>
+    <div class="row"><div class="when"><span class="ph">[MM/YYYY]</span></div><div class="what"><span class="ph">[Certificate]</span> · <span class="org"><span class="ph">[Issuer]</span></span></div></div>
+    <div class="row"><div class="when"><span class="ph">[MM/YYYY]</span></div><div class="what"><span class="ph">[Certificate]</span> · <span class="org"><span class="ph">[Issuer]</span></span></div></div>
+  </section>
+
+  <section>
+    <h2>Languages <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted)">(CEFR levels)</span></h2>
+    <div class="lang">
+      <div><span>English</span><em class="ph">[C1]</em></div>
+      <div><span>German</span><em class="ph">[A1]</em></div>
+      <div><span>Tamil</span><em>Native</em></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Activities &amp; interests</h2>
+    <p><span class="ph">[Workshops you ran, events you organised, awards, hobbies (one line each)]</span></p>
+  </section>
+
+  <div class="spacer"></div>
+  <div class="sign">
+    <div><span class="ph">[Place]</span>, <span class="ph">[DD.MM.YYYY]</span></div>
+    <div>Signature</div>
+  </div>
+  <div class="pageno">2 / 2</div>
+</article>
+
+</div>

@@ -1,0 +1,8 @@
+# CV generator (cv/). Install into the repo venv: pip install -r cv/requirements.txt
+python-docx==1.2.0
+PyYAML==6.0.4
+Jinja2==3.1.6
+pillow==11.3.0
+pytest==8.4.2
+# Optional: --pdf. Drives Microsoft Word over COM, so it works on Windows/macOS with Word installed.
+docx2pdf==0.1.8

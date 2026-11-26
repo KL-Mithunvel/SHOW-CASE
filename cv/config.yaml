@@ -1,0 +1,39 @@
+# CV generator settings. Every tunable lives here; nothing is hardcoded in cvgen/.
+# Paths are relative to the SHOW-CASE repo root.
+
+# Where master.yaml, profiles/ and assets/ live. The real data is in the private repo.
+# Override with the CV_DATA_DIR environment variable or --data-dir.
+data_dir: showcase-private/cv
+# Output folder, inside data_dir (gitignored in the private repo).
+out_subdir: out
+# HTML preview template, relative to cv/.
+template_html: templates/cv.html.j2
+
+# Date printed next to the signature line.
+date_format: "%d.%m.%Y"
+
+# Fields blanked out by --public (for previews that leave your machine, e.g. artifacts).
+redact_in_public: [phone, dob, address]
+
+# Word document look. Colours are hex RGB without '#'.
+style:
+  accent: "1F5566"   # name, section headings, header rule
+  ink: "1D2327"      # body text
+  muted: "5B6770"    # dates, organisations, header/footer
+  rule: "C9D2D8"     # thin line under section headings
+  # Fonts must exist on the reader's PC: Calibri is safe for Word users.
+  font_body: Calibri
+  font_heading: Calibri
+  size_body_pt: 10
+  size_small_pt: 9
+  size_name_pt: 22
+  size_headline_pt: 11
+  size_section_pt: 10
+  page:
+    width_mm: 210
+    height_mm: 297
+    margin_top_mm: 16
+    margin_bottom_mm: 14
+    margin_side_mm: 18
+  date_col_mm: 30       # left column for dates and labels
+  photo_mm: {width: 35, height: 45}   # German application photo size
