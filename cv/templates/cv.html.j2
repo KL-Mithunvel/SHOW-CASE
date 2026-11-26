@@ -23,6 +23,7 @@ h1 { font-family: var(--display); font-weight: 700; font-size: 28px; line-height
 .contact { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.3px; color: var(--muted); }
 .contact span { overflow-wrap: anywhere; }
 .contact b { color: var(--ink); font-weight: 600; }
+.contact a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); }
 .photo { width: 104px; aspect-ratio: {{ style.photo_mm.width }} / {{ style.photo_mm.height }}; object-fit: cover; display: block; }
 section { display: grid; gap: 7px; }
 section.break { margin-top: 28px; padding-top: 28px; border-top: 1px dashed var(--rule); }
@@ -54,7 +55,7 @@ p { margin: 0; }
       <h1>{{ ctx.person.name }}</h1>
       {% if ctx.headline %}<p class="role">{{ ctx.headline }}</p>{% endif %}
       <div class="contact">
-        {% for label, value in ctx.contact %}<span><b>{{ label }}</b> {{ value }}</span>
+        {% for label, value, url in ctx.contact %}<span><b>{{ label }}</b> {% if url and not url.startswith("mailto:") %}<a href="{{ url }}">{{ value }}</a>{% else %}{{ value }}{% endif %}</span>
         {% endfor %}
       </div>
     </div>

@@ -16,6 +16,7 @@ pip install -r cv/requirements.txt
 python cv/build.py --list                        # profiles available
 python cv/build.py haendle-2027 --pdf            # .docx + .pdf
 python cv/build.py haendle-2027 --html --public  # preview without phone / birth date / address
+python cv/build.py haendle-2027 --pdf --strict   # also fail on placeholders / too many pages
 python -m pytest cv/tests                        # tests (use cv/sample, no private data)
 ```
 
@@ -32,6 +33,7 @@ The output goes to `showcase-private/cv/out/`, which is gitignored there too. Re
 | `cvgen/render_docx.py` | Writes the A4 Word file from the context |
 | `cvgen/render_html.py` + `templates/cv.html.j2` | Writes the HTML preview from the same context |
 | `cvgen/photo.py` | Crops the photo to 35 × 45 mm |
+| `cvgen/checks.py` | Pre-send checks: keyword coverage (`keywords:`), page limit (`max_pages:`, needs `--pdf`), leftover placeholders |
 | `templates/cv-template-preview.html` | The design mock-up the layout follows (placeholders only) |
 | `sample/` | Made-up data and profile for the tests |
 | `tests/test_cvgen.py` | pytest |
@@ -61,12 +63,17 @@ profile.yaml ┘        (select + redact)            └─> render_html ─> CV
 - `select.<section>.exclude: [ids]` and `select.<section>.limit: N`.
 - `sections: [...]` sets the order and which sections appear. Sections: personal, profile, education, experience, projects, skills, certificates, languages, activities.
 - `headline`, `summary`, `availability`, `titles` (to rename sections), `page_break_before`, `sign_place` and `sign_date`.
-- `show: {photo, dob, address, phone, email, linkedin, github}`: set any of these to false to hide it.
+- `keywords: [...]` (from the job ad; `a|b` = either) and `max_pages: N`: checked on every build.
+- `show: {photo, dob, address, phone, email, linkedin, github, portfolio}`: set any of these to false to hide it.
 
 **New job:** copy a profile, rename it, change the headline, summary and tags, then run `build.py <name>`.
 **Rule:** the job you are applying for never goes on that job's CV as experience.
 
 ## Decisions
+
+The plan and its phases are in `ROADMAP.md`.
+
+- Contact links (email, LinkedIn, GitHub, portfolio) are clickable in the .docx/.pdf and the preview.
 
 - The `.docx` is the master output: it is editable, and it is what German applications and visa forms ask for. The PDF is made from it by Word, so the two always match.
 - The fonts are Calibri for Word, so the file looks right on any reader's PC. The HTML preview uses web fonts in the same layout.

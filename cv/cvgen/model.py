@@ -39,6 +39,18 @@ SECTION_TITLES = {
 }
 LIST_SECTIONS = {"education", "experience", "projects", "skills", "certificates", "activities"}
 PERSON_REQUIRED = ("name", "email")
+# (label shown, person field). Order = order in the CV header.
+CONTACT_FIELDS = (("E-mail", "email"), ("Phone", "phone"), ("LinkedIn", "linkedin"),
+                  ("GitHub", "github"), ("Portfolio", "portfolio"))
+
+
+def _contact_url(field: str, value: str) -> str | None:
+    """Link target for a contact entry; None for entries that are not links (phone)."""
+    if field == "email":
+        return f"mailto:{value}"
+    if field in ("linkedin", "github", "portfolio"):
+        return value if value.startswith("http") else f"https://{value}"
+    return None
 
 
 def load_yaml(path: Path) -> dict:
@@ -178,8 +190,7 @@ def build_context(master: dict, profile: dict, *, public: bool = False,
 
     today = today or _dt.date.today()
     photo = person.get("photo") if show.get("photo", True) else None
-    contact = [(label, person[f]) for label, f in
-               (("E-mail", "email"), ("Phone", "phone"), ("LinkedIn", "linkedin"), ("GitHub", "github"))
+    contact = [(label, person[f], _contact_url(f, str(person[f]))) for label, f in CONTACT_FIELDS
                if person.get(f) and show.get(f, True)]
     return {
         "person": person,

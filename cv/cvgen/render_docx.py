@@ -60,6 +60,32 @@ def _field(paragraph, instr: str):
     return run
 
 
+def _hyperlink(paragraph, url: str, text: str, *, size_pt: float, color: str, font: str):
+    """Append a clickable link run (python-docx has no hyperlink API)."""
+    r_id = paragraph.part.relate_to(url, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+                                    is_external=True)
+    link = OxmlElement("w:hyperlink")
+    link.set(qn("r:id"), r_id)
+    run = OxmlElement("w:r")
+    rpr = OxmlElement("w:rPr")
+    fonts = OxmlElement("w:rFonts")
+    fonts.set(qn("w:ascii"), font)
+    fonts.set(qn("w:hAnsi"), font)
+    col = OxmlElement("w:color")
+    col.set(qn("w:val"), color)
+    sz = OxmlElement("w:sz")
+    sz.set(qn("w:val"), str(int(size_pt * 2)))
+    for el in (fonts, col, sz):
+        rpr.append(el)
+    run.append(rpr)
+    t = OxmlElement("w:t")
+    t.text = text
+    t.set(qn("xml:space"), "preserve")
+    run.append(t)
+    link.append(run)
+    paragraph._p.append(link)
+
+
 def _no_split(row):
     trpr = row._tr.get_or_add_trPr()
     el = OxmlElement("w:cantSplit")
@@ -177,10 +203,13 @@ class _Writer:
         self._run(p, ctx["person"]["name"], bold=True, size=s["size_name_pt"], color=s["accent"], font=s["font_heading"])
         if ctx["headline"]:
             self._run(self._fmt(left.add_paragraph(), after=6), ctx["headline"], bold=True, size=s["size_headline_pt"])
-        for label, value in ctx["contact"]:
+        for label, value, url in ctx["contact"]:
             cp = self._fmt(left.add_paragraph(), after=0)
             self._run(cp, f"{label}  ", bold=True, size=s["size_small_pt"])
-            self._run(cp, str(value), size=s["size_small_pt"], color=s["muted"])
+            if url:
+                _hyperlink(cp, url, str(value), size_pt=s["size_small_pt"], color=s["accent"], font=s["font_body"])
+            else:
+                self._run(cp, str(value), size=s["size_small_pt"], color=s["muted"])
         if has_photo:
             pp = cells[1].paragraphs[0]
             pp.alignment = WD_ALIGN_PARAGRAPH.RIGHT

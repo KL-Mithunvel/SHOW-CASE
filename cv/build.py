@@ -6,6 +6,7 @@ Usage (from the SHOW-CASE repo root, venv active):
     python cv/build.py haendle-2027 --html        # also write an HTML preview
     python cv/build.py haendle-2027 --pdf         # also convert the .docx to PDF (needs MS Word)
     python cv/build.py haendle-2027 --html --public   # preview without phone / birth date / address
+    python cv/build.py haendle-2027 --pdf --strict    # fail on leftover placeholders or too many pages
 
 Data comes from config.yaml `data_dir` (default showcase-private/cv), or CV_DATA_DIR, or --data-dir.
 """
@@ -20,6 +21,7 @@ CV_DIR = Path(__file__).resolve().parent
 REPO_ROOT = CV_DIR.parent
 sys.path.insert(0, str(CV_DIR))
 
+from cvgen.checks import find_placeholders, keyword_report, pdf_page_count  # noqa: E402
 from cvgen.model import CVError, build_context, list_profiles, load_profile, load_yaml  # noqa: E402
 from cvgen.render_docx import render_docx  # noqa: E402
 from cvgen.render_html import render_html  # noqa: E402
@@ -51,6 +53,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--html", action="store_true", help="also write an HTML preview")
     ap.add_argument("--pdf", action="store_true", help="also write a PDF (Windows + Microsoft Word)")
     ap.add_argument("--public", action="store_true", help="leave out the fields in config redact_in_public")
+    ap.add_argument("--strict", action="store_true", help="exit 1 if a check fails (placeholders, page limit)")
     ap.add_argument("--data-dir", help="folder holding master.yaml, profiles/ and assets/")
     ap.add_argument("--config", default=str(CV_DIR / "config.yaml"), help="settings file")
     args = ap.parse_args(argv)
@@ -86,7 +89,31 @@ def main(argv: list[str] | None = None) -> int:
 
     for path in written:
         print(f"wrote {path}")
-    return 0
+    problems = report_checks(ctx, profile, written[-1] if args.pdf else None)
+    return 1 if (problems and args.strict) else 0
+
+
+def report_checks(ctx: dict, profile: dict, pdf_path: Path | None) -> int:
+    """Print the pre-send checks. Returns the number of problems found."""
+    problems = 0
+    keywords = profile.get("keywords") or []
+    if keywords:
+        found, missing = keyword_report(ctx, keywords)
+        print(f"keywords: {len(found)}/{len(keywords)} in the CV")
+        if missing:
+            print("  not found: " + ", ".join(missing))
+    leftovers = find_placeholders(ctx)
+    for text in leftovers:
+        print(f"placeholder left: {text}")
+    problems += len(leftovers)
+    if pdf_path is not None:
+        pages = pdf_page_count(pdf_path)
+        limit = profile.get("max_pages")
+        print(f"pages: {pages}" + (f" (limit {limit})" if limit else ""))
+        if limit and pages > limit:
+            print(f"  too long by {pages - limit} page(s)")
+            problems += 1
+    return problems
 
 
 if __name__ == "__main__":

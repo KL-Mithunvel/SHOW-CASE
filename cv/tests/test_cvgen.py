@@ -78,7 +78,7 @@ def test_profile_overrides_and_sign_date(master, profile):
 
 def test_public_mode_redacts_private_fields(master, profile):
     ctx = build_context(master, profile, public=True, redact=["phone", "dob", "address"])
-    labels = [label for label, _ in ctx["contact"]]
+    labels = [c[0] for c in ctx["contact"]]
     assert "Phone" not in labels and "E-mail" in labels
     personal = [r["label"] for r in section(ctx, "personal")["rows"]]
     assert "Date of birth" not in personal and "Address" not in personal
@@ -142,3 +142,37 @@ def test_html_public_has_no_phone(master, profile, tmp_path):
     html = out.read_text(encoding="utf-8")
     assert "Alex Example" in html and "Defect detector" in html
     assert master["person"]["phone"] not in html
+
+
+# ---------- checks ----------
+
+from cvgen.checks import find_placeholders, keyword_report, pdf_page_count  # noqa: E402
+
+
+def test_keyword_report_with_alternatives(master, profile):
+    ctx = build_context(master, profile)
+    found, missing = keyword_report(ctx, ["camera", "PLC|programmable logic", "welding"])
+    assert found == ["camera"] and missing == ["PLC|programmable logic", "welding"]
+
+
+def test_placeholders_found(master, profile):
+    master["summary"] = "x"
+    profile["summary"] = "I like [fill in] things"
+    assert find_placeholders(build_context(master, profile)) == ["I like [fill in] things"]
+
+
+def test_pdf_page_count(tmp_path):
+    pdf = tmp_path / "a.pdf"
+    pdf.write_bytes(b"<< /Type /Pages /Count 2 >> << /Type /Page >> << /Type/Page >>")
+    assert pdf_page_count(pdf) == 2
+
+
+def test_contact_links(master, profile, tmp_path):
+    ctx = build_context(master, profile)
+    by_label = {c[0]: c[2] for c in ctx["contact"]}
+    assert by_label["E-mail"] == "mailto:alex@example.com"
+    assert by_label["GitHub"] == "https://github.com/alex-example"
+    assert by_label["Phone"] is None
+    out = render_docx(ctx, CONFIG["style"], SAMPLE, tmp_path / "cv.docx")
+    rels = [r.target_ref for r in Document(out).part.rels.values() if r.is_external]
+    assert "https://github.com/alex-example" in rels
