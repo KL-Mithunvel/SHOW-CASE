@@ -176,3 +176,13 @@ def test_contact_links(master, profile, tmp_path):
     out = render_docx(ctx, CONFIG["style"], SAMPLE, tmp_path / "cv.docx")
     rels = [r.target_ref for r in Document(out).part.rels.values() if r.is_external]
     assert "https://github.com/alex-example" in rels
+
+
+def test_birth_date_and_place_combined(master, profile):
+    rows = {r["label"]: r["value"] for r in section(build_context(master, profile), "personal")["rows"]}
+    assert rows["Born"] == "01.01.2000 in Sampleville"
+
+
+def test_public_mode_hides_place_of_birth(master, profile):
+    ctx = build_context(master, profile, public=True, redact=CONFIG["redact_in_public"])
+    assert "Sampleville" not in " ".join(r["value"] for r in section(ctx, "personal")["rows"])

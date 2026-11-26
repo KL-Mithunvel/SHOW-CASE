@@ -13,7 +13,7 @@ template_html: templates/cv.html.j2
 date_format: "%d.%m.%Y"
 
 # Fields blanked out by --public (for previews that leave your machine, e.g. artifacts).
-redact_in_public: [phone, dob, address]
+redact_in_public: [phone, dob, pob, address]
 
 # Word document look. Colours are hex RGB without '#'.
 style:

@@ -166,7 +166,13 @@ def build_context(master: dict, profile: dict, *, public: bool = False,
         sec = {"key": key, "title": titles[key], "page_break_before": key in (profile.get("page_break_before") or [])}
         if key == "personal":
             rows = []
-            for label, field in (("Date of birth", "dob"), ("Nationality", "nationality"), ("Address", "address")):
+            dob = person.get("dob") if show.get("dob", True) else None
+            pob = person.get("pob") if show.get("pob", True) else None
+            if dob and pob:
+                rows.append({"label": "Born", "value": f"{dob} in {pob}"})
+            elif dob or pob:
+                rows.append({"label": "Date of birth" if dob else "Place of birth", "value": str(dob or pob)})
+            for label, field in (("Nationality", "nationality"), ("Address", "address")):
                 if person.get(field) and show.get(field, True):
                     rows.append({"label": label, "value": str(person[field])})
             if profile.get("availability"):

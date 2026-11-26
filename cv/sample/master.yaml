@@ -6,6 +6,7 @@ person:
   phone: "+49 000 000000"
   github: github.com/alex-example
   dob: 01.01.2000
+  pob: Sampleville
   nationality: Exampleland
   address: 1 Sample Street, Testtown
   photo: assets/photo.jpg

@@ -1,5 +1,10 @@
 # Claude Log
 
+## 2026-11-27 (later) — CV: place of birth, Class X, 3D printing
+- Owner asked what a CV is expected to have. Answer: the CV already had the core German fields. Added at the owner's request: place of birth (shown as "Born 27.01.2005 in Tirunelveli, India"; new `pob` field, hidden by `--public`), Class X as its own education row, a 3D printing skills row (FDM since school, Creality Ender-3 V3 SE, PLA/PETG/TPU, Cura, PrusaSlicer, workshops). The magnet-inserter project was added to master.yaml (tag 3dprint) but not to the HÄNDLE profile. Advised leaving out age, parents, religion, gender (outdated / AGG) and marital status (optional, owner did not ask). Driving licence: unknown, not added.
+- Fixed: Word adds an empty paragraph after the final signature table, and it alone made a 3rd page. Now it is 1 pt. Wrapping lines trimmed again; the build is 2 pages with `--strict` passing. 22 tests.
+- LinkedIn posts: still not read. The Chrome extension was not connected (tried twice) and there is no LinkedIn export in Downloads. Needs the extension connected or the data export (`showcase-private/linkedin/README.md`).
+
 ## 2026-11-27 — CV: transcript update, plan, pre-send checks, attractiveness pass
 - Read (read-only) `Downloads/23BMH1029.pdf`, the VIT transcript of 10-Nov-2026 (scan, rendered to images): CGPA 7.71, 139 of 142 credits; new relevant courses Industrial Automation, Industrial Robotics, Machine Vision, Fluid Power Systems; 2025 HÄNDLE internship credited (Summer Industrial Internship, S); German I passed. Copied to `showcase-private/documents/vit-transcript-2026-11.pdf`; master.yaml and PERSONAL-DETAILS.md updated. Rule: no single-course grades on the CV.
 - LinkedIn: the Chrome extension was not connected, so there was no live check. The saved April 2026 PDF has no posts and nothing new. Posts need the LinkedIn data export (see `showcase-private/linkedin/README.md`).

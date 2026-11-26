@@ -278,6 +278,14 @@ class _Writer:
             p = self._fmt(cell.paragraphs[0], after=0)
             _border(p, "top", self.s["ink"], 6)
             self._run(p, text, size=self.s["size_small_pt"], color=self.s["muted"])
+        # Word always needs a paragraph after a final table; make it 1 pt so it never starts a new page.
+        tail = self._fmt(self.doc.add_paragraph(), after=0)
+        tail.paragraph_format.line_spacing = Pt(1)
+        mark = OxmlElement("w:rPr")          # size of the paragraph mark itself
+        sz = OxmlElement("w:sz")
+        sz.set(qn("w:val"), "2")
+        mark.append(sz)
+        tail._p.get_or_add_pPr().append(mark)
 
     def build(self) -> Document:
         self.setup()

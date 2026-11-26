@@ -64,7 +64,7 @@ profile.yaml ┘        (select + redact)            └─> render_html ─> CV
 - `sections: [...]` sets the order and which sections appear. Sections: personal, profile, education, experience, projects, skills, certificates, languages, activities.
 - `headline`, `summary`, `availability`, `titles` (to rename sections), `page_break_before`, `sign_place` and `sign_date`.
 - `keywords: [...]` (from the job ad; `a|b` = either) and `max_pages: N`: checked on every build.
-- `show: {photo, dob, address, phone, email, linkedin, github, portfolio}`: set any of these to false to hide it.
+- `show: {photo, dob, pob, address, phone, email, linkedin, github, portfolio}`: set any of these to false to hide it.
 
 **New job:** copy a profile, rename it, change the headline, summary and tags, then run `build.py <name>`.
 **Rule:** the job you are applying for never goes on that job's CV as experience.
